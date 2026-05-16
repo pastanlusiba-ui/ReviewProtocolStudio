@@ -124,7 +124,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=20260516-logo-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=20260516-logo-2" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
