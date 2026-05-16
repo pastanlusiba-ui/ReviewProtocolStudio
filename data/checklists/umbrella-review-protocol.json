@@ -104,5 +104,28 @@
       "exampleResponse": "We will summarize effect directions, overlap, AMSTAR 2 ratings, and certainty by outcome using structured tables.",
       "outputSection": "Synthesis plan"
     }
+  ],
+  "sources": [
+    {
+      "title": "JBI Manual: Umbrella reviews",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/pages/355829653/9.+Umbrella+reviews",
+      "note": "JBI guidance for umbrella reviews of systematic reviews."
+    },
+    {
+      "title": "PRIOR statement",
+      "organization": "PRIOR / Overview reporting guideline",
+      "type": "Reporting guideline",
+      "url": "https://www.equator-network.org/reporting-guidelines/prior/",
+      "note": "Preferred Reporting Items for Overviews of Reviews."
+    },
+    {
+      "title": "JBI critical appraisal checklist for systematic reviews and research syntheses",
+      "organization": "JBI",
+      "type": "Critical appraisal checklist",
+      "url": "https://jbi.global/sites/default/files/2020-08/Checklist_for_Systematic_Reviews_and_Research_Syntheses.pdf",
+      "note": "Appraisal checklist commonly used when assessing included systematic reviews."
+    }
   ]
 }

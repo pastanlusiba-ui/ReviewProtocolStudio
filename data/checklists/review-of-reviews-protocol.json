@@ -104,5 +104,28 @@
       "exampleResponse": "We will organize findings by intervention and outcome domain, compare review conclusions, and flag overlap or discordance.",
       "outputSection": "Synthesis plan"
     }
+  ],
+  "sources": [
+    {
+      "title": "PRIOR statement",
+      "organization": "PRIOR / Overview reporting guideline",
+      "type": "Reporting guideline",
+      "url": "https://www.equator-network.org/reporting-guidelines/prior/",
+      "note": "Preferred Reporting Items for Overviews of Reviews; relevant to review-of-reviews protocols."
+    },
+    {
+      "title": "JBI Manual: Umbrella reviews",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/pages/355829653/9.+Umbrella+reviews",
+      "note": "Useful methods guidance where the review-of-reviews focuses on systematic reviews."
+    },
+    {
+      "title": "Cochrane Handbook",
+      "organization": "Cochrane",
+      "type": "Methods handbook",
+      "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook",
+      "note": "Reference for systematic review methods when interpreting included reviews."
+    }
   ]
 }

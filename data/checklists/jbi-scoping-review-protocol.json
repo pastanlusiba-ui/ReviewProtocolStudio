@@ -168,5 +168,28 @@
       "exampleResponse": "Program implementers and patient representatives will review preliminary categories and identify additional sources.",
       "outputSection": "Stakeholder involvement"
     }
+  ],
+  "sources": [
+    {
+      "title": "JBI Manual: Scoping reviews",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/pages/355862497",
+      "note": "JBI guidance for scoping review protocol development, conduct, and reporting."
+    },
+    {
+      "title": "PRISMA-ScR extension",
+      "organization": "PRISMA Statement",
+      "type": "Reporting checklist",
+      "url": "https://www.prisma-statement.org/scoping",
+      "note": "Reporting checklist for scoping reviews, useful downstream from protocol planning."
+    },
+    {
+      "title": "JBI scoping review resources",
+      "organization": "JBI",
+      "type": "Templates and resources",
+      "url": "https://jbi.global/scoping-review-network/resources",
+      "note": "JBI templates and supporting materials for scoping review teams."
+    }
   ]
 }

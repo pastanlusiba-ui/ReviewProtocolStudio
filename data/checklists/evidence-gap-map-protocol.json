@@ -119,5 +119,28 @@
       "exampleResponse": "The final product will include an interactive matrix, downloadable dataset, technical report, and policy-facing evidence gap summary.",
       "outputSection": "Dissemination plan"
     }
+  ],
+  "sources": [
+    {
+      "title": "Evidence and gap maps: a comparison of different approaches",
+      "organization": "Campbell Collaboration",
+      "type": "Methods paper",
+      "url": "https://journals.sagepub.com/doi/10.4073/cmdp.2018.2",
+      "note": "Foundational Campbell methods paper describing the evidence and gap map approach."
+    },
+    {
+      "title": "Campbell Collaboration evidence synthesis methods",
+      "organization": "Campbell Collaboration",
+      "type": "Methods resources",
+      "url": "https://www.campbellcollaboration.org/research-resources/research-for-resources.html",
+      "note": "Campbell resources for evidence synthesis products and methods."
+    },
+    {
+      "title": "3ie Evidence Gap Maps",
+      "organization": "International Initiative for Impact Evaluation",
+      "type": "Example maps",
+      "url": "https://www.3ieimpact.org/evidence-hub/evidence-gap-maps",
+      "note": "Examples of interactive evidence gap maps and map outputs."
+    }
   ]
 }

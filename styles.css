@@ -570,6 +570,59 @@ textarea:focus {
   line-height: 1.4;
 }
 
+.source-list {
+  display: grid;
+  gap: 9px;
+}
+
+.source-card {
+  display: grid;
+  gap: 5px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: #fbfcff;
+  border-radius: 7px;
+  padding: 11px;
+}
+
+.source-card:hover {
+  border-color: #bdc4d2;
+  background: #ffffff;
+}
+
+.source-card strong {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.source-card small,
+.source-card p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.source-card p {
+  font-size: 12px;
+}
+
+.source-type {
+  width: fit-content;
+  color: var(--brand);
+  background: #fff0f3;
+  border: 1px solid #e9b3bd;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.source-more {
+  width: 100%;
+  margin-top: 10px;
+}
+
 .preview {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -636,6 +689,52 @@ textarea:focus {
 
 .modal-head h2 {
   margin: 0;
+}
+
+.modal-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.guidance-modal {
+  width: min(980px, 100%);
+}
+
+.guidance-body {
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.guidance-note {
+  margin: 0;
+  color: #4d5564;
+  background: #f7f9fc;
+  border: 1px solid #dde3ee;
+  border-radius: 7px;
+  padding: 12px;
+  line-height: 1.5;
+}
+
+.guidance-group {
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.guidance-group h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.guidance-group > div > p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.guidance-group .source-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .project-form {
@@ -721,6 +820,10 @@ textarea:focus {
   }
 
   .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guidance-group .source-list {
     grid-template-columns: 1fr;
   }
 }

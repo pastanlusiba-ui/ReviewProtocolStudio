@@ -118,5 +118,28 @@
       "exampleResponse": "GRADE and CERQual assessments will be presented alongside integrated findings in a joint display.",
       "outputSection": "Certainty/confidence assessment"
     }
+  ],
+  "sources": [
+    {
+      "title": "JBI Manual: Mixed methods systematic reviews",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/pages/355829259/8.3+The+JBI+approach+to+mixed+method+systematic+reviews",
+      "note": "JBI approach to convergent integrated and convergent segregated mixed-methods reviews."
+    },
+    {
+      "title": "JBI mixed methods guidance update",
+      "organization": "JBI",
+      "type": "Methods update",
+      "url": "https://jbi.global/news/article/new-jbi-guidance-mixed-methods-systematic-reviews",
+      "note": "Updated JBI guidance on data extraction and transformation in mixed-methods systematic reviews."
+    },
+    {
+      "title": "JBI Manual for Evidence Synthesis",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/overview?homepageId=4685837",
+      "note": "Current JBI manual overview with evidence synthesis chapters."
+    }
   ]
 }

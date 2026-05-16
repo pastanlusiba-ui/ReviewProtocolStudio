@@ -118,5 +118,28 @@
       "exampleResponse": "We will use GRADE-CERQual to assess confidence in each review finding.",
       "outputSection": "Certainty/confidence assessment"
     }
+  ],
+  "sources": [
+    {
+      "title": "JBI Manual: Qualitative evidence",
+      "organization": "JBI",
+      "type": "Methods manual",
+      "url": "https://jbi-global.atlassian.net/wiki/spaces/MANUAL/pages/355862593",
+      "note": "JBI methodology chapter for qualitative systematic reviews."
+    },
+    {
+      "title": "ENTREQ statement",
+      "organization": "BMC Medical Research Methodology",
+      "type": "Reporting guideline",
+      "url": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-12-181",
+      "note": "Reporting guidance for syntheses of qualitative research."
+    },
+    {
+      "title": "GRADE-CERQual official guidance",
+      "organization": "GRADE-CERQual",
+      "type": "Confidence assessment guidance",
+      "url": "https://www.cerqual.org/official-guidance-for-applying-grade-cerqual/",
+      "note": "Official guidance for assessing confidence in qualitative evidence synthesis findings."
+    }
   ]
 }

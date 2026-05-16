@@ -67,6 +67,7 @@ const state = {
   activeProjectId: null,
   activeSection: null,
   modalOpen: false,
+  guidanceOpen: false,
   toast: ""
 };
 
@@ -113,6 +114,7 @@ function render() {
         ${state.view === "dashboard" ? dashboardView() : ""}
       </main>
       ${state.modalOpen ? projectModal() : ""}
+      ${state.guidanceOpen ? guidanceModal(project) : ""}
       ${state.toast ? `<div class="toast">${escapeHtml(state.toast)}</div>` : ""}
     </div>
   `;
@@ -124,7 +126,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=20260516-logo-2" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=20260516-guidance-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -136,10 +138,11 @@ function topbar(project) {
             ? `
               <button class="btn" data-action="builder">Builder</button>
               <button class="btn" data-action="preview">Preview</button>
+              <button class="btn" data-action="guidance">Guidance</button>
               <button class="btn" data-action="export-doc">Export Word</button>
               <button class="btn" data-action="export-report">Checklist report</button>
             `
-            : ""
+            : `<button class="btn" data-action="guidance">Guidance library</button>`
         }
         <button class="btn primary" data-action="new-project">New protocol</button>
       </nav>
@@ -359,6 +362,11 @@ function inspector(project) {
         </div>
       </div>
       <div class="inspector-section">
+        <p class="mini-title">Guidance sources</p>
+        ${sourceList(checklist.sources || [], 3)}
+        <button class="btn source-more" data-action="guidance">Open guidance library</button>
+      </div>
+      <div class="inspector-section">
         <button class="btn primary" data-action="preview">Review protocol preview</button>
       </div>
     </aside>
@@ -370,6 +378,56 @@ function previewView(project) {
     <article class="preview">
       ${protocolHtml(project, false)}
     </article>
+  `;
+}
+
+function guidanceModal(project) {
+  const checklists = project ? [getChecklist(project.reviewType)] : CHECKLIST_MANIFEST.map((item) => getChecklist(item.type));
+  return `
+    <div class="modal-backdrop" role="presentation">
+      <section class="modal guidance-modal" role="dialog" aria-modal="true" aria-labelledby="guidance-title">
+        <div class="modal-head">
+          <div>
+            <h2 id="guidance-title">Guidance library</h2>
+            <p>${project ? escapeHtml(getChecklist(project.reviewType).label) : "Official checklist and methods sources by review type"}</p>
+          </div>
+          <button class="btn icon" data-action="close-guidance" title="Close">×</button>
+        </div>
+        <div class="guidance-body">
+          <p class="guidance-note">These are authoritative sources used to shape the app prompts. Open the official source when you need the current full checklist, manual text, or licensing terms.</p>
+          ${checklists.map(guidanceGroup).join("")}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function guidanceGroup(checklist) {
+  return `
+    <section class="guidance-group">
+      <div>
+        <h3>${escapeHtml(checklist.label)}</h3>
+        <p>${escapeHtml(checklist.framework)} · ${escapeHtml(checklist.questionFramework)}</p>
+      </div>
+      ${sourceList(checklist.sources || [], 20)}
+    </section>
+  `;
+}
+
+function sourceList(sources, limit) {
+  const visible = sources.slice(0, limit);
+  if (!visible.length) return `<div class="hint">No source metadata has been added for this checklist yet.</div>`;
+  return `
+    <div class="source-list">
+      ${visible.map((source) => `
+        <a class="source-card" href="${escapeAttr(source.url)}" target="_blank" rel="noreferrer">
+          <span class="source-type">${escapeHtml(source.type)}</span>
+          <strong>${escapeHtml(source.title)}</strong>
+          <small>${escapeHtml(source.organization)}</small>
+          <p>${escapeHtml(source.note)}</p>
+        </a>
+      `).join("")}
+    </div>
   `;
 }
 
@@ -451,6 +509,8 @@ function handleAction(event) {
   }
   if (action === "new-project") state.modalOpen = true;
   if (action === "close-modal") state.modalOpen = false;
+  if (action === "guidance") state.guidanceOpen = true;
+  if (action === "close-guidance") state.guidanceOpen = false;
   if (action === "open-project") openProject(id);
   if (action === "builder") state.view = "builder";
   if (action === "preview") state.view = "preview";
@@ -646,8 +706,16 @@ function protocolHtml(project, forExport) {
     <p><strong>Purpose:</strong> ${escapeHtml(project.purpose || "Not specified")}</p>
     ${project.notes ? `<p><strong>Project notes:</strong> ${escapeHtml(project.notes)}</p>` : ""}
     ${sections}
+    <h2>Guidance Sources</h2>
+    ${guidanceSourcesHtml(checklist)}
     ${forExport ? "" : `<h2>Checklist Compliance Appendix</h2>${complianceTable(project)}`}
   `;
+}
+
+function guidanceSourcesHtml(checklist) {
+  const sources = checklist.sources || [];
+  if (!sources.length) return `<p class="missing">No guidance sources have been recorded for this checklist.</p>`;
+  return sources.map((source) => `<p><strong>${escapeHtml(source.title)}.</strong> ${escapeHtml(source.organization)}. ${escapeHtml(source.note)}<br /><a href="${escapeAttr(source.url)}">${escapeHtml(source.url)}</a></p>`).join("");
 }
 
 function responseParagraph(project, item) {

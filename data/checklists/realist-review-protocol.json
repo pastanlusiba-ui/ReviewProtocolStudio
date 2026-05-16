@@ -116,5 +116,28 @@
       "exampleResponse": "Policy-makers, providers, and community representatives will review emerging CMO configurations for plausibility.",
       "outputSection": "Stakeholder involvement"
     }
+  ],
+  "sources": [
+    {
+      "title": "RAMESES publication standards: realist syntheses",
+      "organization": "RAMESES / BMC Medicine",
+      "type": "Publication standards",
+      "url": "https://bmcmedicine.biomedcentral.com/articles/10.1186/1741-7015-11-21",
+      "note": "Publication standards for realist synthesis and realist review reporting."
+    },
+    {
+      "title": "RAMESES project resources",
+      "organization": "RAMESES Project",
+      "type": "Training and standards",
+      "url": "https://www.ramesesproject.org/",
+      "note": "RAMESES resources for realist and meta-narrative evidence synthesis."
+    },
+    {
+      "title": "RAMESES realist review training materials",
+      "organization": "RAMESES Project",
+      "type": "Training material",
+      "url": "https://ramesesproject.org/media/Realist_reviews_training_materials.pdf",
+      "note": "Training material on realist review concepts and practice."
+    }
   ]
 }

@@ -193,5 +193,35 @@
       "exampleResponse": "Findings will be submitted to a peer-reviewed journal and summarized in a policy brief for health program managers.",
       "outputSection": "Dissemination plan"
     }
+  ],
+  "sources": [
+    {
+      "title": "PRISMA-P 2015 statement",
+      "organization": "PRISMA / Systematic Reviews",
+      "type": "Reporting checklist",
+      "url": "https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/2046-4053-4-1",
+      "note": "Primary reporting standard for systematic review and meta-analysis protocols."
+    },
+    {
+      "title": "PRISMA-P checklist PDF",
+      "organization": "PRISMA Statement",
+      "type": "Checklist",
+      "url": "https://www.prisma-statement.org/s/PRISMA-P-checklist.pdf",
+      "note": "Official downloadable checklist for protocol reporting items."
+    },
+    {
+      "title": "PRISMA-P elaboration and explanation",
+      "organization": "The BMJ",
+      "type": "Explanation paper",
+      "url": "https://www.bmj.com/content/349/bmj.G7647",
+      "note": "Detailed explanation and examples for PRISMA-P items."
+    },
+    {
+      "title": "Cochrane Handbook for Systematic Reviews of Interventions",
+      "organization": "Cochrane",
+      "type": "Methods handbook",
+      "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook",
+      "note": "Official Cochrane methods guidance for intervention systematic reviews."
+    }
   ]
 }

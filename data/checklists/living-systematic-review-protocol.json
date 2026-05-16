@@ -118,5 +118,28 @@
       "exampleResponse": "Living status will be retired after 18 months without practice-changing evidence or when the topic is no longer a priority.",
       "outputSection": "Timeline"
     }
+  ],
+  "sources": [
+    {
+      "title": "Cochrane living systematic reviews",
+      "organization": "Cochrane Community",
+      "type": "Methods guidance",
+      "url": "https://community.cochrane.org/review-development/resources/living-systematic-reviews",
+      "note": "Cochrane guidance and resources for living systematic reviews."
+    },
+    {
+      "title": "Guidance for Cochrane living systematic reviews",
+      "organization": "Cochrane",
+      "type": "Guidance PDF",
+      "url": "https://resources.cochrane.org/sites/default/files/uploads/inline-files/Transform/201912_LSR_Revised_Guidance.pdf",
+      "note": "Guidance for production and publication of Cochrane living systematic reviews."
+    },
+    {
+      "title": "Cochrane Handbook",
+      "organization": "Cochrane",
+      "type": "Methods handbook",
+      "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook",
+      "note": "Core systematic review methods guidance that living reviews build upon."
+    }
   ]
 }

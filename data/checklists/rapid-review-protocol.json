@@ -168,5 +168,28 @@
       "exampleResponse": "Week 1: search and calibration; Weeks 2-3: screening; Week 4: extraction and appraisal; Week 5: synthesis; Week 6: final report.",
       "outputSection": "Timeline"
     }
+  ],
+  "sources": [
+    {
+      "title": "Cochrane Rapid Review Methods Guidance",
+      "organization": "Cochrane Rapid Reviews Methods Group",
+      "type": "Methods guidance",
+      "url": "https://methods.cochrane.org/rapidreviews/cochrane-rr-methods",
+      "note": "Updated recommendations for conducting rapid reviews of effectiveness."
+    },
+    {
+      "title": "Updated recommendations for Cochrane rapid reviews",
+      "organization": "BMJ",
+      "type": "Guidance article",
+      "url": "https://www.bmj.com/content/384/bmj-2023-076335",
+      "note": "BMJ 2024 publication of updated rapid review methods recommendations."
+    },
+    {
+      "title": "Cochrane Rapid Reviews Methods Group",
+      "organization": "Cochrane",
+      "type": "Methods group",
+      "url": "https://methods.cochrane.org/rapidreviews/",
+      "note": "Methods group home for rapid review resources and webinars."
+    }
   ]
 }
