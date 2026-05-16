@@ -16,6 +16,10 @@ http://127.0.0.1:8093
 
 The prototype is dependency-light and stores projects in browser `localStorage`.
 
+## GitHub Pages
+
+The app can be served from GitHub Pages using the included workflow at `.github/workflows/pages.yml`.
+
 ## What is included
 
 - Project dashboard with create, open, duplicate, delete, protocol export, and checklist report export actions.
