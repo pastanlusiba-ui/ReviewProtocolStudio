@@ -1,0 +1,122 @@
+{
+  "reviewType": "qualitative",
+  "label": "Qualitative evidence synthesis protocol",
+  "framework": "ENTREQ-informed qualitative evidence synthesis with GRADE-CERQual planning",
+  "questionFramework": "SPIDER or PICo",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Certainty/confidence assessment",
+    "Equity and contextual considerations",
+    "Stakeholder involvement",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "qes-title",
+      "itemNumber": "QES-1",
+      "requirement": "Identify the document as a qualitative evidence synthesis protocol.",
+      "prompt": "What is the title and qualitative synthesis focus?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Name the phenomenon, participants, and context.",
+      "exampleResponse": "Qualitative evidence synthesis protocol: experiences of community health workers delivering hypertension care.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "qes-rationale",
+      "itemNumber": "QES-2",
+      "requirement": "Explain why qualitative synthesis is needed.",
+      "prompt": "What experiences, meanings, barriers, facilitators, or implementation questions does this synthesis address?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Link the need to understanding acceptability, feasibility, equity, or implementation.",
+      "exampleResponse": "Quantitative evidence shows mixed uptake; qualitative synthesis is needed to understand acceptability and implementation barriers.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "qes-framework",
+      "itemNumber": "QES-3",
+      "requirement": "State the review question using a qualitative question framework.",
+      "prompt": "Define the SPIDER or PICo elements for the review question.",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "SPIDER can define sample, phenomenon of interest, design, evaluation, and research type.",
+      "exampleResponse": "Sample: community health workers; Phenomenon: hypertension care delivery; Evaluation: perceived barriers and facilitators; Research type: qualitative studies.",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "qes-eligibility",
+      "itemNumber": "QES-4",
+      "requirement": "Specify eligible qualitative and mixed-methods evidence.",
+      "prompt": "Which qualitative designs, mixed-methods components, participants, contexts, and phenomena will be eligible?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "Clarify how qualitative components of mixed-methods studies will be handled.",
+      "exampleResponse": "We will include qualitative studies and extractable qualitative components of mixed-methods studies involving community health workers.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "qes-search",
+      "itemNumber": "QES-5",
+      "requirement": "Describe searches suitable for qualitative evidence.",
+      "prompt": "Which databases, qualitative filters, citation searches, and grey literature sources will be used?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Qualitative evidence may require broad, sensitive searches and citation chasing.",
+      "exampleResponse": "We will search MEDLINE, CINAHL, PsycINFO, Scopus, ProQuest, citation lists, and relevant institutional repositories.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "qes-appraisal",
+      "itemNumber": "QES-6",
+      "requirement": "Describe methodological quality appraisal.",
+      "prompt": "Which qualitative appraisal tool will be used and how will appraisal influence synthesis?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "Common tools include CASP, JBI qualitative appraisal, or MMAT for mixed-methods components.",
+      "exampleResponse": "Two reviewers will use the CASP qualitative checklist; appraisal will inform sensitivity analysis and confidence assessments.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
+      "id": "qes-synthesis",
+      "itemNumber": "QES-7",
+      "requirement": "Describe the qualitative synthesis method.",
+      "prompt": "Which synthesis approach will be used, and how will findings be coded, compared, and developed?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Examples include thematic synthesis, meta-ethnography, framework synthesis, or best-fit framework synthesis.",
+      "exampleResponse": "We will use thematic synthesis with line-by-line coding, descriptive themes, and analytical theme development.",
+      "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "qes-cerqual",
+      "itemNumber": "QES-8",
+      "requirement": "Plan confidence assessment for qualitative findings.",
+      "prompt": "Will GRADE-CERQual or another confidence approach be used for synthesized qualitative findings?",
+      "required": true,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "CERQual considers methodological limitations, coherence, adequacy, and relevance.",
+      "exampleResponse": "We will use GRADE-CERQual to assess confidence in each review finding.",
+      "outputSection": "Certainty/confidence assessment"
+    }
+  ]
+}

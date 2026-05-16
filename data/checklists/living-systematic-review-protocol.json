@@ -1,0 +1,122 @@
+{
+  "reviewType": "living",
+  "label": "Living systematic review protocol",
+  "framework": "PRISMA-P structure with living review update methods",
+  "questionFramework": "PICO with surveillance plan",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Certainty/confidence assessment",
+    "Timeline",
+    "Roles and responsibilities",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "live-title",
+      "itemNumber": "LSR-1",
+      "requirement": "Identify the document as a living systematic review protocol.",
+      "prompt": "What is the title and why should this review be living?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Living reviews are appropriate when evidence is emerging, uncertain, and decision-relevant.",
+      "exampleResponse": "Living systematic review protocol: antiviral treatments for emerging respiratory infections.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "live-rationale",
+      "itemNumber": "LSR-2",
+      "requirement": "Justify living review status.",
+      "prompt": "What makes this topic high priority, rapidly evolving, and suitable for continuous updating?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Include evidence pace, uncertainty, policy relevance, and expected new studies.",
+      "exampleResponse": "The evidence base is growing monthly and directly informs clinical and public health guidance.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "live-question",
+      "itemNumber": "LSR-3",
+      "requirement": "State the living review question.",
+      "prompt": "What PICO question will be maintained over time?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "The question should be stable enough for ongoing surveillance.",
+      "exampleResponse": "Among adults with emerging respiratory infection, what is the effect of antiviral treatment on mortality, hospitalization, and adverse events?",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "live-surveillance",
+      "itemNumber": "LSR-4",
+      "requirement": "Describe search surveillance and update frequency.",
+      "prompt": "How often will searches run, and what sources will be monitored for new evidence?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Living reviews need an explicit surveillance schedule.",
+      "exampleResponse": "Database alerts, trial registries, and preprint servers will be monitored monthly, with full searches rerun every three months.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "live-triggers",
+      "itemNumber": "LSR-5",
+      "requirement": "Define triggers for updating conclusions.",
+      "prompt": "What new evidence will trigger screening, synthesis updates, certainty reassessment, or publication updates?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Triggers may include new trials, changed effect estimates, new safety signals, or guideline needs.",
+      "exampleResponse": "A new randomized trial, serious safety signal, or change in certainty for a critical outcome will trigger an update.",
+      "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "live-workflow",
+      "itemNumber": "LSR-6",
+      "requirement": "Describe ongoing screening, extraction, and appraisal workflow.",
+      "prompt": "Who will monitor evidence, screen new records, extract data, appraise studies, and update analyses?",
+      "required": true,
+      "section": "Roles and responsibilities",
+      "responseType": "textarea",
+      "helpText": "Living workflows need sustained responsibilities and handover plans.",
+      "exampleResponse": "Two reviewers will screen monthly search results; the methods lead will verify extracted data and update meta-analyses.",
+      "outputSection": "Roles and responsibilities"
+    },
+    {
+      "id": "live-versioning",
+      "itemNumber": "LSR-7",
+      "requirement": "Describe versioning and public communication.",
+      "prompt": "How will users know when the review was last searched, updated, and changed?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Plan dated versions, change logs, and stable citations.",
+      "exampleResponse": "Each public version will include last search date, change log, updated conclusions, and archived prior versions.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "live-retirement",
+      "itemNumber": "LSR-8",
+      "requirement": "Define criteria for pausing or retiring living status.",
+      "prompt": "When will the review stop being maintained as living?",
+      "required": false,
+      "section": "Timeline",
+      "responseType": "textarea",
+      "helpText": "Retirement criteria prevent indefinite maintenance commitments.",
+      "exampleResponse": "Living status will be retired after 18 months without practice-changing evidence or when the topic is no longer a priority.",
+      "outputSection": "Timeline"
+    }
+  ]
+}

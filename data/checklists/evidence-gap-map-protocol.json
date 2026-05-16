@@ -1,0 +1,123 @@
+{
+  "reviewType": "egm",
+  "label": "Evidence and gap map protocol",
+  "framework": "Campbell-style evidence and gap map guidance",
+  "questionFramework": "Population/intervention/outcome map",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Equity and contextual considerations",
+    "Stakeholder involvement",
+    "Timeline",
+    "Roles and responsibilities",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "egm-title",
+      "itemNumber": "EGM-1",
+      "requirement": "Identify the document as an evidence and gap map protocol.",
+      "prompt": "What is the title and map scope for this evidence and gap map?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Signal the sector, population, intervention domain, and geographic or institutional scope.",
+      "exampleResponse": "Evidence and gap map protocol: interventions to improve adolescent mental health outcomes in East Africa.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "egm-rationale",
+      "itemNumber": "EGM-2",
+      "requirement": "Explain the policy, practice, or research need for mapping evidence.",
+      "prompt": "Why is an evidence and gap map needed, and who will use it?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "EGMs are useful when users need to see evidence clusters and evidence gaps, not pooled effects.",
+      "exampleResponse": "Decision-makers need a transparent map of where impact evaluations and systematic reviews exist before commissioning new studies.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "egm-framework",
+      "itemNumber": "EGM-3",
+      "requirement": "Define the map framework and matrix dimensions.",
+      "prompt": "What rows, columns, and filters will structure the map?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "Common dimensions include intervention categories, outcome domains, population groups, geography, design, and confidence ratings.",
+      "exampleResponse": "Rows will represent intervention categories; columns will represent mental health, education, safety, and service-use outcomes.",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "egm-eligibility",
+      "itemNumber": "EGM-4",
+      "requirement": "Specify eligible evidence types and map boundaries.",
+      "prompt": "Which study designs, systematic reviews, populations, contexts, interventions, and outcomes will be eligible?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "State whether primary impact evaluations, process evaluations, systematic reviews, or other evidence types are included.",
+      "exampleResponse": "We will include impact evaluations and systematic reviews of interventions targeting adolescents aged 10-19 in East Africa.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "egm-search",
+      "itemNumber": "EGM-5",
+      "requirement": "Describe comprehensive searches for published and grey literature.",
+      "prompt": "Which databases, evidence portals, organizational repositories, registries, and websites will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "EGMs usually require strong grey literature and organizational source coverage.",
+      "exampleResponse": "We will search bibliographic databases, 3ie, Campbell, WHO, UNICEF, World Bank repositories, trial registries, and NGO websites.",
+      "outputSection": "Information sources"
+    },
+    {
+      "id": "egm-coding",
+      "itemNumber": "EGM-6",
+      "requirement": "Describe coding and data charting for the map.",
+      "prompt": "What variables will be coded for each included record, and how will coding consistency be checked?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Include intervention, outcome, population, location, study design, status, and confidence fields.",
+      "exampleResponse": "Two coders will pilot the codebook and chart intervention category, outcome domain, geography, design, sample, and review confidence rating.",
+      "outputSection": "Data extraction/charting"
+    },
+    {
+      "id": "egm-quality",
+      "itemNumber": "EGM-7",
+      "requirement": "State whether quality or confidence appraisal will be applied.",
+      "prompt": "How will evidence quality, confidence, or review reliability be assessed and displayed?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "Many EGMs appraise systematic review confidence and may classify primary study designs without full risk-of-bias assessment.",
+      "exampleResponse": "Systematic reviews will be appraised using an adapted confidence checklist; primary studies will be coded by design and evaluation type.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
+      "id": "egm-output",
+      "itemNumber": "EGM-8",
+      "requirement": "Describe map presentation, gap interpretation, and dissemination.",
+      "prompt": "How will the interactive map, summary report, and gap interpretation be produced and shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Describe the map platform, evidence-gap categories, stakeholder review, and update plans.",
+      "exampleResponse": "The final product will include an interactive matrix, downloadable dataset, technical report, and policy-facing evidence gap summary.",
+      "outputSection": "Dissemination plan"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "reviewType": "review-of-reviews",
+  "label": "Review of reviews protocol",
+  "framework": "Overview-of-reviews methods with PRIOR-informed reporting",
+  "questionFramework": "Review-level PICO/PCC",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Certainty/confidence assessment",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "ror-title",
+      "itemNumber": "ROR-1",
+      "requirement": "Identify the document as a review of reviews protocol.",
+      "prompt": "What is the title and scope of this review of reviews?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Use this type when the review synthesizes secondary review products across a broad field.",
+      "exampleResponse": "Review of reviews protocol: digital health interventions for chronic disease management.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "ror-purpose",
+      "itemNumber": "ROR-2",
+      "requirement": "Clarify the purpose of synthesizing reviews.",
+      "prompt": "Is the aim to summarize evidence, compare review conclusions, map coverage, or identify gaps?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Distinguish review of reviews from an umbrella review if the scope is broader or more descriptive.",
+      "exampleResponse": "The review will compare conclusions across review types and identify where new primary reviews are needed.",
+      "outputSection": "Objectives"
+    },
+    {
+      "id": "ror-eligibility",
+      "itemNumber": "ROR-3",
+      "requirement": "Specify eligible review types.",
+      "prompt": "Which review products will be eligible, and what minimum methods must they report?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "Specify whether systematic, scoping, rapid, realist, or narrative reviews are eligible.",
+      "exampleResponse": "We will include systematic, scoping, and rapid reviews with explicit search methods and eligibility criteria.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "ror-search",
+      "itemNumber": "ROR-4",
+      "requirement": "Describe review-level information sources.",
+      "prompt": "Which review databases, bibliographic databases, and organizational sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Review repositories are especially important for review-of-reviews projects.",
+      "exampleResponse": "We will search Epistemonikos, Cochrane Library, Campbell Library, MEDLINE, Embase, and relevant institutional repositories.",
+      "outputSection": "Information sources"
+    },
+    {
+      "id": "ror-extraction",
+      "itemNumber": "ROR-5",
+      "requirement": "Describe extraction of review characteristics and findings.",
+      "prompt": "What review-level data, conclusions, quality ratings, populations, interventions, and gaps will be extracted?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Extract review-level methods and conclusions rather than re-extracting every primary study by default.",
+      "exampleResponse": "We will extract review type, search dates, included study counts, populations, interventions, outcomes, conclusions, and noted gaps.",
+      "outputSection": "Data extraction/charting"
+    },
+    {
+      "id": "ror-appraisal",
+      "itemNumber": "ROR-6",
+      "requirement": "Describe appraisal or confidence assessment for included reviews.",
+      "prompt": "How will the trustworthiness of included reviews be assessed?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "AMSTAR 2 may fit systematic reviews; other review types may need adapted criteria.",
+      "exampleResponse": "Systematic reviews will be appraised with AMSTAR 2; scoping and rapid reviews will be assessed using adapted transparency criteria.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
+      "id": "ror-synthesis",
+      "itemNumber": "ROR-7",
+      "requirement": "Describe synthesis of review-level evidence.",
+      "prompt": "How will findings across review types be grouped, compared, and reported?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Plan how to handle conflicting review conclusions and duplicated evidence bases.",
+      "exampleResponse": "We will organize findings by intervention and outcome domain, compare review conclusions, and flag overlap or discordance.",
+      "outputSection": "Synthesis plan"
+    }
+  ]
+}

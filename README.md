@@ -1,0 +1,35 @@
+# Review Protocol Studio
+
+Review Protocol Studio is a checklist-guided web application for developing protocols for systematic, scoping, and rapid reviews.
+
+## Run locally
+
+```bash
+npm run dev
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8093
+```
+
+The prototype is dependency-light and stores projects in browser `localStorage`.
+
+## What is included
+
+- Project dashboard with create, open, duplicate, delete, protocol export, and checklist report export actions.
+- Ten review types: systematic, scoping, rapid, evidence and gap map, qualitative evidence synthesis, mixed-methods, umbrella, review of reviews, realist, and living systematic review protocols.
+- Checklist seed files in `data/checklists/`.
+- Dynamic prompt rendering from checklist JSON data.
+- Protocol builder with sections, response fields, status controls, completeness tracking, consistency checks, and preview.
+- Editable Word export using a Word-compatible `.doc` document.
+- Checklist compliance report export as CSV.
+
+## Extend with another checklist
+
+1. Add a JSON file to `data/checklists/`.
+2. Follow the existing checklist schema: `reviewType`, `label`, `framework`, `sections`, and `items`.
+3. Register the file in `app.js` inside `CHECKLIST_MANIFEST`.
+
+Checklist items are intentionally not hard-coded inside UI components.

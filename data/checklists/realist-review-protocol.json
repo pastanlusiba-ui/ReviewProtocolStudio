@@ -1,0 +1,120 @@
+{
+  "reviewType": "realist",
+  "label": "Realist review protocol",
+  "framework": "RAMESES-informed realist synthesis protocol",
+  "questionFramework": "Context-mechanism-outcome configuration",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Stakeholder involvement",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "real-title",
+      "itemNumber": "REAL-1",
+      "requirement": "Identify the document as a realist review or synthesis protocol.",
+      "prompt": "What is the realist review title and programme theory focus?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Realist reviews explain how, why, for whom, and under what circumstances interventions work.",
+      "exampleResponse": "Realist review protocol: how community accountability interventions influence primary health care quality.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "real-rationale",
+      "itemNumber": "REAL-2",
+      "requirement": "Explain the need for realist synthesis.",
+      "prompt": "What complex intervention, programme, or policy requires theory-driven explanation?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Describe complexity, variation, context sensitivity, and decision relevance.",
+      "exampleResponse": "Outcomes vary by governance context, suggesting a need to test context-mechanism-outcome explanations.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "real-theory",
+      "itemNumber": "REAL-3",
+      "requirement": "Describe initial programme theories.",
+      "prompt": "What initial programme theories or candidate CMO configurations will guide the review?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "CMO means context, mechanism, and outcome.",
+      "exampleResponse": "In settings with responsive local leadership, public scorecards may trigger provider accountability and improve service quality.",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "real-search",
+      "itemNumber": "REAL-4",
+      "requirement": "Describe iterative and purposive searching.",
+      "prompt": "How will searching identify evidence to build, test, and refine programme theories?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Realist searches may be iterative, purposive, and theory-driven.",
+      "exampleResponse": "We will conduct initial broad searches, then iterative searches for specific mechanisms, contexts, and middle-range theories.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "real-selection",
+      "itemNumber": "REAL-5",
+      "requirement": "Describe relevance and rigour criteria.",
+      "prompt": "How will documents be selected based on relevance to theory development and rigour of evidence?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Realist selection is often based on contribution to programme theory, not only study design hierarchy.",
+      "exampleResponse": "Documents will be included if they contribute data to CMO development and meet minimum rigour criteria for the claim being used.",
+      "outputSection": "Study selection"
+    },
+    {
+      "id": "real-extraction",
+      "itemNumber": "REAL-6",
+      "requirement": "Describe theory-driven data extraction.",
+      "prompt": "What data will be extracted about contexts, mechanisms, outcomes, and theory fragments?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Extraction should capture explanatory data and links between CMO elements.",
+      "exampleResponse": "We will extract text fragments related to contexts, mechanisms, outcomes, actor reasoning, resources, and implementation conditions.",
+      "outputSection": "Data extraction/charting"
+    },
+    {
+      "id": "real-synthesis",
+      "itemNumber": "REAL-7",
+      "requirement": "Describe realist analysis and synthesis.",
+      "prompt": "How will programme theories be refined, adjudicated, and synthesized?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Mention abductive and retroductive reasoning, CMO comparison, and theory refinement.",
+      "exampleResponse": "We will compare CMO configurations across cases, use abductive reasoning to infer mechanisms, and refine middle-range theories.",
+      "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "real-stakeholders",
+      "itemNumber": "REAL-8",
+      "requirement": "Describe stakeholder involvement in theory refinement.",
+      "prompt": "How will stakeholders contribute to programme theory development, interpretation, or validation?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders can test plausibility and usefulness of emerging explanations.",
+      "exampleResponse": "Policy-makers, providers, and community representatives will review emerging CMO configurations for plausibility.",
+      "outputSection": "Stakeholder involvement"
+    }
+  ]
+}

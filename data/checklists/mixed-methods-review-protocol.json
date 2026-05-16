@@ -1,0 +1,122 @@
+{
+  "reviewType": "mixed-methods",
+  "label": "Mixed-methods review protocol",
+  "framework": "JBI mixed-methods systematic review guidance",
+  "questionFramework": "Integrated quantitative and qualitative questions",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Certainty/confidence assessment",
+    "Equity and contextual considerations",
+    "Stakeholder involvement",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "mm-title",
+      "itemNumber": "MMSR-1",
+      "requirement": "Identify the review as a mixed-methods review protocol.",
+      "prompt": "What is the mixed-methods review title and why does it require both quantitative and qualitative evidence?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "The title should signal the mixed-methods nature of the synthesis.",
+      "exampleResponse": "Mixed-methods review protocol: effectiveness and acceptability of community-based diabetes self-management interventions.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "mm-rationale",
+      "itemNumber": "MMSR-2",
+      "requirement": "Justify the mixed-methods approach.",
+      "prompt": "Why must quantitative and qualitative evidence be integrated for this question?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Explain what each evidence stream contributes and why integration matters.",
+      "exampleResponse": "Effect estimates will show whether interventions work, while qualitative evidence will explain acceptability and implementation conditions.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "mm-questions",
+      "itemNumber": "MMSR-3",
+      "requirement": "State quantitative, qualitative, and integrated questions.",
+      "prompt": "What are the quantitative question, qualitative question, and integrated mixed-methods question?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "Avoid a mismatch between the questions and the planned integration method.",
+      "exampleResponse": "Quantitative: What is the effect on HbA1c? Qualitative: What shapes acceptability? Integrated: Which intervention features appear effective and acceptable?",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "mm-eligibility",
+      "itemNumber": "MMSR-4",
+      "requirement": "Specify eligibility for quantitative, qualitative, and mixed-methods studies.",
+      "prompt": "Which study designs and evidence components will be eligible for each evidence stream?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "Clarify how mixed-methods primary studies will be separated or integrated.",
+      "exampleResponse": "We will include randomized, quasi-experimental, qualitative, and mixed-methods studies with extractable quantitative or qualitative data.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "mm-extraction",
+      "itemNumber": "MMSR-5",
+      "requirement": "Describe extraction and data transformation.",
+      "prompt": "What quantitative and qualitative data will be extracted, and will any data transformation be performed?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "JBI mixed-methods guidance often distinguishes convergent integrated and convergent segregated approaches.",
+      "exampleResponse": "Effect estimates and qualitative findings will be extracted separately; qualitative findings may be configured with quantitative result categories during integration.",
+      "outputSection": "Data extraction/charting"
+    },
+    {
+      "id": "mm-appraisal",
+      "itemNumber": "MMSR-6",
+      "requirement": "Describe appraisal across study designs.",
+      "prompt": "Which tools will appraise quantitative, qualitative, and mixed-methods evidence?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "Use design-appropriate tools and state how appraisal affects synthesis.",
+      "exampleResponse": "Randomized studies will use RoB 2, qualitative studies CASP, and mixed-methods studies MMAT.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
+      "id": "mm-synthesis",
+      "itemNumber": "MMSR-7",
+      "requirement": "Describe separate synthesis and integration.",
+      "prompt": "Will synthesis be convergent integrated, convergent segregated, or sequential, and how will findings be integrated?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Name the integration method, not just the individual synthesis methods.",
+      "exampleResponse": "We will use a convergent segregated design, synthesize quantitative and qualitative evidence separately, then integrate through a joint display.",
+      "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "mm-confidence",
+      "itemNumber": "MMSR-8",
+      "requirement": "Plan certainty or confidence assessment for integrated findings.",
+      "prompt": "How will certainty, confidence, or credibility be judged across the integrated evidence?",
+      "required": false,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "Consider GRADE for quantitative findings and CERQual for qualitative findings.",
+      "exampleResponse": "GRADE and CERQual assessments will be presented alongside integrated findings in a joint display.",
+      "outputSection": "Certainty/confidence assessment"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "reviewType": "umbrella",
+  "label": "Umbrella review protocol",
+  "framework": "JBI umbrella review guidance with PRIOR-informed overview reporting",
+  "questionFramework": "PICO for reviews of reviews",
+  "sections": [
+    "Title page",
+    "Background and rationale",
+    "Review question",
+    "Objectives",
+    "Eligibility criteria",
+    "Information sources",
+    "Search strategy",
+    "Study selection",
+    "Data extraction/charting",
+    "Critical appraisal/risk of bias",
+    "Synthesis plan",
+    "Certainty/confidence assessment",
+    "Dissemination plan",
+    "Appendices"
+  ],
+  "items": [
+    {
+      "id": "umb-title",
+      "itemNumber": "UMB-1",
+      "requirement": "Identify the document as an umbrella review protocol.",
+      "prompt": "What is the umbrella review title and topic area?",
+      "required": true,
+      "section": "Title page",
+      "responseType": "textarea",
+      "helpText": "Umbrella reviews synthesize existing systematic reviews or meta-analyses.",
+      "exampleResponse": "Umbrella review protocol: effects of school-based nutrition interventions on child health outcomes.",
+      "outputSection": "Title page"
+    },
+    {
+      "id": "umb-rationale",
+      "itemNumber": "UMB-2",
+      "requirement": "Explain why an overview of reviews is needed.",
+      "prompt": "Why is a review of existing systematic reviews more appropriate than a new primary-study review?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Mention evidence volume, overlapping reviews, discordant conclusions, or decision needs.",
+      "exampleResponse": "Multiple systematic reviews report overlapping but discordant findings, creating uncertainty for guideline developers.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "umb-question",
+      "itemNumber": "UMB-3",
+      "requirement": "State the review question for systematic reviews.",
+      "prompt": "What population, intervention/exposure, comparator, outcome, and review type will define eligibility?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "The unit of inclusion is usually a systematic review, not each primary study.",
+      "exampleResponse": "We will include systematic reviews of school nutrition interventions compared with usual practice for child health outcomes.",
+      "outputSection": "Review question"
+    },
+    {
+      "id": "umb-eligibility",
+      "itemNumber": "UMB-4",
+      "requirement": "Specify eligible review products and overlap handling.",
+      "prompt": "Which types of reviews are eligible, and how will overlapping primary studies be managed?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "State whether rapid reviews, scoping reviews, narrative reviews, and primary studies are excluded.",
+      "exampleResponse": "We will include systematic reviews with explicit searches and eligibility criteria; overlap will be assessed using citation matrices.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "umb-search",
+      "itemNumber": "UMB-5",
+      "requirement": "Describe searches for systematic reviews.",
+      "prompt": "Which databases and review repositories will be searched for existing reviews?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Include sources such as Epistemonikos, Cochrane Library, MEDLINE, and discipline-specific databases.",
+      "exampleResponse": "We will search Epistemonikos, Cochrane Library, MEDLINE, Embase, Campbell Library, and reference lists of included reviews.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "umb-appraisal",
+      "itemNumber": "UMB-6",
+      "requirement": "Describe appraisal of included systematic reviews.",
+      "prompt": "Which tool will assess review quality or methodological confidence?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "AMSTAR 2 or JBI critical appraisal for systematic reviews are common choices.",
+      "exampleResponse": "Two reviewers will use AMSTAR 2 to appraise included systematic reviews.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
+      "id": "umb-synthesis",
+      "itemNumber": "UMB-7",
+      "requirement": "Describe synthesis across reviews.",
+      "prompt": "How will review findings, overlap, quality, and certainty be summarized?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "Umbrella reviews usually avoid double-counting primary studies and may summarize evidence by outcome domain.",
+      "exampleResponse": "We will summarize effect directions, overlap, AMSTAR 2 ratings, and certainty by outcome using structured tables.",
+      "outputSection": "Synthesis plan"
+    }
+  ]
+}
