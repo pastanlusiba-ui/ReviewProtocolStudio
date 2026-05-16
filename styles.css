@@ -79,16 +79,22 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 240px;
+  min-width: 330px;
 }
 
 .brand img {
-  width: 42px;
-  height: 42px;
+  width: 220px;
+  height: auto;
+  display: block;
+}
+
+.brand-logo {
+  max-height: 52px;
+  object-fit: contain;
 }
 
 .brand-title {
-  display: grid;
+  display: none;
   gap: 2px;
 }
 
@@ -731,5 +737,13 @@ textarea:focus {
   .top-actions {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand img {
+    width: 190px;
   }
 }
