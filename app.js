@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-2"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-2"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-2"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-1"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-2"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-1"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-2"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-2"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-2"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-1"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-2"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/realist-review-protocol.json?v=section-elements-2"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-1"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-2"
   }
 ];
 
@@ -126,7 +126,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=20260516-guidance-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=section-elements-2" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -268,7 +268,7 @@ function builderView(project) {
         <div class="editor-head">
           <div>
             <h1>${escapeHtml(section)}</h1>
-            <p>${sectionItems.length} checklist item${sectionItems.length === 1 ? "" : "s"} in this section</p>
+            <p>${sectionItems.length} protocol element${sectionItems.length === 1 ? "" : "s"} in this section</p>
           </div>
           ${statusPill(`${summary.completion}% complete`, summary.completion === 100 ? "complete" : "needs")}
         </div>
@@ -300,6 +300,8 @@ function promptCard(project, item) {
       <div class="prompt-top">
         <div class="prompt-meta">
           <span class="item-number">${escapeHtml(item.itemNumber)}</span>
+          ${item.elementLabel ? `<span class="element-kind">${escapeHtml(item.elementLabel)}</span>` : ""}
+          ${item.itemKind ? statusPill("Section element", "na") : statusPill("Checklist-linked", "")}
           ${item.required ? statusPill("Required", "needs") : statusPill("Optional", "na")}
           ${statusPill(statusLabel(getItemStatus(project, item)), statusClass(getItemStatus(project, item)))}
         </div>
@@ -309,12 +311,12 @@ function promptCard(project, item) {
       <div class="prompt-body">
         <div class="hint"><strong>Help:</strong> ${escapeHtml(item.helpText)}<br /><strong>Example:</strong> ${escapeHtml(item.exampleResponse)}</div>
         <label class="field-label">
-          <span>Your protocol content</span>
+          <span>Your text for this element</span>
           <textarea data-action="response" data-item-id="${item.id}" placeholder="${escapeAttr(item.exampleResponse)}">${escapeHtml(response.value || "")}</textarea>
         </label>
         <div class="prompt-actions">
           <label class="field-label">
-            <span>Checklist status</span>
+            <span>Element status</span>
             <select data-action="status" data-item-id="${item.id}">
               ${STATUS_OPTIONS.map(([value, label]) => `<option value="${value}" ${getItemStatus(project, item) === value ? "selected" : ""}>${label}</option>`).join("")}
             </select>
@@ -327,7 +329,7 @@ function promptCard(project, item) {
 }
 
 function noSectionItems() {
-  return `<div class="empty-state"><h2>No prompts in this section</h2><p>This section will appear in the generated protocol and can be expanded by adding checklist items to the JSON file.</p></div>`;
+  return `<div class="empty-state"><h2>No elements in this section</h2><p>This section will appear in the generated protocol and can be expanded by adding section elements to the JSON file.</p></div>`;
 }
 
 function inspector(project) {
@@ -344,10 +346,10 @@ function inspector(project) {
       <div class="inspector-section">
         <p class="mini-title">Completion</p>
         <div class="progress"><div style="width: ${summary.completion}%"></div></div>
-        <p>${summary.completedItems}/${summary.requiredItems} required items complete</p>
+        <p>${summary.completedItems}/${summary.requiredItems} required elements complete</p>
       </div>
       <div class="inspector-section">
-        <p class="mini-title">Item states</p>
+        <p class="mini-title">Element states</p>
         <div class="status-list">
           <div class="status-row"><span>Complete</span>${statusPill(String(counts.complete), "complete")}</div>
           <div class="status-row"><span>Incomplete</span>${statusPill(String(counts.incomplete), "needs")}</div>
@@ -664,12 +666,13 @@ function exportReport(id) {
   if (!project) return;
   const checklist = getChecklist(project.reviewType);
   const rows = [
-    ["Item number", "Section", "Required", "Status", "Requirement", "Response"],
+    ["Element number", "Section", "Element", "Required", "Status", "Requirement", "Response"],
     ...checklist.items.map((item) => {
       const response = project.responses[item.id] || { value: "", status: "incomplete" };
       return [
         item.itemNumber,
         item.section,
+        item.elementLabel || item.itemKind || "Checklist-linked prompt",
         item.required ? "Yes" : "No",
         statusLabel(getItemStatus(project, item)),
         item.requirement,
@@ -737,12 +740,13 @@ function complianceTable(project) {
   const checklist = getChecklist(project.reviewType);
   return `
     <table>
-      <thead><tr><th>Item</th><th>Section</th><th>Requirement</th><th>Status</th></tr></thead>
+      <thead><tr><th>Element</th><th>Section</th><th>Element name</th><th>Requirement</th><th>Status</th></tr></thead>
       <tbody>
         ${checklist.items.map((item) => `
           <tr>
             <td>${escapeHtml(item.itemNumber)}</td>
             <td>${escapeHtml(item.section)}</td>
+            <td>${escapeHtml(item.elementLabel || item.itemKind || "Checklist-linked prompt")}</td>
             <td>${escapeHtml(item.requirement)}</td>
             <td>${escapeHtml(statusLabel(getItemStatus(project, item)))}</td>
           </tr>
@@ -823,7 +827,7 @@ function consistencyIssues(project) {
     issues.push("The living review protocol should define evidence surveillance frequency and update triggers.");
   }
   if (checklist.items.some((item) => item.required && getItemStatus(project, item) === "needs")) {
-    issues.push("One or more required checklist items are marked as needing clarification.");
+    issues.push("One or more required protocol elements are marked as needing clarification.");
   }
   return [...new Set(issues)].slice(0, 8);
 }
