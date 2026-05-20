@@ -659,6 +659,11 @@ textarea:focus {
   margin-top: 22px;
 }
 
+.preview h3 {
+  margin: 16px 0 6px;
+  font-size: 15px;
+}
+
 .preview p {
   line-height: 1.65;
 }
@@ -666,6 +671,20 @@ textarea:focus {
 .preview .missing {
   color: var(--warn);
   font-style: italic;
+}
+
+.draft-gaps {
+  border: 1px solid #dfc88f;
+  background: #fff8e7;
+  border-radius: 7px;
+  padding: 12px;
+  margin: 14px 0;
+  color: #694500;
+}
+
+.draft-gaps ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
 }
 
 .modal-backdrop {

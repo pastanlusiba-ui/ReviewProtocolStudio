@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-3"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-3"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-3"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-2"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-3"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-2"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-3"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-3"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-3"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-2"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-3"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/realist-review-protocol.json?v=section-elements-3"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-2"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-3"
   }
 ];
 
@@ -126,7 +126,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=section-elements-2" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=section-elements-3" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -646,9 +646,11 @@ function exportProtocol(id) {
           body { font-family: Cambria, Georgia, serif; line-height: 1.45; color: #111; }
           h1 { font-size: 24pt; }
           h2 { font-size: 16pt; margin-top: 22pt; border-bottom: 1px solid #bbb; padding-bottom: 4pt; }
+          h3 { font-size: 12pt; margin-top: 12pt; margin-bottom: 4pt; }
           table { border-collapse: collapse; width: 100%; }
           th, td { border: 1px solid #999; padding: 6pt; text-align: left; vertical-align: top; }
           .missing { color: #8a4b00; font-style: italic; }
+          .draft-gaps { border: 1px solid #d9b36c; background: #fff8e7; padding: 8pt; margin-top: 10pt; }
         </style>
       </head>
       <body>${warning}${protocolHtml(project, true)}${complianceAppendix(project)}</body>
@@ -697,8 +699,8 @@ function protocolHtml(project, forExport) {
     .map((section) => {
       const items = byOutput.get(section) || [];
       const body = items.length
-        ? items.map((item) => responseParagraph(project, item)).join("")
-        : `<p class="missing">No checklist-linked content has been added to this section yet.</p>`;
+        ? draftSectionHtml(project, section, items)
+        : `<p class="missing">No protocol elements have been added to this section yet.</p>`;
       return `<h2>${escapeHtml(section)}</h2>${body}`;
     })
     .join("");
@@ -713,6 +715,304 @@ function protocolHtml(project, forExport) {
     ${guidanceSourcesHtml(checklist)}
     ${forExport ? "" : `<h2>Checklist Compliance Appendix</h2>${complianceTable(project)}`}
   `;
+}
+
+function draftSectionHtml(project, section, items) {
+  const details = sectionDetails(project, items);
+  const renderers = {
+    "Title page": draftTitlePage,
+    "Background and rationale": draftBackground,
+    "Review question": draftReviewQuestion,
+    "Objectives": draftObjectives,
+    "Eligibility criteria": draftEligibility,
+    "Information sources": draftInformationSources,
+    "Search strategy": draftSearchStrategy,
+    "Study selection": draftStudySelection,
+    "Data extraction/charting": draftDataExtraction,
+    "Critical appraisal/risk of bias": draftCriticalAppraisal,
+    "Synthesis plan": draftSynthesisPlan,
+    "Certainty/confidence assessment": draftConfidenceAssessment,
+    "Equity and contextual considerations": draftEquity,
+    "Stakeholder involvement": draftStakeholders,
+    "Timeline": draftTimeline,
+    "Roles and responsibilities": draftRoles,
+    "Dissemination plan": draftDissemination,
+    "References": draftReferences,
+    "Appendices": draftAppendices
+  };
+  const body = (renderers[section] || draftGenericSection)(details, project);
+  return body + draftingGaps(details);
+}
+
+function sectionDetails(project, items) {
+  const entries = items.map((item) => {
+    const response = project.responses[item.id] || { value: "", status: "incomplete" };
+    return {
+      item,
+      label: item.elementLabel || item.requirement.replace(/^Protocol element:\s*/i, "").replace(/\.$/, ""),
+      value: cleanText(response.value),
+      status: getItemStatus(project, item)
+    };
+  });
+  return {
+    entries,
+    values: entries.reduce((acc, entry) => {
+      if (entry.value && entry.status !== "na") acc[entry.label] = entry.value;
+      return acc;
+    }, {}),
+    additional: entries.filter((entry) => !entry.item.itemKind && entry.value && entry.status !== "na"),
+    missing: entries.filter((entry) => entry.item.required && !entry.value && entry.status !== "na")
+  };
+}
+
+function draftTitlePage(details, project) {
+  return [
+    keyValue("Protocol title", details.values["Protocol title"] || project.title),
+    keyValue("Review type", getChecklist(project.reviewType).label),
+    keyValue("Version and date", details.values["Protocol version and date"]),
+    keyValue("Authors and affiliations", details.values["Authors and affiliations"] || project.lead),
+    keyValue("Funding and competing interests", details.values["Funding and competing interests"]),
+    keyValue("Purpose", project.purpose),
+    details.additional.length ? draftAdditional(details) : ""
+  ].join("");
+}
+
+function draftBackground(details) {
+  return [
+    paragraph([
+      details.values["Topic and problem"],
+      details.values["What is already known"],
+      details.values["Evidence gap or uncertainty"]
+    ]),
+    paragraph([
+      details.values["Why this review type"],
+      details.values["Decision and user context"]
+    ]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftReviewQuestion(details) {
+  return [
+    paragraph([details.values["Question statement"]]),
+    subSection("Framework elements", details.values["Framework elements"]),
+    subSection("Scope boundaries", details.values["Scope boundaries"]),
+    firstExisting(details.values, ["Map rows and columns", "Initial programme theory", "Integrated question"], (label, value) => subSection(label, value)),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftObjectives(details) {
+  return [
+    subSection("Primary objective", details.values["Primary objective"]),
+    subSection("Secondary objectives", details.values["Secondary objectives"]),
+    subSection("Planned use of findings", details.values["Planned use of findings"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftEligibility(details) {
+  return [
+    subSection("Population or participants", details.values["Population or participants"]),
+    subSection("Concept, intervention, or exposure", details.values["Concept, intervention, or exposure"]),
+    subSection("Comparator, context, or setting", details.values["Comparator, context, or setting"]),
+    subSection("Outcomes, phenomena, or map domains", details.values["Outcomes, phenomena, or map domains"]),
+    subSection("Evidence types and study designs", details.values["Evidence types and study designs"]),
+    subSection("Limits and exclusions", details.values["Limits and exclusions"]),
+    subSection("Rapid review restrictions", details.values["Rapid review restrictions"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftInformationSources(details) {
+  return [
+    paragraph([
+      sentence("Bibliographic database searches will include", details.values["Bibliographic databases"]),
+      sentence("Specialist sources and registers will include", details.values["Specialist sources and registers"]),
+      sentence("Grey literature and website searches will include", details.values["Grey literature and websites"]),
+      sentence("Supplementary search methods will include", details.values["Supplementary search methods"])
+    ]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftSearchStrategy(details) {
+  return [
+    subSection("Search concepts", details.values["Search concepts"]),
+    subSection("Controlled vocabulary and keywords", details.values["Controlled vocabulary and keywords"]),
+    subSection("Limits and restrictions", details.values["Limits and restrictions"]),
+    subSection("Search peer review and documentation", details.values["Search peer review and documentation"]),
+    subSection("Search updating", details.values["Search updating"]),
+    subSection("Surveillance schedule", details.values["Surveillance schedule"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftStudySelection(details) {
+  return [
+    subSection("Screening stages", details.values["Screening stages"]),
+    subSection("Reviewer process", details.values["Reviewer process"]),
+    subSection("Piloting and calibration", details.values["Piloting and calibration"]),
+    subSection("Disagreement resolution", details.values["Disagreement resolution"]),
+    subSection("Exclusion documentation", details.values["Exclusion documentation"]),
+    subSection("Abbreviated screening safeguards", details.values["Abbreviated screening safeguards"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftDataExtraction(details) {
+  return [
+    subSection("Extraction variables", details.values["Extraction variables"]),
+    subSection("Extraction form and piloting", details.values["Extraction form and piloting"]),
+    subSection("Reviewer process and verification", details.values["Reviewer process and verification"]),
+    subSection("Handling missing or unclear data", details.values["Handling missing or unclear data"]),
+    subSection("Data management", details.values["Data management"]),
+    subSection("Map codebook", details.values["Map codebook"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftCriticalAppraisal(details) {
+  return [
+    subSection("Need for appraisal", details.values["Need for appraisal"]),
+    subSection("Appraisal tools", details.values["Appraisal tools"]),
+    subSection("Appraisal process", details.values["Appraisal process"]),
+    subSection("Use of appraisal in synthesis", details.values["Use of appraisal in synthesis"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftSynthesisPlan(details) {
+  return [
+    subSection("Synthesis approach", details.values["Synthesis approach"]),
+    subSection("Grouping and comparison", details.values["Grouping and comparison"]),
+    subSection("Quantitative synthesis or summary", details.values["Quantitative synthesis or summary"]),
+    subSection("Qualitative, conceptual, or explanatory synthesis", details.values["Qualitative, conceptual, or explanatory synthesis"]),
+    subSection("Handling heterogeneity or variation", details.values["Handling heterogeneity or variation"]),
+    subSection("Presentation of findings", details.values["Presentation of findings"]),
+    subSection("Gap interpretation rules", details.values["Gap interpretation rules"]),
+    subSection("CMO refinement", details.values["CMO refinement"]),
+    subSection("Integration method", details.values["Integration method"]),
+    subSection("Update triggers", details.values["Update triggers"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftConfidenceAssessment(details) {
+  return [
+    subSection("Assessment framework", details.values["Assessment framework"]),
+    subSection("Findings assessed", details.values["Findings assessed"]),
+    subSection("Reporting confidence", details.values["Reporting confidence"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftEquity(details) {
+  return [
+    subSection("Equity factors", details.values["Equity factors"]),
+    subSection("Context and setting", details.values["Context and setting"]),
+    subSection("Subgroup or applicability plans", details.values["Subgroup or applicability plans"]),
+    subSection("Equity-sensitive reporting", details.values["Equity-sensitive reporting"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftStakeholders(details) {
+  return [
+    subSection("Stakeholder groups", details.values["Stakeholder groups"]),
+    subSection("Engagement stages", details.values["Engagement stages"]),
+    subSection("Use of stakeholder input", details.values["Use of stakeholder input"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftTimeline(details) {
+  return [
+    subSection("Milestones", details.values["Milestones"]),
+    subSection("Dependencies and decision points", details.values["Dependencies and decision points"]),
+    subSection("Update or amendment plan", details.values["Update or amendment plan"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftRoles(details) {
+  return [
+    subSection("Review team roles", details.values["Review team roles"]),
+    subSection("Decision governance", details.values["Decision governance"]),
+    subSection("Authorship and contributions", details.values["Authorship and contributions"]),
+    subSection("Quality assurance", details.values["Quality assurance"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftDissemination(details) {
+  return [
+    subSection("Primary outputs", details.values["Primary outputs"]),
+    subSection("Target audiences", details.values["Target audiences"]),
+    subSection("Dissemination channels", details.values["Dissemination channels"]),
+    subSection("Open materials and data", details.values["Open materials and data"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftReferences(details) {
+  return [
+    subSection("Citation management", details.values["Citation management"]),
+    subSection("Protocol source references", details.values["Protocol source references"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftAppendices(details) {
+  return [
+    subSection("Search appendices", details.values["Search appendices"]),
+    subSection("Screening and extraction tools", details.values["Screening and extraction tools"]),
+    subSection("Appraisal and confidence tools", details.values["Appraisal and confidence tools"]),
+    subSection("Protocol amendments", details.values["Protocol amendments"]),
+    draftAdditional(details)
+  ].join("");
+}
+
+function draftGenericSection(details) {
+  const entries = details.entries.filter((entry) => entry.value && entry.status !== "na");
+  if (!entries.length) return `<p class="missing">This section has not been drafted because no element responses have been provided.</p>`;
+  return entries.map((entry) => subSection(entry.label, entry.value)).join("");
+}
+
+function draftAdditional(details) {
+  if (!details.additional.length) return "";
+  return details.additional.map((entry) => subSection(entry.label, entry.value)).join("");
+}
+
+function draftingGaps(details) {
+  if (!details.missing.length) return "";
+  return `<div class="draft-gaps"><strong>Drafting gaps to resolve:</strong><ul>${details.missing.map((entry) => `<li>${escapeHtml(entry.label)}</li>`).join("")}</ul></div>`;
+}
+
+function keyValue(label, value) {
+  return value ? `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</p>` : "";
+}
+
+function paragraph(parts) {
+  const text = parts.filter(Boolean).join(" ");
+  return text ? `<p>${escapeHtml(text)}</p>` : "";
+}
+
+function subSection(title, value) {
+  return value ? `<h3>${escapeHtml(title)}</h3><p>${escapeHtml(value)}</p>` : "";
+}
+
+function sentence(prefix, value) {
+  if (!value) return "";
+  return `${prefix}: ${value}`;
+}
+
+function firstExisting(values, labels, renderer) {
+  return labels.map((label) => values[label] ? renderer(label, values[label]) : "").join("");
+}
+
+function cleanText(value) {
+  return String(value || "").trim().replace(/\s+/g, " ");
 }
 
 function guidanceSourcesHtml(checklist) {
