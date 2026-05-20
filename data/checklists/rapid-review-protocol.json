@@ -61,6 +61,18 @@
       "outputSection": "Review question"
     },
     {
+      "id": "rapid-objectives-element",
+      "itemNumber": "RAPI-13",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. State objectives that are feasible within the rapid timeline and decision context.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
       "id": "rapid-eligibility",
       "itemNumber": "R4",
       "requirement": "Specify eligibility criteria and any pragmatic limits.",
@@ -71,18 +83,6 @@
       "helpText": "Be transparent about date, language, design, or publication limits.",
       "exampleResponse": "We will include English-language evidence from 2015 onward, prioritizing systematic reviews and comparative studies.",
       "outputSection": "Eligibility criteria"
-    },
-    {
-      "id": "rapid-shortcuts",
-      "itemNumber": "R5",
-      "requirement": "Document methodological shortcuts and their rationale.",
-      "prompt": "Which rapid review shortcuts will be used, and why are they acceptable for this decision context?",
-      "required": true,
-      "section": "Appendices",
-      "responseType": "textarea",
-      "helpText": "Examples include limited databases, single-reviewer steps, date limits, language limits, abbreviated appraisal, or shortened synthesis timelines.",
-      "exampleResponse": "One reviewer will screen titles and abstracts with 20% verification because the decision deadline is six weeks.",
-      "outputSection": "Appendices"
     },
     {
       "id": "rapid-sources",
@@ -157,6 +157,42 @@
       "outputSection": "Synthesis plan"
     },
     {
+      "id": "rapid-certainty-confidence-assessment-element",
+      "itemNumber": "RAPI-14",
+      "requirement": "Plan assessment of certainty, confidence, or credibility where relevant.",
+      "prompt": "How will certainty, confidence, or credibility in the body of evidence or findings be assessed?",
+      "required": false,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "Use GRADE, GRADE-CERQual, review confidence ratings, or a justified alternative where applicable. State whether certainty will be assessed and how any abbreviated approach will be documented.",
+      "exampleResponse": "Confidence will be assessed using a framework appropriate to the evidence type and reported alongside the main findings.",
+      "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "rapid-equity-and-contextual-considerations-element",
+      "itemNumber": "RAPI-15",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Clarify which context and equity factors are essential despite rapid methods.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
+      "id": "rapid-stakeholder-involvement-element",
+      "itemNumber": "RAPI-16",
+      "requirement": "Describe stakeholder engagement in question refinement, interpretation, or dissemination.",
+      "prompt": "Which stakeholders will be involved, at what stages, and how will their input influence the review?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs. State how stakeholders will help focus scope, interpret findings, or validate products quickly.",
+      "exampleResponse": "Stakeholders will be consulted during question refinement and interpretation of preliminary findings to improve relevance and usability.",
+      "outputSection": "Stakeholder involvement"
+    },
+    {
       "id": "rapid-timeline",
       "itemNumber": "R12",
       "requirement": "Provide a rapid review timeline and responsibilities.",
@@ -167,6 +203,42 @@
       "helpText": "Include search, screening, extraction, appraisal, synthesis, review, and delivery milestones.",
       "exampleResponse": "Week 1: search and calibration; Weeks 2-3: screening; Week 4: extraction and appraisal; Week 5: synthesis; Week 6: final report.",
       "outputSection": "Timeline"
+    },
+    {
+      "id": "rapid-roles-and-responsibilities-element",
+      "itemNumber": "RAPI-17",
+      "requirement": "Define author, reviewer, advisor, and stakeholder responsibilities.",
+      "prompt": "Who will be responsible for each stage of the review and how will conflicts or decisions be handled?",
+      "required": true,
+      "section": "Roles and responsibilities",
+      "responseType": "textarea",
+      "helpText": "Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship. Assign rapid review tasks and safeguards for single-reviewer or abbreviated steps.",
+      "exampleResponse": "The information specialist will lead searches; two reviewers will screen and extract data; the methods lead will oversee synthesis and resolve methodological questions.",
+      "outputSection": "Roles and responsibilities"
+    },
+    {
+      "id": "rapid-dissemination-plan-element",
+      "itemNumber": "RAPI-18",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Plan decision-ready outputs such as rapid evidence briefs, slide decks, and short technical reports.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "rapid-shortcuts",
+      "itemNumber": "R5",
+      "requirement": "Document methodological shortcuts and their rationale.",
+      "prompt": "Which rapid review shortcuts will be used, and why are they acceptable for this decision context?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Examples include limited databases, single-reviewer steps, date limits, language limits, abbreviated appraisal, or shortened synthesis timelines.",
+      "exampleResponse": "One reviewer will screen titles and abstracts with 20% verification because the decision deadline is six weeks.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

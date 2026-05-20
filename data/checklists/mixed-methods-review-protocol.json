@@ -59,6 +59,18 @@
       "outputSection": "Review question"
     },
     {
+      "id": "mixed-methods-objectives-element",
+      "itemNumber": "MIXE-09",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. Separate quantitative, qualitative, and integrated objectives.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
       "id": "mm-eligibility",
       "itemNumber": "MMSR-4",
       "requirement": "Specify eligibility for quantitative, qualitative, and mixed-methods studies.",
@@ -69,6 +81,42 @@
       "helpText": "Clarify how mixed-methods primary studies will be separated or integrated.",
       "exampleResponse": "We will include randomized, quasi-experimental, qualitative, and mixed-methods studies with extractable quantitative or qualitative data.",
       "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "mixed-methods-information-sources-element",
+      "itemNumber": "MIXE-10",
+      "requirement": "List planned information sources.",
+      "prompt": "Which databases, repositories, registers, websites, expert sources, and grey literature sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Information sources should fit the review type and include enough coverage to reduce avoidable bias. Information sources should fit the review type and include enough coverage to reduce avoidable bias.",
+      "exampleResponse": "We will search bibliographic databases, specialist registers, organizational repositories, relevant websites, and reference lists of included sources.",
+      "outputSection": "Information sources"
+    },
+    {
+      "id": "mixed-methods-search-strategy-element",
+      "itemNumber": "MIXE-11",
+      "requirement": "Describe how searches will be developed, documented, and updated if needed.",
+      "prompt": "How will the search strategy be constructed, peer reviewed, limited, documented, and updated?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Include core concepts, controlled vocabulary, limits, search dates, peer review, and supplementary search methods. Ensure the strategy can identify both quantitative effectiveness evidence and qualitative or implementation evidence.",
+      "exampleResponse": "The strategy will combine topic concepts with appropriate subject headings, document all limits, and be adapted for each database.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "mixed-methods-study-selection-element",
+      "itemNumber": "MIXE-12",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Describe how quantitative, qualitative, and mixed-methods records will be classified during screening.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
     },
     {
       "id": "mm-extraction",
@@ -117,6 +165,54 @@
       "helpText": "Consider GRADE for quantitative findings and CERQual for qualitative findings.",
       "exampleResponse": "GRADE and CERQual assessments will be presented alongside integrated findings in a joint display.",
       "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "mixed-methods-equity-and-contextual-considerations-element",
+      "itemNumber": "MIXE-13",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
+      "id": "mixed-methods-stakeholder-involvement-element",
+      "itemNumber": "MIXE-14",
+      "requirement": "Describe stakeholder engagement in question refinement, interpretation, or dissemination.",
+      "prompt": "Which stakeholders will be involved, at what stages, and how will their input influence the review?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs. State whether stakeholders will help interpret integrated findings or joint displays.",
+      "exampleResponse": "Stakeholders will be consulted during question refinement and interpretation of preliminary findings to improve relevance and usability.",
+      "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "mixed-methods-dissemination-plan-element",
+      "itemNumber": "MIXE-15",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Plan outputs that communicate both effect estimates and explanatory findings.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "mixed-methods-appendices-element",
+      "itemNumber": "MIXE-16",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include joint display templates, integration rules, and separate extraction forms.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

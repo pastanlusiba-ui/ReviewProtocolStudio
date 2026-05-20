@@ -59,6 +59,42 @@
       "outputSection": "Review question"
     },
     {
+      "id": "living-objectives-element",
+      "itemNumber": "LIVI-09",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. State objectives for maintaining up-to-date evidence and decision relevance over time.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
+      "id": "living-eligibility-criteria-element",
+      "itemNumber": "LIVI-10",
+      "requirement": "Specify inclusion and exclusion criteria.",
+      "prompt": "What evidence, populations, contexts, concepts, interventions, outcomes, designs, dates, and languages will be included or excluded?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "Make eligibility criteria explicit enough for consistent screening decisions. Define stable eligibility criteria and any rules for incorporating new evidence.",
+      "exampleResponse": "We will include studies meeting the defined population, concept, context, evidence type, date range, and language criteria; exclusions will be documented with reasons.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "living-information-sources-element",
+      "itemNumber": "LIVI-11",
+      "requirement": "List planned information sources.",
+      "prompt": "Which databases, repositories, registers, websites, expert sources, and grey literature sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Information sources should fit the review type and include enough coverage to reduce avoidable bias. List databases, alerts, registries, preprint servers, and surveillance sources.",
+      "exampleResponse": "We will search bibliographic databases, specialist registers, organizational repositories, relevant websites, and reference lists of included sources.",
+      "outputSection": "Information sources"
+    },
+    {
       "id": "live-surveillance",
       "itemNumber": "LSR-4",
       "requirement": "Describe search surveillance and update frequency.",
@@ -71,6 +107,42 @@
       "outputSection": "Search strategy"
     },
     {
+      "id": "living-study-selection-element",
+      "itemNumber": "LIVI-12",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Describe ongoing screening of newly identified records and update workflow.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
+    },
+    {
+      "id": "living-data-extraction-charting-element",
+      "itemNumber": "LIVI-13",
+      "requirement": "Describe extraction, coding, charting, or data transformation.",
+      "prompt": "What data elements will be extracted or charted, and how will accuracy and consistency be checked?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Match the extraction fields to the review type and planned synthesis. Specify how new data will be extracted, verified, and merged with prior versions.",
+      "exampleResponse": "A piloted form will capture bibliographic details, study characteristics, population/context, methods, findings, limitations, and fields needed for synthesis.",
+      "outputSection": "Data extraction/charting"
+    },
+    {
+      "id": "living-critical-appraisal-risk-of-bias-element",
+      "itemNumber": "LIVI-14",
+      "requirement": "Describe critical appraisal, risk of bias, quality, relevance, or rigour assessment.",
+      "prompt": "Will included evidence be appraised, which tools will be used, and how will appraisal affect interpretation?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "Use tools appropriate to the included evidence and explain whether appraisal informs inclusion, sensitivity analysis, confidence, or interpretation. Describe ongoing risk-of-bias assessment for newly included studies.",
+      "exampleResponse": "Two reviewers will apply design-appropriate appraisal tools, and results will be used to interpret confidence in the findings.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
       "id": "live-triggers",
       "itemNumber": "LSR-5",
       "requirement": "Define triggers for updating conclusions.",
@@ -81,6 +153,30 @@
       "helpText": "Triggers may include new trials, changed effect estimates, new safety signals, or guideline needs.",
       "exampleResponse": "A new randomized trial, serious safety signal, or change in certainty for a critical outcome will trigger an update.",
       "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "living-certainty-confidence-assessment-element",
+      "itemNumber": "LIVI-15",
+      "requirement": "Plan assessment of certainty, confidence, or credibility where relevant.",
+      "prompt": "How will certainty, confidence, or credibility in the body of evidence or findings be assessed?",
+      "required": false,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "Use GRADE, GRADE-CERQual, review confidence ratings, or a justified alternative where applicable. Define how certainty will be reassessed when new evidence appears.",
+      "exampleResponse": "Confidence will be assessed using a framework appropriate to the evidence type and reported alongside the main findings.",
+      "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "live-retirement",
+      "itemNumber": "LSR-8",
+      "requirement": "Define criteria for pausing or retiring living status.",
+      "prompt": "When will the review stop being maintained as living?",
+      "required": false,
+      "section": "Timeline",
+      "responseType": "textarea",
+      "helpText": "Retirement criteria prevent indefinite maintenance commitments.",
+      "exampleResponse": "Living status will be retired after 18 months without practice-changing evidence or when the topic is no longer a priority.",
+      "outputSection": "Timeline"
     },
     {
       "id": "live-workflow",
@@ -107,16 +203,16 @@
       "outputSection": "Dissemination plan"
     },
     {
-      "id": "live-retirement",
-      "itemNumber": "LSR-8",
-      "requirement": "Define criteria for pausing or retiring living status.",
-      "prompt": "When will the review stop being maintained as living?",
-      "required": false,
-      "section": "Timeline",
+      "id": "living-appendices-element",
+      "itemNumber": "LIVI-16",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
       "responseType": "textarea",
-      "helpText": "Retirement criteria prevent indefinite maintenance commitments.",
-      "exampleResponse": "Living status will be retired after 18 months without practice-changing evidence or when the topic is no longer a priority.",
-      "outputSection": "Timeline"
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include update log, surveillance strategy, version history, and retirement criteria.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

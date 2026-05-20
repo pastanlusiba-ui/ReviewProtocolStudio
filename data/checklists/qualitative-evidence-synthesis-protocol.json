@@ -59,6 +59,18 @@
       "outputSection": "Review question"
     },
     {
+      "id": "qualitative-objectives-element",
+      "itemNumber": "QUAL-09",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. Frame objectives around experiences, meanings, barriers, facilitators, acceptability, feasibility, or implementation.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
       "id": "qes-eligibility",
       "itemNumber": "QES-4",
       "requirement": "Specify eligible qualitative and mixed-methods evidence.",
@@ -71,6 +83,18 @@
       "outputSection": "Eligibility criteria"
     },
     {
+      "id": "qualitative-information-sources-element",
+      "itemNumber": "QUAL-10",
+      "requirement": "List planned information sources.",
+      "prompt": "Which databases, repositories, registers, websites, expert sources, and grey literature sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Information sources should fit the review type and include enough coverage to reduce avoidable bias. Include databases and sources likely to identify qualitative studies and grey literature.",
+      "exampleResponse": "We will search bibliographic databases, specialist registers, organizational repositories, relevant websites, and reference lists of included sources.",
+      "outputSection": "Information sources"
+    },
+    {
       "id": "qes-search",
       "itemNumber": "QES-5",
       "requirement": "Describe searches suitable for qualitative evidence.",
@@ -81,6 +105,30 @@
       "helpText": "Qualitative evidence may require broad, sensitive searches and citation chasing.",
       "exampleResponse": "We will search MEDLINE, CINAHL, PsycINFO, Scopus, ProQuest, citation lists, and relevant institutional repositories.",
       "outputSection": "Search strategy"
+    },
+    {
+      "id": "qualitative-study-selection-element",
+      "itemNumber": "QUAL-11",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Clarify how qualitative and mixed-methods records will be screened for eligible qualitative data.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
+    },
+    {
+      "id": "qualitative-data-extraction-charting-element",
+      "itemNumber": "QUAL-12",
+      "requirement": "Describe extraction, coding, charting, or data transformation.",
+      "prompt": "What data elements will be extracted or charted, and how will accuracy and consistency be checked?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Match the extraction fields to the review type and planned synthesis. Capture participant quotations, author interpretations, themes, context, and methodological features.",
+      "exampleResponse": "A piloted form will capture bibliographic details, study characteristics, population/context, methods, findings, limitations, and fields needed for synthesis.",
+      "outputSection": "Data extraction/charting"
     },
     {
       "id": "qes-appraisal",
@@ -117,6 +165,54 @@
       "helpText": "CERQual considers methodological limitations, coherence, adequacy, and relevance.",
       "exampleResponse": "We will use GRADE-CERQual to assess confidence in each review finding.",
       "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "qualitative-equity-and-contextual-considerations-element",
+      "itemNumber": "QUAL-13",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
+      "id": "qualitative-stakeholder-involvement-element",
+      "itemNumber": "QUAL-14",
+      "requirement": "Describe stakeholder engagement in question refinement, interpretation, or dissemination.",
+      "prompt": "Which stakeholders will be involved, at what stages, and how will their input influence the review?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs. Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs.",
+      "exampleResponse": "Stakeholders will be consulted during question refinement and interpretation of preliminary findings to improve relevance and usability.",
+      "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "qualitative-dissemination-plan-element",
+      "itemNumber": "QUAL-15",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "qualitative-appendices-element",
+      "itemNumber": "QUAL-16",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include coding framework, appraisal tool, extraction template, and CERQual evidence profiles if planned.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

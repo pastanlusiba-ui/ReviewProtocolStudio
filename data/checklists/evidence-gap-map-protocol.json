@@ -60,6 +60,18 @@
       "outputSection": "Review question"
     },
     {
+      "id": "egm-objectives-element",
+      "itemNumber": "EGM-09",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. State map objectives such as describing evidence clusters, identifying gaps, and supporting evidence commissioning.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
       "id": "egm-eligibility",
       "itemNumber": "EGM-4",
       "requirement": "Specify eligible evidence types and map boundaries.",
@@ -82,6 +94,30 @@
       "helpText": "EGMs usually require strong grey literature and organizational source coverage.",
       "exampleResponse": "We will search bibliographic databases, 3ie, Campbell, WHO, UNICEF, World Bank repositories, trial registries, and NGO websites.",
       "outputSection": "Information sources"
+    },
+    {
+      "id": "egm-search-strategy-element",
+      "itemNumber": "EGM-10",
+      "requirement": "Describe how searches will be developed, documented, and updated if needed.",
+      "prompt": "How will the search strategy be constructed, peer reviewed, limited, documented, and updated?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Include core concepts, controlled vocabulary, limits, search dates, peer review, and supplementary search methods. Include grey literature, evidence portals, organisational repositories, and broad map-oriented search concepts.",
+      "exampleResponse": "The strategy will combine topic concepts with appropriate subject headings, document all limits, and be adapted for each database.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "egm-study-selection-element",
+      "itemNumber": "EGM-11",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Describe screening for map eligibility and classification of evidence type.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
     },
     {
       "id": "egm-coding",
@@ -108,6 +144,66 @@
       "outputSection": "Critical appraisal/risk of bias"
     },
     {
+      "id": "egm-synthesis-plan-element",
+      "itemNumber": "EGM-12",
+      "requirement": "Describe the planned synthesis, mapping, integration, or theory development approach.",
+      "prompt": "How will the evidence be synthesized, mapped, integrated, or explained?",
+      "required": true,
+      "section": "Synthesis plan",
+      "responseType": "textarea",
+      "helpText": "The method should fit the review type, data, and objective, and should specify how variation or heterogeneity will be handled. Describe the map matrix, gap interpretation, and visual or interactive outputs.",
+      "exampleResponse": "Findings will be organized by the protocol framework and synthesized using methods appropriate to the available evidence and review objective.",
+      "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "egm-equity-and-contextual-considerations-element",
+      "itemNumber": "EGM-13",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
+      "id": "egm-stakeholder-involvement-element",
+      "itemNumber": "EGM-14",
+      "requirement": "Describe stakeholder engagement in question refinement, interpretation, or dissemination.",
+      "prompt": "Which stakeholders will be involved, at what stages, and how will their input influence the review?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs. Explain how users will help validate map dimensions and interpret priority gaps.",
+      "exampleResponse": "Stakeholders will be consulted during question refinement and interpretation of preliminary findings to improve relevance and usability.",
+      "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "egm-timeline-element",
+      "itemNumber": "EGM-15",
+      "requirement": "Provide a realistic review timeline.",
+      "prompt": "What is the timeline for protocol finalization, searching, screening, extraction, appraisal, synthesis, review, and dissemination?",
+      "required": true,
+      "section": "Timeline",
+      "responseType": "textarea",
+      "helpText": "Include milestones, dependencies, review updates, and deadlines relevant to the review type. Include milestones, dependencies, review updates, and deadlines relevant to the review type.",
+      "exampleResponse": "Protocol finalization will occur in month 1, searching and screening in months 2-3, extraction and appraisal in month 4, synthesis in month 5, and dissemination in month 6.",
+      "outputSection": "Timeline"
+    },
+    {
+      "id": "egm-roles-and-responsibilities-element",
+      "itemNumber": "EGM-16",
+      "requirement": "Define author, reviewer, advisor, and stakeholder responsibilities.",
+      "prompt": "Who will be responsible for each stage of the review and how will conflicts or decisions be handled?",
+      "required": true,
+      "section": "Roles and responsibilities",
+      "responseType": "textarea",
+      "helpText": "Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship. Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship.",
+      "exampleResponse": "The information specialist will lead searches; two reviewers will screen and extract data; the methods lead will oversee synthesis and resolve methodological questions.",
+      "outputSection": "Roles and responsibilities"
+    },
+    {
       "id": "egm-output",
       "itemNumber": "EGM-8",
       "requirement": "Describe map presentation, gap interpretation, and dissemination.",
@@ -118,6 +214,18 @@
       "helpText": "Describe the map platform, evidence-gap categories, stakeholder review, and update plans.",
       "exampleResponse": "The final product will include an interactive matrix, downloadable dataset, technical report, and policy-facing evidence gap summary.",
       "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "egm-appendices-element",
+      "itemNumber": "EGM-17",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include the codebook, map taxonomy, source list, and data dictionary.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

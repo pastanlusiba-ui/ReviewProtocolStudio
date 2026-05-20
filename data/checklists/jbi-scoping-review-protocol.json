@@ -157,6 +157,18 @@
       "outputSection": "Synthesis plan"
     },
     {
+      "id": "scoping-equity-and-contextual-considerations-element",
+      "itemNumber": "SCOP-13",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Plan context and equity variables to chart and map.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
       "id": "scope-stakeholders",
       "itemNumber": "JBI-12",
       "requirement": "Describe stakeholder consultation if planned.",
@@ -167,6 +179,66 @@
       "helpText": "Consultation may strengthen interpretation and relevance.",
       "exampleResponse": "Program implementers and patient representatives will review preliminary categories and identify additional sources.",
       "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "scoping-timeline-element",
+      "itemNumber": "SCOP-14",
+      "requirement": "Provide a realistic review timeline.",
+      "prompt": "What is the timeline for protocol finalization, searching, screening, extraction, appraisal, synthesis, review, and dissemination?",
+      "required": true,
+      "section": "Timeline",
+      "responseType": "textarea",
+      "helpText": "Include milestones, dependencies, review updates, and deadlines relevant to the review type. Describe milestones for iterative searching, charting, synthesis, and consultation.",
+      "exampleResponse": "Protocol finalization will occur in month 1, searching and screening in months 2-3, extraction and appraisal in month 4, synthesis in month 5, and dissemination in month 6.",
+      "outputSection": "Timeline"
+    },
+    {
+      "id": "scoping-roles-and-responsibilities-element",
+      "itemNumber": "SCOP-15",
+      "requirement": "Define author, reviewer, advisor, and stakeholder responsibilities.",
+      "prompt": "Who will be responsible for each stage of the review and how will conflicts or decisions be handled?",
+      "required": true,
+      "section": "Roles and responsibilities",
+      "responseType": "textarea",
+      "helpText": "Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship. Assign roles for search development, screening, charting, synthesis, and consultation.",
+      "exampleResponse": "The information specialist will lead searches; two reviewers will screen and extract data; the methods lead will oversee synthesis and resolve methodological questions.",
+      "outputSection": "Roles and responsibilities"
+    },
+    {
+      "id": "scoping-dissemination-plan-element",
+      "itemNumber": "SCOP-16",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Plan map, tables, narrative summary, and stakeholder-facing outputs.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "scoping-references-element",
+      "itemNumber": "SCOP-17",
+      "requirement": "Plan how references and cited sources will be managed.",
+      "prompt": "How will protocol references, included records, and citation management be handled?",
+      "required": true,
+      "section": "References",
+      "responseType": "textarea",
+      "helpText": "Specify reference manager, deduplication, citation style, and how appendices or search records will be stored. Specify reference management for broad search results.",
+      "exampleResponse": "References will be managed in Zotero, deduplicated before screening, and cited using the journal or funder-required style.",
+      "outputSection": "References"
+    },
+    {
+      "id": "scoping-appendices-element",
+      "itemNumber": "SCOP-18",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include search strategies, charting form, PCC framework, and consultation materials.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

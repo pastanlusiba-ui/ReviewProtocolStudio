@@ -57,6 +57,18 @@
       "outputSection": "Review question"
     },
     {
+      "id": "umbrella-objectives-element",
+      "itemNumber": "UMBR-08",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. State objectives for summarising and comparing existing systematic reviews.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
       "id": "umb-eligibility",
       "itemNumber": "UMB-4",
       "requirement": "Specify eligible review products and overlap handling.",
@@ -69,6 +81,18 @@
       "outputSection": "Eligibility criteria"
     },
     {
+      "id": "umbrella-information-sources-element",
+      "itemNumber": "UMBR-09",
+      "requirement": "List planned information sources.",
+      "prompt": "Which databases, repositories, registers, websites, expert sources, and grey literature sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Information sources should fit the review type and include enough coverage to reduce avoidable bias. Prioritize review repositories and databases indexing systematic reviews.",
+      "exampleResponse": "We will search bibliographic databases, specialist registers, organizational repositories, relevant websites, and reference lists of included sources.",
+      "outputSection": "Information sources"
+    },
+    {
       "id": "umb-search",
       "itemNumber": "UMB-5",
       "requirement": "Describe searches for systematic reviews.",
@@ -79,6 +103,30 @@
       "helpText": "Include sources such as Epistemonikos, Cochrane Library, MEDLINE, and discipline-specific databases.",
       "exampleResponse": "We will search Epistemonikos, Cochrane Library, MEDLINE, Embase, Campbell Library, and reference lists of included reviews.",
       "outputSection": "Search strategy"
+    },
+    {
+      "id": "umbrella-study-selection-element",
+      "itemNumber": "UMBR-10",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Describe screening of review products and handling of overlapping primary studies.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
+    },
+    {
+      "id": "umbrella-data-extraction-charting-element",
+      "itemNumber": "UMBR-11",
+      "requirement": "Describe extraction, coding, charting, or data transformation.",
+      "prompt": "What data elements will be extracted or charted, and how will accuracy and consistency be checked?",
+      "required": true,
+      "section": "Data extraction/charting",
+      "responseType": "textarea",
+      "helpText": "Match the extraction fields to the review type and planned synthesis. Extract review-level characteristics, included study counts, conclusions, and overlap data.",
+      "exampleResponse": "A piloted form will capture bibliographic details, study characteristics, population/context, methods, findings, limitations, and fields needed for synthesis.",
+      "outputSection": "Data extraction/charting"
     },
     {
       "id": "umb-appraisal",
@@ -103,6 +151,42 @@
       "helpText": "Umbrella reviews usually avoid double-counting primary studies and may summarize evidence by outcome domain.",
       "exampleResponse": "We will summarize effect directions, overlap, AMSTAR 2 ratings, and certainty by outcome using structured tables.",
       "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "umbrella-certainty-confidence-assessment-element",
+      "itemNumber": "UMBR-12",
+      "requirement": "Plan assessment of certainty, confidence, or credibility where relevant.",
+      "prompt": "How will certainty, confidence, or credibility in the body of evidence or findings be assessed?",
+      "required": false,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "Use GRADE, GRADE-CERQual, review confidence ratings, or a justified alternative where applicable. Describe how review quality, overlap, and certainty will influence conclusions.",
+      "exampleResponse": "Confidence will be assessed using a framework appropriate to the evidence type and reported alongside the main findings.",
+      "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "umbrella-dissemination-plan-element",
+      "itemNumber": "UMBR-13",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "umbrella-appendices-element",
+      "itemNumber": "UMBR-14",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include overlap matrix, AMSTAR-style appraisal form, and extraction template.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

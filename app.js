@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json"
+    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json"
+    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json"
+    file: "./data/checklists/realist-review-protocol.json?v=section-elements-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-1"
   }
 ];
 

@@ -182,6 +182,54 @@
       "outputSection": "Certainty/confidence assessment"
     },
     {
+      "id": "systematic-equity-and-contextual-considerations-element",
+      "itemNumber": "SYST-15",
+      "requirement": "Describe equity, context, subgroup, and applicability considerations.",
+      "prompt": "Which equity, context, setting, population, implementation, or applicability factors must be captured in the protocol?",
+      "required": true,
+      "section": "Equity and contextual considerations",
+      "responseType": "textarea",
+      "helpText": "Consider geography, socioeconomic status, gender, age, disability, health system context, and implementation setting. Plan subgroup, applicability, implementation, and equity data extraction.",
+      "exampleResponse": "We will extract and report context and equity-relevant characteristics, including setting, population subgroup, implementation environment, and applicability considerations.",
+      "outputSection": "Equity and contextual considerations"
+    },
+    {
+      "id": "systematic-stakeholder-involvement-element",
+      "itemNumber": "SYST-16",
+      "requirement": "Describe stakeholder engagement in question refinement, interpretation, or dissemination.",
+      "prompt": "Which stakeholders will be involved, at what stages, and how will their input influence the review?",
+      "required": false,
+      "section": "Stakeholder involvement",
+      "responseType": "textarea",
+      "helpText": "Stakeholders may help refine questions, identify sources, interpret findings, or shape outputs. State whether stakeholders will shape the question, outcomes, or dissemination.",
+      "exampleResponse": "Stakeholders will be consulted during question refinement and interpretation of preliminary findings to improve relevance and usability.",
+      "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "systematic-timeline-element",
+      "itemNumber": "SYST-17",
+      "requirement": "Provide a realistic review timeline.",
+      "prompt": "What is the timeline for protocol finalization, searching, screening, extraction, appraisal, synthesis, review, and dissemination?",
+      "required": true,
+      "section": "Timeline",
+      "responseType": "textarea",
+      "helpText": "Include milestones, dependencies, review updates, and deadlines relevant to the review type. Plan the full systematic review timetable and major milestones.",
+      "exampleResponse": "Protocol finalization will occur in month 1, searching and screening in months 2-3, extraction and appraisal in month 4, synthesis in month 5, and dissemination in month 6.",
+      "outputSection": "Timeline"
+    },
+    {
+      "id": "systematic-roles-and-responsibilities-element",
+      "itemNumber": "SYST-18",
+      "requirement": "Define author, reviewer, advisor, and stakeholder responsibilities.",
+      "prompt": "Who will be responsible for each stage of the review and how will conflicts or decisions be handled?",
+      "required": true,
+      "section": "Roles and responsibilities",
+      "responseType": "textarea",
+      "helpText": "Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship. Include roles for search, screening, extraction, appraisal, synthesis, project management, decision escalation, and authorship.",
+      "exampleResponse": "The information specialist will lead searches; two reviewers will screen and extract data; the methods lead will oversee synthesis and resolve methodological questions.",
+      "outputSection": "Roles and responsibilities"
+    },
+    {
       "id": "sys-dissemination",
       "itemNumber": "5c",
       "requirement": "Describe dissemination plans.",
@@ -192,6 +240,30 @@
       "helpText": "Include publication, presentations, briefs, guideline input, or stakeholder outputs.",
       "exampleResponse": "Findings will be submitted to a peer-reviewed journal and summarized in a policy brief for health program managers.",
       "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "systematic-references-element",
+      "itemNumber": "SYST-19",
+      "requirement": "Plan how references and cited sources will be managed.",
+      "prompt": "How will protocol references, included records, and citation management be handled?",
+      "required": true,
+      "section": "References",
+      "responseType": "textarea",
+      "helpText": "Specify reference manager, deduplication, citation style, and how appendices or search records will be stored. Specify reference management and citation handling.",
+      "exampleResponse": "References will be managed in Zotero, deduplicated before screening, and cited using the journal or funder-required style.",
+      "outputSection": "References"
+    },
+    {
+      "id": "systematic-appendices-element",
+      "itemNumber": "SYST-20",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include full search strategies, data extraction forms, risk-of-bias tools, and amendment log.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

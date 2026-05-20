@@ -33,6 +33,30 @@
       "outputSection": "Title page"
     },
     {
+      "id": "review-of-reviews-background-and-rationale-element",
+      "itemNumber": "REVI-08",
+      "requirement": "Describe the background, rationale, and decision context for the review.",
+      "prompt": "What is the background, evidence gap, and reason this protocol is needed now?",
+      "required": true,
+      "section": "Background and rationale",
+      "responseType": "textarea",
+      "helpText": "Link the topic to policy, practice, research uncertainty, stakeholder demand, or methodological need. Explain why review-level synthesis is needed and what decisions it will support.",
+      "exampleResponse": "This protocol addresses an evidence gap that affects current programme decisions and clarifies the planned methods before review conduct begins.",
+      "outputSection": "Background and rationale"
+    },
+    {
+      "id": "review-of-reviews-review-question-element",
+      "itemNumber": "REVI-09",
+      "requirement": "State the review question and define its core framework elements.",
+      "prompt": "What is the review question, and which framework elements define it?",
+      "required": true,
+      "section": "Review question",
+      "responseType": "textarea",
+      "helpText": "Use the framework appropriate to the review type, such as PICO, PCC, SPIDER, CMO, or map dimensions. Define the review-level question and eligible review product types.",
+      "exampleResponse": "The question is structured around the target population, intervention or concept, context, and outcomes or phenomena of interest.",
+      "outputSection": "Review question"
+    },
+    {
       "id": "ror-purpose",
       "itemNumber": "ROR-2",
       "requirement": "Clarify the purpose of synthesizing reviews.",
@@ -69,6 +93,30 @@
       "outputSection": "Information sources"
     },
     {
+      "id": "review-of-reviews-search-strategy-element",
+      "itemNumber": "REVI-10",
+      "requirement": "Describe how searches will be developed, documented, and updated if needed.",
+      "prompt": "How will the search strategy be constructed, peer reviewed, limited, documented, and updated?",
+      "required": true,
+      "section": "Search strategy",
+      "responseType": "textarea",
+      "helpText": "Include core concepts, controlled vocabulary, limits, search dates, peer review, and supplementary search methods. Prioritize sources that retrieve existing reviews and evidence syntheses.",
+      "exampleResponse": "The strategy will combine topic concepts with appropriate subject headings, document all limits, and be adapted for each database.",
+      "outputSection": "Search strategy"
+    },
+    {
+      "id": "review-of-reviews-study-selection-element",
+      "itemNumber": "REVI-11",
+      "requirement": "Describe the selection process.",
+      "prompt": "How will records or sources be screened and selected, and how will disagreements or uncertainty be handled?",
+      "required": true,
+      "section": "Study selection",
+      "responseType": "textarea",
+      "helpText": "Specify screening stages, reviewer numbers, piloting or calibration, software, reasons for exclusion, and documentation. Describe inclusion decisions for different review products and minimum methodological transparency.",
+      "exampleResponse": "Screening criteria will be piloted. Records will be screened at title/abstract and full-text stages, with disagreements resolved by discussion or a third reviewer.",
+      "outputSection": "Study selection"
+    },
+    {
       "id": "ror-extraction",
       "itemNumber": "ROR-5",
       "requirement": "Describe extraction of review characteristics and findings.",
@@ -103,6 +151,42 @@
       "helpText": "Plan how to handle conflicting review conclusions and duplicated evidence bases.",
       "exampleResponse": "We will organize findings by intervention and outcome domain, compare review conclusions, and flag overlap or discordance.",
       "outputSection": "Synthesis plan"
+    },
+    {
+      "id": "review-of-reviews-certainty-confidence-assessment-element",
+      "itemNumber": "REVI-12",
+      "requirement": "Plan assessment of certainty, confidence, or credibility where relevant.",
+      "prompt": "How will certainty, confidence, or credibility in the body of evidence or findings be assessed?",
+      "required": false,
+      "section": "Certainty/confidence assessment",
+      "responseType": "textarea",
+      "helpText": "Use GRADE, GRADE-CERQual, review confidence ratings, or a justified alternative where applicable. Explain how confidence in review-level conclusions will be judged.",
+      "exampleResponse": "Confidence will be assessed using a framework appropriate to the evidence type and reported alongside the main findings.",
+      "outputSection": "Certainty/confidence assessment"
+    },
+    {
+      "id": "review-of-reviews-dissemination-plan-element",
+      "itemNumber": "REVI-13",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "review-of-reviews-appendices-element",
+      "itemNumber": "REVI-14",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include review taxonomy, extraction form, and overlap or discordance matrix.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [

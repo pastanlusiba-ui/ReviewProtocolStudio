@@ -57,6 +57,42 @@
       "outputSection": "Review question"
     },
     {
+      "id": "realist-objectives-element",
+      "itemNumber": "REAL-09",
+      "requirement": "State the review objectives clearly and in alignment with the review type.",
+      "prompt": "What are the primary and secondary objectives this protocol will guide?",
+      "required": true,
+      "section": "Objectives",
+      "responseType": "textarea",
+      "helpText": "Objectives should match the review type: estimate, map, explain, synthesize experiences, compare reviews, or maintain living evidence. State objectives for developing, testing, or refining programme theories.",
+      "exampleResponse": "The primary objective is to synthesize the available evidence for the defined question. Secondary objectives include identifying gaps and describing implications for decision-makers.",
+      "outputSection": "Objectives"
+    },
+    {
+      "id": "realist-eligibility-criteria-element",
+      "itemNumber": "REAL-10",
+      "requirement": "Specify inclusion and exclusion criteria.",
+      "prompt": "What evidence, populations, contexts, concepts, interventions, outcomes, designs, dates, and languages will be included or excluded?",
+      "required": true,
+      "section": "Eligibility criteria",
+      "responseType": "textarea",
+      "helpText": "Make eligibility criteria explicit enough for consistent screening decisions. Define relevance and rigour criteria for documents contributing to programme theory.",
+      "exampleResponse": "We will include studies meeting the defined population, concept, context, evidence type, date range, and language criteria; exclusions will be documented with reasons.",
+      "outputSection": "Eligibility criteria"
+    },
+    {
+      "id": "realist-information-sources-element",
+      "itemNumber": "REAL-11",
+      "requirement": "List planned information sources.",
+      "prompt": "Which databases, repositories, registers, websites, expert sources, and grey literature sources will be searched?",
+      "required": true,
+      "section": "Information sources",
+      "responseType": "textarea",
+      "helpText": "Information sources should fit the review type and include enough coverage to reduce avoidable bias. Include policy documents, programme reports, theory papers, and empirical studies.",
+      "exampleResponse": "We will search bibliographic databases, specialist registers, organizational repositories, relevant websites, and reference lists of included sources.",
+      "outputSection": "Information sources"
+    },
+    {
       "id": "real-search",
       "itemNumber": "REAL-4",
       "requirement": "Describe iterative and purposive searching.",
@@ -93,6 +129,18 @@
       "outputSection": "Data extraction/charting"
     },
     {
+      "id": "realist-critical-appraisal-risk-of-bias-element",
+      "itemNumber": "REAL-12",
+      "requirement": "Describe critical appraisal, risk of bias, quality, relevance, or rigour assessment.",
+      "prompt": "Will included evidence be appraised, which tools will be used, and how will appraisal affect interpretation?",
+      "required": true,
+      "section": "Critical appraisal/risk of bias",
+      "responseType": "textarea",
+      "helpText": "Use tools appropriate to the included evidence and explain whether appraisal informs inclusion, sensitivity analysis, confidence, or interpretation. Describe appraisal in terms of relevance and rigour for theory fragments.",
+      "exampleResponse": "Two reviewers will apply design-appropriate appraisal tools, and results will be used to interpret confidence in the findings.",
+      "outputSection": "Critical appraisal/risk of bias"
+    },
+    {
       "id": "real-synthesis",
       "itemNumber": "REAL-7",
       "requirement": "Describe realist analysis and synthesis.",
@@ -115,6 +163,30 @@
       "helpText": "Stakeholders can test plausibility and usefulness of emerging explanations.",
       "exampleResponse": "Policy-makers, providers, and community representatives will review emerging CMO configurations for plausibility.",
       "outputSection": "Stakeholder involvement"
+    },
+    {
+      "id": "realist-dissemination-plan-element",
+      "itemNumber": "REAL-13",
+      "requirement": "Describe planned outputs and dissemination routes.",
+      "prompt": "What outputs will be produced, who are the audiences, and how will findings be shared?",
+      "required": true,
+      "section": "Dissemination plan",
+      "responseType": "textarea",
+      "helpText": "Consider manuscripts, briefs, map products, stakeholder reports, datasets, presentations, guideline inputs, and update notices. Plan outputs that communicate refined programme theories to stakeholders.",
+      "exampleResponse": "Findings will be shared through a manuscript, technical report, decision brief, presentation, and accessible summary for stakeholders.",
+      "outputSection": "Dissemination plan"
+    },
+    {
+      "id": "realist-appendices-element",
+      "itemNumber": "REAL-14",
+      "requirement": "Identify appendices required for transparency and reproducibility.",
+      "prompt": "Which appendices will be included to document methods and decisions?",
+      "required": true,
+      "section": "Appendices",
+      "responseType": "textarea",
+      "helpText": "Appendices may include search strategies, screening forms, extraction forms, appraisal tools, coding frameworks, stakeholder materials, and amendment logs. Include initial programme theories, CMO extraction template, and theory refinement log.",
+      "exampleResponse": "Appendices will include database search strategies, screening forms, extraction templates, appraisal tools, coding framework, and protocol amendments.",
+      "outputSection": "Appendices"
     }
   ],
   "sources": [
