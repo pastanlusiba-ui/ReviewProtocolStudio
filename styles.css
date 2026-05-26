@@ -777,6 +777,24 @@ textarea:focus {
   width: min(520px, 100%);
 }
 
+.password-rules {
+  border: 1px solid #dde3ee;
+  background: #f7f9fc;
+  color: #4d5564;
+  border-radius: 7px;
+  padding: 12px;
+  line-height: 1.45;
+}
+
+.password-rules strong,
+.password-rules span {
+  display: block;
+}
+
+.password-rules span {
+  margin-top: 4px;
+}
+
 .guidance-body {
   padding: 20px;
   display: grid;

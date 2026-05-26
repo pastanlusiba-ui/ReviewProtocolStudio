@@ -16,6 +16,8 @@ http://127.0.0.1:8093
 
 The prototype is dependency-light and stores projects in browser `localStorage`.
 
+When run with `npm run dev`, the app uses `backend/server.py` for SQLite-backed accounts, sessions, and project storage. If opened as a static file or on GitHub Pages without the backend, it falls back to browser-local prototype accounts.
+
 ## GitHub Pages
 
 The app can be served from GitHub Pages using the included workflow at `.github/workflows/pages.yml`.
@@ -24,6 +26,7 @@ The app can be served from GitHub Pages using the included workflow at `.github/
 
 - Project dashboard with create, open, duplicate, delete, protocol export, and checklist report export actions.
 - Browser-based prototype accounts with sign-up, sign-in, sign-out, and account-specific project lists.
+- SQLite-backed local backend for real account/session/project persistence during development.
 - Ten review types: systematic, scoping, rapid, evidence and gap map, qualitative evidence synthesis, mixed-methods, umbrella, review of reviews, realist, and living systematic review protocols.
 - Checklist seed files in `data/checklists/`.
 - Dynamic prompt rendering from checklist JSON data.

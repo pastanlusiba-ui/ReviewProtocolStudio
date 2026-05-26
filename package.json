@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 8093 --bind 127.0.0.1",
-    "start": "python3 -m http.server 8093 --bind 127.0.0.1"
+    "dev": "python3 backend/server.py",
+    "start": "python3 backend/server.py",
+    "static": "python3 -m http.server 8093 --bind 127.0.0.1"
   }
 }

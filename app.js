@@ -54,6 +54,7 @@ const CHECKLIST_MANIFEST = [
 const STORAGE_KEY = "review-protocol-studio-projects-v1";
 const ACCOUNTS_KEY = "review-protocol-studio-accounts-v1";
 const SESSION_KEY = "review-protocol-studio-session-v1";
+const BACKEND_SESSION_KEY = "review-protocol-studio-backend-session-v1";
 const STATUS_OPTIONS = [
   ["incomplete", "Incomplete"],
   ["complete", "Complete"],
@@ -64,6 +65,9 @@ const STATUS_OPTIONS = [
 const app = document.querySelector("#app");
 const state = {
   checklists: {},
+  backendAvailable: false,
+  backendToken: "",
+  backendUser: null,
   accounts: [],
   sessionUserId: "",
   projects: [],
@@ -79,10 +83,15 @@ const state = {
 init();
 
 async function init() {
-  state.projects = loadProjects();
   state.accounts = loadAccounts();
   state.sessionUserId = loadSession();
   await loadChecklists();
+  state.backendAvailable = await detectBackend();
+  if (state.backendAvailable) {
+    await restoreBackendSession();
+  } else {
+    state.projects = loadProjects();
+  }
   render();
 }
 
@@ -107,7 +116,35 @@ function loadProjects() {
 }
 
 function saveProjects() {
+  if (state.backendAvailable) return;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.projects));
+}
+
+async function persistProject(project, method = "PUT") {
+  if (!state.backendAvailable) {
+    saveProjects();
+    return;
+  }
+  try {
+    await apiRequest(method === "POST" ? "/api/projects" : `/api/projects/${encodeURIComponent(project.id)}`, {
+      method,
+      body: JSON.stringify(project)
+    });
+  } catch (error) {
+    showToast(`Could not save project: ${error.message}`);
+  }
+}
+
+async function deleteProjectRemote(id) {
+  if (!state.backendAvailable) {
+    saveProjects();
+    return;
+  }
+  try {
+    await apiRequest(`/api/projects/${encodeURIComponent(id)}`, { method: "DELETE" });
+  } catch (error) {
+    showToast(`Could not delete project: ${error.message}`);
+  }
 }
 
 function loadAccounts() {
@@ -136,13 +173,63 @@ function saveSession(userId) {
   localStorage.setItem(SESSION_KEY, JSON.stringify({ userId }));
 }
 
+async function detectBackend() {
+  if (location.protocol === "file:") return false;
+  try {
+    const response = await fetch("./api/health", { cache: "no-store" });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function restoreBackendSession() {
+  const token = localStorage.getItem(BACKEND_SESSION_KEY) || "";
+  if (!token) return;
+  state.backendToken = token;
+  try {
+    const payload = await apiRequest("/api/me");
+    state.backendUser = payload.user;
+    state.projects = await apiRequest("/api/projects");
+  } catch {
+    localStorage.removeItem(BACKEND_SESSION_KEY);
+    state.backendToken = "";
+    state.backendUser = null;
+    state.projects = [];
+  }
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+  if (state.backendToken) headers.Authorization = `Bearer ${state.backendToken}`;
+  const response = await fetch(path, {
+    ...options,
+    headers
+  });
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch {
+    payload = {};
+  }
+  if (!response.ok) {
+    throw new Error(payload.error || "Request failed");
+  }
+  return payload;
+}
+
 function currentUser() {
+  if (state.backendAvailable) return state.backendUser;
   return state.accounts.find((account) => account.id === state.sessionUserId);
 }
 
 function visibleProjects() {
   const user = currentUser();
   if (!user) return [];
+  if (state.backendAvailable) return state.projects;
   return state.projects.filter((project) => project.ownerId === user.id);
 }
 
@@ -496,9 +583,21 @@ function authModal() {
         <form class="project-form" data-action="${creating ? "create-account" : "sign-in"}">
           <div class="form-grid">
             ${creating ? `
-              <label class="field-label wide">
-                <span>Name</span>
-                <input required name="name" autocomplete="name" placeholder="Evidence Synthesis Unit" />
+              <label class="field-label">
+                <span>First name</span>
+                <input required name="firstName" autocomplete="given-name" placeholder="First name" />
+              </label>
+              <label class="field-label">
+                <span>Last name</span>
+                <input required name="lastName" autocomplete="family-name" placeholder="Last name" />
+              </label>
+              <label class="field-label">
+                <span>Institution</span>
+                <input required name="institution" autocomplete="organization" placeholder="University, unit, or organization" />
+              </label>
+              <label class="field-label">
+                <span>Title</span>
+                <input required name="title" autocomplete="organization-title" placeholder="Researcher, librarian, student..." />
               </label>
             ` : ""}
             <label class="field-label wide">
@@ -507,8 +606,18 @@ function authModal() {
             </label>
             <label class="field-label wide">
               <span>Password</span>
-              <input required type="password" name="password" autocomplete="${creating ? "new-password" : "current-password"}" minlength="8" />
+              <input required type="password" name="password" autocomplete="${creating ? "new-password" : "current-password"}" minlength="${creating ? "12" : "8"}" />
             </label>
+            ${creating ? `
+              <label class="field-label wide">
+                <span>Confirm password</span>
+                <input required type="password" name="confirmPassword" autocomplete="new-password" minlength="12" />
+              </label>
+              <div class="password-rules wide">
+                <strong>Password requirements</strong>
+                <span>Use at least 12 characters with uppercase, lowercase, number, and symbol. Avoid your name, institution, email, and common passwords.</span>
+              </div>
+            ` : ""}
           </div>
           <div class="modal-actions">
             <button class="btn" type="button" data-action="${creating ? "show-sign-in" : "show-create-account"}">${creating ? "Sign in instead" : "Create account instead"}</button>
@@ -644,7 +753,7 @@ function handleAction(event) {
   render();
 }
 
-function createProject(event) {
+async function createProject(event) {
   event.preventDefault();
   const user = currentUser();
   if (!user) {
@@ -672,7 +781,7 @@ function createProject(event) {
     )
   };
   state.projects.unshift(project);
-  saveProjects();
+  await persistProject(project, "POST");
   state.modalOpen = false;
   openProject(project.id);
   showToast("Project created");
@@ -687,7 +796,7 @@ function openProject(id) {
   state.view = "builder";
 }
 
-function duplicateProject(id) {
+async function duplicateProject(id) {
   const project = findProject(id);
   if (!project) return;
   const now = new Date().toISOString();
@@ -700,11 +809,11 @@ function duplicateProject(id) {
     exportedAt: ""
   };
   state.projects.unshift(clone);
-  saveProjects();
+  await persistProject(clone, "POST");
   showToast("Project duplicated");
 }
 
-function deleteProject(id) {
+async function deleteProject(id) {
   const project = findProject(id);
   if (!project) return;
   if (!confirm(`Delete "${project.title}"?`)) return;
@@ -714,7 +823,7 @@ function deleteProject(id) {
     state.activeSection = null;
     state.view = "dashboard";
   }
-  saveProjects();
+  await deleteProjectRemote(id);
   showToast("Project deleted");
 }
 
@@ -722,6 +831,38 @@ async function createAccount(event) {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget).entries());
   const email = normalizeEmail(data.email);
+  const profile = {
+    firstName: String(data.firstName || "").trim(),
+    lastName: String(data.lastName || "").trim(),
+    institution: String(data.institution || "").trim(),
+    title: String(data.title || "").trim(),
+    email
+  };
+  const passwordError = validatePassword(data.password, data.confirmPassword, profile);
+  if (passwordError) {
+    showToast(passwordError);
+    return;
+  }
+  if (state.backendAvailable) {
+    try {
+      const payload = await apiRequest("/api/accounts", {
+        method: "POST",
+        body: JSON.stringify({ ...profile, password: data.password, confirmPassword: data.confirmPassword })
+      });
+      state.backendToken = payload.token;
+      state.backendUser = payload.user;
+      localStorage.setItem(BACKEND_SESSION_KEY, payload.token);
+      state.projects = await apiRequest("/api/projects");
+      state.authMode = "";
+      state.view = "dashboard";
+      showToast("Account created");
+      render();
+      return;
+    } catch (error) {
+      showToast(error.message);
+      return;
+    }
+  }
   if (state.accounts.some((account) => account.email === email)) {
     showToast("Account already exists");
     return;
@@ -729,7 +870,11 @@ async function createAccount(event) {
   const salt = crypto.randomUUID();
   const account = {
     id: crypto.randomUUID(),
-    name: String(data.name || "").trim(),
+    name: `${profile.firstName} ${profile.lastName}`.trim(),
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    institution: profile.institution,
+    title: profile.title,
     email,
     salt,
     passwordHash: await hashPassword(data.password, salt),
@@ -750,6 +895,28 @@ async function signIn(event) {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget).entries());
   const email = normalizeEmail(data.email);
+  if (state.backendAvailable) {
+    try {
+      const payload = await apiRequest("/api/sessions", {
+        method: "POST",
+        body: JSON.stringify({ email, password: data.password })
+      });
+      state.backendToken = payload.token;
+      state.backendUser = payload.user;
+      localStorage.setItem(BACKEND_SESSION_KEY, payload.token);
+      state.projects = await apiRequest("/api/projects");
+      state.authMode = "";
+      state.view = "dashboard";
+      state.activeProjectId = null;
+      state.activeSection = null;
+      showToast("Signed in");
+      render();
+      return;
+    } catch (error) {
+      showToast(error.message);
+      return;
+    }
+  }
   const account = state.accounts.find((item) => item.email === email);
   if (!account) {
     showToast("Account not found");
@@ -770,6 +937,15 @@ async function signIn(event) {
 }
 
 function signOut() {
+  if (state.backendAvailable) {
+    if (state.backendToken) {
+      apiRequest("/api/sessions/logout", { method: "POST" }).catch(() => {});
+    }
+    state.backendToken = "";
+    state.backendUser = null;
+    state.projects = [];
+    localStorage.removeItem(BACKEND_SESSION_KEY);
+  }
   saveSession("");
   state.activeProjectId = null;
   state.activeSection = null;
@@ -793,6 +969,30 @@ function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
 
+function validatePassword(password, confirmPassword, profile = {}) {
+  const value = String(password || "");
+  if (value !== String(confirmPassword || "")) return "Passwords do not match";
+  if (value.length < 12) return "Password must be at least 12 characters";
+  if (!/[A-Z]/.test(value)) return "Password needs an uppercase letter";
+  if (!/[a-z]/.test(value)) return "Password needs a lowercase letter";
+  if (!/[0-9]/.test(value)) return "Password needs a number";
+  if (!/[^A-Za-z0-9]/.test(value)) return "Password needs a symbol";
+  const lower = value.toLowerCase();
+  const forbidden = [
+    "password",
+    "reviewprotocol",
+    "protocolstudio",
+    profile.email?.split("@")[0],
+    profile.firstName,
+    profile.lastName,
+    profile.institution
+  ].filter((part) => String(part || "").trim().length >= 4);
+  if (forbidden.some((part) => lower.includes(String(part).toLowerCase()))) {
+    return "Password should not include your name, institution, email, or common words";
+  }
+  return "";
+}
+
 function updateResponse(event) {
   const project = getActiveProject();
   if (!project) return;
@@ -803,7 +1003,7 @@ function updateResponse(event) {
   if (current.value.trim().length === 0 && current.status === "complete") current.status = "incomplete";
   project.responses[itemId] = current;
   touchProject(project);
-  saveProjects();
+  persistProject(project);
 }
 
 function updateStatus(event) {
@@ -814,7 +1014,7 @@ function updateStatus(event) {
   current.status = event.currentTarget.value;
   project.responses[itemId] = current;
   touchProject(project);
-  saveProjects();
+  persistProject(project);
   render();
 }
 
@@ -825,7 +1025,7 @@ function useExample(itemId) {
   if (!item) return;
   project.responses[itemId] = { value: item.exampleResponse, status: "complete" };
   touchProject(project);
-  saveProjects();
+  persistProject(project);
   showToast("Example inserted");
 }
 
@@ -860,7 +1060,7 @@ function exportProtocol(id) {
   download(`${slug(project.shortTitle || project.title)}-protocol.doc`, html, "application/msword");
   project.exportedAt = new Date().toISOString();
   touchProject(project);
-  saveProjects();
+  persistProject(project);
   showToast("Word document exported");
 }
 
