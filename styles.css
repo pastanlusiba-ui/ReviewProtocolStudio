@@ -116,6 +116,18 @@ button:disabled {
   flex-wrap: wrap;
 }
 
+.account-chip {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d8dde6;
+  background: #f7f9fc;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 750;
+}
+
 .btn {
   min-height: 38px;
   border: 1px solid var(--line);
@@ -332,6 +344,38 @@ button:disabled {
   margin: 0;
   color: var(--muted);
   max-width: 560px;
+}
+
+.account-gate {
+  min-height: calc(100vh - 128px);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 22px;
+  text-align: center;
+}
+
+.account-gate img {
+  width: 74px;
+  height: 74px;
+  margin-bottom: 14px;
+}
+
+.account-gate h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.account-gate p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.account-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .builder {
@@ -727,6 +771,10 @@ textarea:focus {
 
 .guidance-modal {
   width: min(980px, 100%);
+}
+
+.auth-modal {
+  width: min(520px, 100%);
 }
 
 .guidance-body {

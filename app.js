@@ -52,6 +52,8 @@ const CHECKLIST_MANIFEST = [
 ];
 
 const STORAGE_KEY = "review-protocol-studio-projects-v1";
+const ACCOUNTS_KEY = "review-protocol-studio-accounts-v1";
+const SESSION_KEY = "review-protocol-studio-session-v1";
 const STATUS_OPTIONS = [
   ["incomplete", "Incomplete"],
   ["complete", "Complete"],
@@ -62,11 +64,14 @@ const STATUS_OPTIONS = [
 const app = document.querySelector("#app");
 const state = {
   checklists: {},
+  accounts: [],
+  sessionUserId: "",
   projects: [],
   view: "dashboard",
   activeProjectId: null,
   activeSection: null,
   modalOpen: false,
+  authMode: "",
   guidanceOpen: false,
   toast: ""
 };
@@ -75,6 +80,8 @@ init();
 
 async function init() {
   state.projects = loadProjects();
+  state.accounts = loadAccounts();
+  state.sessionUserId = loadSession();
   await loadChecklists();
   render();
 }
@@ -103,6 +110,42 @@ function saveProjects() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.projects));
 }
 
+function loadAccounts() {
+  try {
+    return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveAccounts() {
+  localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(state.accounts));
+}
+
+function loadSession() {
+  try {
+    const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+    return session.userId || "";
+  } catch {
+    return "";
+  }
+}
+
+function saveSession(userId) {
+  state.sessionUserId = userId;
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ userId }));
+}
+
+function currentUser() {
+  return state.accounts.find((account) => account.id === state.sessionUserId);
+}
+
+function visibleProjects() {
+  const user = currentUser();
+  if (!user) return [];
+  return state.projects.filter((project) => project.ownerId === user.id);
+}
+
 function render() {
   const project = getActiveProject();
   app.innerHTML = `
@@ -114,6 +157,7 @@ function render() {
         ${state.view === "dashboard" ? dashboardView() : ""}
       </main>
       ${state.modalOpen ? projectModal() : ""}
+      ${state.authMode ? authModal() : ""}
       ${state.guidanceOpen ? guidanceModal(project) : ""}
       ${state.toast ? `<div class="toast">${escapeHtml(state.toast)}</div>` : ""}
     </div>
@@ -123,10 +167,11 @@ function render() {
 
 function topbar(project) {
   const inProject = Boolean(project);
+  const user = currentUser();
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=section-elements-3" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=accounts-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -144,14 +189,18 @@ function topbar(project) {
             `
             : `<button class="btn" data-action="guidance">Guidance library</button>`
         }
-        <button class="btn primary" data-action="new-project">New protocol</button>
+        ${user ? `<span class="account-chip">${escapeHtml(user.name)}</span>` : `<button class="btn" data-action="show-sign-in">Sign in</button>`}
+        ${user ? `<button class="btn" data-action="sign-out">Sign out</button>` : `<button class="btn primary" data-action="show-create-account">Create account</button>`}
+        <button class="btn primary" data-action="new-project" ${user ? "" : "disabled"}>New protocol</button>
       </nav>
     </header>
   `;
 }
 
 function dashboardView() {
+  if (!currentUser()) return accountGate();
   const metrics = dashboardMetrics();
+  const projects = visibleProjects();
   return `
     <section class="dashboard">
       <div class="summary-grid">
@@ -168,14 +217,30 @@ function dashboardView() {
           </div>
           <button class="btn primary" data-action="new-project">New protocol</button>
         </div>
-        ${state.projects.length ? projectTable() : emptyState()}
+        ${projects.length ? projectTable(projects) : emptyState()}
       </section>
     </section>
   `;
 }
 
+function accountGate() {
+  return `
+    <section class="account-gate">
+      <div>
+        <img src="./public/protocol-mark.svg?v=accounts-1" alt="" />
+        <h1>Create your Review Protocol Studio account</h1>
+        <p>Sign in to keep protocol projects separated by account on this browser.</p>
+      </div>
+      <div class="account-actions">
+        <button class="btn primary" data-action="show-create-account">Create account</button>
+        <button class="btn" data-action="show-sign-in">Sign in</button>
+      </div>
+    </section>
+  `;
+}
+
 function dashboardMetrics() {
-  const summaries = state.projects.map(projectSummary);
+  const summaries = visibleProjects().map(projectSummary);
   const total = summaries.length;
   const average = total ? Math.round(summaries.reduce((sum, item) => sum + item.completion, 0) / total) : 0;
   return {
@@ -186,7 +251,7 @@ function dashboardMetrics() {
   };
 }
 
-function projectTable() {
+function projectTable(projects) {
   return `
     <table class="project-table">
       <thead>
@@ -202,7 +267,7 @@ function projectTable() {
         </tr>
       </thead>
       <tbody>
-        ${state.projects.map(projectRow).join("")}
+        ${projects.map(projectRow).join("")}
       </tbody>
     </table>
   `;
@@ -416,6 +481,45 @@ function guidanceGroup(checklist) {
   `;
 }
 
+function authModal() {
+  const creating = state.authMode === "create";
+  return `
+    <div class="modal-backdrop" role="presentation">
+      <section class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <div class="modal-head">
+          <div>
+            <h2 id="auth-title">${creating ? "Create account" : "Sign in"}</h2>
+            <p>${creating ? "Start a workspace for your protocol projects." : "Open your protocol workspace."}</p>
+          </div>
+          <button class="btn icon" data-action="close-auth" title="Close">×</button>
+        </div>
+        <form class="project-form" data-action="${creating ? "create-account" : "sign-in"}">
+          <div class="form-grid">
+            ${creating ? `
+              <label class="field-label wide">
+                <span>Name</span>
+                <input required name="name" autocomplete="name" placeholder="Evidence Synthesis Unit" />
+              </label>
+            ` : ""}
+            <label class="field-label wide">
+              <span>Email</span>
+              <input required type="email" name="email" autocomplete="email" placeholder="you@example.org" />
+            </label>
+            <label class="field-label wide">
+              <span>Password</span>
+              <input required type="password" name="password" autocomplete="${creating ? "new-password" : "current-password"}" minlength="8" />
+            </label>
+          </div>
+          <div class="modal-actions">
+            <button class="btn" type="button" data-action="${creating ? "show-sign-in" : "show-create-account"}">${creating ? "Sign in instead" : "Create account instead"}</button>
+            <button class="btn primary" type="submit">${creating ? "Create account" : "Sign in"}</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  `;
+}
+
 function sourceList(sources, limit) {
   const visible = sources.slice(0, limit);
   if (!visible.length) return `<div class="hint">No source metadata has been added for this checklist yet.</div>`;
@@ -496,6 +600,14 @@ function bindEvents() {
       element.addEventListener("submit", createProject);
       return;
     }
+    if (action === "create-account") {
+      element.addEventListener("submit", createAccount);
+      return;
+    }
+    if (action === "sign-in") {
+      element.addEventListener("submit", signIn);
+      return;
+    }
     element.addEventListener("click", handleAction);
   });
 }
@@ -509,8 +621,15 @@ function handleAction(event) {
     state.activeProjectId = null;
     state.activeSection = null;
   }
-  if (action === "new-project") state.modalOpen = true;
+  if (action === "new-project") {
+    if (currentUser()) state.modalOpen = true;
+    else state.authMode = "create";
+  }
   if (action === "close-modal") state.modalOpen = false;
+  if (action === "show-create-account") state.authMode = "create";
+  if (action === "show-sign-in") state.authMode = "sign-in";
+  if (action === "close-auth") state.authMode = "";
+  if (action === "sign-out") signOut();
   if (action === "guidance") state.guidanceOpen = true;
   if (action === "close-guidance") state.guidanceOpen = false;
   if (action === "open-project") openProject(id);
@@ -527,6 +646,12 @@ function handleAction(event) {
 
 function createProject(event) {
   event.preventDefault();
+  const user = currentUser();
+  if (!user) {
+    state.authMode = "create";
+    render();
+    return;
+  }
   const data = Object.fromEntries(new FormData(event.currentTarget).entries());
   const checklist = getChecklist(data.reviewType);
   const now = new Date().toISOString();
@@ -541,6 +666,7 @@ function createProject(event) {
     createdAt: now,
     updatedAt: now,
     exportedAt: "",
+    ownerId: user.id,
     responses: Object.fromEntries(
       checklist.items.map((item) => [item.id, { value: "", status: "incomplete" }])
     )
@@ -553,7 +679,7 @@ function createProject(event) {
 }
 
 function openProject(id) {
-  const project = state.projects.find((item) => item.id === id);
+  const project = findProject(id);
   if (!project) return;
   const checklist = getChecklist(project.reviewType);
   state.activeProjectId = id;
@@ -562,7 +688,7 @@ function openProject(id) {
 }
 
 function duplicateProject(id) {
-  const project = state.projects.find((item) => item.id === id);
+  const project = findProject(id);
   if (!project) return;
   const now = new Date().toISOString();
   const clone = {
@@ -579,7 +705,7 @@ function duplicateProject(id) {
 }
 
 function deleteProject(id) {
-  const project = state.projects.find((item) => item.id === id);
+  const project = findProject(id);
   if (!project) return;
   if (!confirm(`Delete "${project.title}"?`)) return;
   state.projects = state.projects.filter((item) => item.id !== id);
@@ -590,6 +716,81 @@ function deleteProject(id) {
   }
   saveProjects();
   showToast("Project deleted");
+}
+
+async function createAccount(event) {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+  const email = normalizeEmail(data.email);
+  if (state.accounts.some((account) => account.email === email)) {
+    showToast("Account already exists");
+    return;
+  }
+  const salt = crypto.randomUUID();
+  const account = {
+    id: crypto.randomUUID(),
+    name: String(data.name || "").trim(),
+    email,
+    salt,
+    passwordHash: await hashPassword(data.password, salt),
+    createdAt: new Date().toISOString()
+  };
+  state.accounts.push(account);
+  assignOrphanedProjects(account.id);
+  saveAccounts();
+  saveProjects();
+  saveSession(account.id);
+  state.authMode = "";
+  state.view = "dashboard";
+  showToast("Account created");
+  render();
+}
+
+async function signIn(event) {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+  const email = normalizeEmail(data.email);
+  const account = state.accounts.find((item) => item.email === email);
+  if (!account) {
+    showToast("Account not found");
+    return;
+  }
+  const passwordHash = await hashPassword(data.password, account.salt);
+  if (passwordHash !== account.passwordHash) {
+    showToast("Incorrect password");
+    return;
+  }
+  saveSession(account.id);
+  state.authMode = "";
+  state.view = "dashboard";
+  state.activeProjectId = null;
+  state.activeSection = null;
+  showToast("Signed in");
+  render();
+}
+
+function signOut() {
+  saveSession("");
+  state.activeProjectId = null;
+  state.activeSection = null;
+  state.view = "dashboard";
+  showToast("Signed out");
+}
+
+function assignOrphanedProjects(userId) {
+  state.projects.forEach((project) => {
+    if (!project.ownerId) project.ownerId = userId;
+  });
+}
+
+async function hashPassword(password, salt) {
+  const data = new TextEncoder().encode(`${salt}:${password}`);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function normalizeEmail(email) {
+  return String(email || "").trim().toLowerCase();
 }
 
 function updateResponse(event) {
@@ -629,7 +830,7 @@ function useExample(itemId) {
 }
 
 function exportProtocol(id) {
-  const project = id ? state.projects.find((item) => item.id === id) : getActiveProject();
+  const project = id ? findProject(id) : getActiveProject();
   if (!project) return;
   const issues = consistencyIssues(project);
   const summary = projectSummary(project);
@@ -664,7 +865,7 @@ function exportProtocol(id) {
 }
 
 function exportReport(id) {
-  const project = id ? state.projects.find((item) => item.id === id) : getActiveProject();
+  const project = id ? findProject(id) : getActiveProject();
   if (!project) return;
   const checklist = getChecklist(project.reviewType);
   const rows = [
@@ -1166,7 +1367,11 @@ function getChecklist(type) {
 }
 
 function getActiveProject() {
-  return state.projects.find((item) => item.id === state.activeProjectId);
+  return findProject(state.activeProjectId);
+}
+
+function findProject(id) {
+  return visibleProjects().find((item) => item.id === id);
 }
 
 function touchProject(project) {
@@ -1176,6 +1381,7 @@ function touchProject(project) {
 function showToast(message) {
   state.toast = message;
   window.clearTimeout(showToast.timer);
+  render();
   showToast.timer = window.setTimeout(() => {
     state.toast = "";
     render();

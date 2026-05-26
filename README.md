@@ -23,6 +23,7 @@ The app can be served from GitHub Pages using the included workflow at `.github/
 ## What is included
 
 - Project dashboard with create, open, duplicate, delete, protocol export, and checklist report export actions.
+- Browser-based prototype accounts with sign-up, sign-in, sign-out, and account-specific project lists.
 - Ten review types: systematic, scoping, rapid, evidence and gap map, qualitative evidence synthesis, mixed-methods, umbrella, review of reviews, realist, and living systematic review protocols.
 - Checklist seed files in `data/checklists/`.
 - Dynamic prompt rendering from checklist JSON data.
