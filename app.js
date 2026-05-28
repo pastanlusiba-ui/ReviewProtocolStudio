@@ -76,6 +76,7 @@ const state = {
   activeSection: null,
   modalOpen: false,
   authMode: "",
+  profileOpen: false,
   guidanceOpen: false,
   toast: ""
 };
@@ -245,6 +246,7 @@ function render() {
       </main>
       ${state.modalOpen ? projectModal() : ""}
       ${state.authMode ? authModal() : ""}
+      ${state.profileOpen ? profileModal() : ""}
       ${state.guidanceOpen ? guidanceModal(project) : ""}
       ${state.toast ? `<div class="toast">${escapeHtml(state.toast)}</div>` : ""}
     </div>
@@ -258,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=accounts-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=profile-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -276,7 +278,7 @@ function topbar(project) {
             `
             : `<button class="btn" data-action="guidance">Guidance library</button>`
         }
-        ${user ? `<span class="account-chip">${escapeHtml(user.name)}</span>` : `<button class="btn" data-action="show-sign-in">Sign in</button>`}
+        ${user ? `<button class="account-chip" data-action="profile" title="Edit profile">${escapeHtml(user.name)}</button>` : `<button class="btn" data-action="show-sign-in">Sign in</button>`}
         ${user ? `<button class="btn" data-action="sign-out">Sign out</button>` : `<button class="btn primary" data-action="show-create-account">Create account</button>`}
         <button class="btn primary" data-action="new-project" ${user ? "" : "disabled"}>New protocol</button>
       </nav>
@@ -629,6 +631,52 @@ function authModal() {
   `;
 }
 
+function profileModal() {
+  const user = currentUser();
+  if (!user) return "";
+  return `
+    <div class="modal-backdrop" role="presentation">
+      <section class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+        <div class="modal-head">
+          <div>
+            <h2 id="profile-title">Profile</h2>
+            <p>Edit your account details for protocol authorship and workspace records.</p>
+          </div>
+          <button class="btn icon" data-action="close-profile" title="Close">×</button>
+        </div>
+        <form class="project-form" data-action="update-profile">
+          <div class="form-grid">
+            <label class="field-label">
+              <span>First name</span>
+              <input required name="firstName" autocomplete="given-name" value="${escapeAttr(user.firstName || "")}" />
+            </label>
+            <label class="field-label">
+              <span>Last name</span>
+              <input required name="lastName" autocomplete="family-name" value="${escapeAttr(user.lastName || "")}" />
+            </label>
+            <label class="field-label">
+              <span>Institution</span>
+              <input required name="institution" autocomplete="organization" value="${escapeAttr(user.institution || "")}" />
+            </label>
+            <label class="field-label">
+              <span>Title</span>
+              <input required name="title" autocomplete="organization-title" value="${escapeAttr(user.title || "")}" />
+            </label>
+            <label class="field-label wide">
+              <span>Email</span>
+              <input required type="email" name="email" autocomplete="email" value="${escapeAttr(user.email || "")}" />
+            </label>
+          </div>
+          <div class="modal-actions">
+            <button class="btn" type="button" data-action="close-profile">Cancel</button>
+            <button class="btn primary" type="submit">Save profile</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  `;
+}
+
 function sourceList(sources, limit) {
   const visible = sources.slice(0, limit);
   if (!visible.length) return `<div class="hint">No source metadata has been added for this checklist yet.</div>`;
@@ -717,6 +765,10 @@ function bindEvents() {
       element.addEventListener("submit", signIn);
       return;
     }
+    if (action === "update-profile") {
+      element.addEventListener("submit", updateProfile);
+      return;
+    }
     element.addEventListener("click", handleAction);
   });
 }
@@ -738,6 +790,8 @@ function handleAction(event) {
   if (action === "show-create-account") state.authMode = "create";
   if (action === "show-sign-in") state.authMode = "sign-in";
   if (action === "close-auth") state.authMode = "";
+  if (action === "profile") state.profileOpen = true;
+  if (action === "close-profile") state.profileOpen = false;
   if (action === "sign-out") signOut();
   if (action === "guidance") state.guidanceOpen = true;
   if (action === "close-guidance") state.guidanceOpen = false;
@@ -933,6 +987,51 @@ async function signIn(event) {
   state.activeProjectId = null;
   state.activeSection = null;
   showToast("Signed in");
+  render();
+}
+
+async function updateProfile(event) {
+  event.preventDefault();
+  const user = currentUser();
+  if (!user) return;
+  const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+  const profile = {
+    firstName: String(data.firstName || "").trim(),
+    lastName: String(data.lastName || "").trim(),
+    institution: String(data.institution || "").trim(),
+    title: String(data.title || "").trim(),
+    email: normalizeEmail(data.email)
+  };
+  if (Object.values(profile).some((value) => !value)) {
+    showToast("All profile fields are required");
+    return;
+  }
+  if (state.backendAvailable) {
+    try {
+      const payload = await apiRequest("/api/me", {
+        method: "PUT",
+        body: JSON.stringify(profile)
+      });
+      state.backendUser = payload.user;
+      state.profileOpen = false;
+      showToast("Profile updated");
+      render();
+      return;
+    } catch (error) {
+      showToast(error.message);
+      return;
+    }
+  }
+  if (state.accounts.some((account) => account.email === profile.email && account.id !== user.id)) {
+    showToast("Email is already in use");
+    return;
+  }
+  Object.assign(user, profile, {
+    name: `${profile.firstName} ${profile.lastName}`.trim()
+  });
+  saveAccounts();
+  state.profileOpen = false;
+  showToast("Profile updated");
   render();
 }
 

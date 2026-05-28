@@ -182,6 +182,8 @@ class Handler(SimpleHTTPRequestHandler):
 
   def do_PUT(self):
     path = urlparse(self.path).path
+    if path == "/api/me":
+      return self.update_account()
     if path.startswith("/api/projects/"):
       return self.update_project(unquote(path.rsplit("/", 1)[-1]))
     return self.error_response(HTTPStatus.NOT_FOUND, "Endpoint not found")
@@ -287,6 +289,40 @@ class Handler(SimpleHTTPRequestHandler):
       with connect() as conn:
         conn.execute("DELETE FROM sessions WHERE token_hash = ?", (token_hash(token),))
     return self.json_response({"ok": True})
+
+  def update_account(self):
+    account = self.require_account()
+    if not account:
+      return
+    payload = self.read_json()
+    required = ["firstName", "lastName", "institution", "title", "email"]
+    if any(not str(payload.get(field, "")).strip() for field in required):
+      return self.error_response(HTTPStatus.BAD_REQUEST, "All profile fields are required")
+    email = normalize_email(payload["email"])
+    with connect() as conn:
+      existing = conn.execute(
+        "SELECT id FROM accounts WHERE email = ? AND id != ?",
+        (email, account["id"]),
+      ).fetchone()
+      if existing:
+        return self.error_response(HTTPStatus.CONFLICT, "Email is already in use")
+      conn.execute(
+        """
+        UPDATE accounts
+        SET first_name = ?, last_name = ?, institution = ?, title = ?, email = ?
+        WHERE id = ?
+        """,
+        (
+          payload["firstName"].strip(),
+          payload["lastName"].strip(),
+          payload["institution"].strip(),
+          payload["title"].strip(),
+          email,
+          account["id"],
+        ),
+      )
+      updated = conn.execute("SELECT * FROM accounts WHERE id = ?", (account["id"],)).fetchone()
+    return self.json_response({"user": user_json(updated)})
 
   def create_project(self):
     account = self.require_account()

@@ -1,4 +1,6 @@
 .DS_Store
 .data/
+__pycache__/
+*.pyc
 Review Protocol Studio Codex Build Brief.docx
 Review Protocol Studio Codex Build Brief.pdf
