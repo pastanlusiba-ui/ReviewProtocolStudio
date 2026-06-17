@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/rapid-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=section-elements-3"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=prisma-admin-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=section-elements-3"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=prisma-admin-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/umbrella-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=section-elements-3"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=prisma-admin-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/realist-review-protocol.json?v=prisma-admin-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=section-elements-3"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=prisma-admin-1"
   }
 ];
 
@@ -260,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=title-page-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=prisma-admin-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -455,6 +455,19 @@ function sectionTab(project, section, active) {
 
 function titlePageEditor(project, checklist, sectionItems) {
   const titlePage = ensureTitlePage(project);
+  const updateOptions = [
+    ["no", "No"],
+    ["yes", "Yes"]
+  ];
+  const registrationOptions = [
+    ["planned", "Planned"],
+    ["registered", "Registered"],
+    ["not-planned", "Not planned"]
+  ];
+  const amendmentOptions = [
+    ["none", "No previous amendment"],
+    ["amended", "This protocol is an amendment"]
+  ];
   return `
     <section class="title-page-editor">
       <div class="title-page-guidance">
@@ -463,7 +476,7 @@ function titlePageEditor(project, checklist, sectionItems) {
           <p>These fields are structured from protocol reporting guidance so the exported protocol can draft a proper title page rather than list raw answers.</p>
         </div>
         <div class="guidance-bullets">
-          ${sectionItems.slice(0, 6).map((item) => `<p><strong>${escapeHtml(item.elementLabel || item.itemNumber)}:</strong> ${escapeHtml(item.helpText || item.requirement)}</p>`).join("")}
+          ${sectionItems.map((item) => `<p><strong>${escapeHtml(item.elementLabel || item.itemNumber)}:</strong> ${escapeHtml(item.helpText || item.requirement)}</p>`).join("")}
         </div>
         ${sourceList(checklist.sources || [], 3)}
       </div>
@@ -484,41 +497,141 @@ function titlePageEditor(project, checklist, sectionItems) {
             <span>Date</span>
             <input readonly value="${escapeAttr(currentProtocolDate())}" />
           </label>
+          <label class="field-label">
+            <span>Protocol for an update?</span>
+            <select data-action="title-field" data-field="isUpdate">
+              ${updateOptions.map(([value, label]) => `<option value="${value}" ${titlePage.isUpdate === value ? "selected" : ""}>${label}</option>`).join("")}
+            </select>
+          </label>
+          ${titlePage.isUpdate === "yes" ? `
+            <label class="field-label wide">
+              <span>Previous review title or citation</span>
+              <textarea data-action="title-field" data-field="previousReview">${escapeHtml(titlePage.previousReview)}</textarea>
+            </label>
+          ` : ""}
+        </div>
+      </div>
+      <div class="structured-card">
+        <h2>Registration</h2>
+        <div class="form-grid">
+          <label class="field-label">
+            <span>Registration status</span>
+            <select data-action="registration-field" data-field="status">
+              ${registrationOptions.map(([value, label]) => `<option value="${value}" ${titlePage.registration.status === value ? "selected" : ""}>${label}</option>`).join("")}
+            </select>
+          </label>
+          ${titlePage.registration.status === "registered" ? `
+            <label class="field-label">
+              <span>Registry name</span>
+              <input data-action="registration-field" data-field="registryName" value="${escapeAttr(titlePage.registration.registryName)}" placeholder="PROSPERO" />
+            </label>
+            <label class="field-label">
+              <span>Registration number</span>
+              <input data-action="registration-field" data-field="registrationNumber" value="${escapeAttr(titlePage.registration.registrationNumber)}" />
+            </label>
+          ` : ""}
+          ${titlePage.registration.status === "planned" ? `
+            <label class="field-label wide">
+              <span>Registration plan</span>
+              <textarea data-action="registration-field" data-field="plan">${escapeHtml(titlePage.registration.plan)}</textarea>
+            </label>
+          ` : ""}
+          ${titlePage.registration.status === "not-planned" ? `
+            <label class="field-label wide">
+              <span>Reason registration is not planned</span>
+              <textarea data-action="registration-field" data-field="notPlannedReason">${escapeHtml(titlePage.registration.notPlannedReason)}</textarea>
+            </label>
+          ` : ""}
         </div>
       </div>
       <div class="structured-card">
         <div class="structured-card-head">
           <div>
             <h2>Authors</h2>
-            <p>Add all authors, affiliations, and email addresses that should appear on the title page.</p>
+            <p>Add authors, affiliations, emails, contribution roles, and the PRISMA-P corresponding author details.</p>
           </div>
           <button class="btn" data-action="add-author" type="button">+ Author</button>
         </div>
         <div class="author-stack">
           ${titlePage.authors.map((author, index) => authorCard(author, index, titlePage.authors.length)).join("")}
         </div>
-        <label class="field-label wide corresponding-author-field">
-          <span>Corresponding author</span>
-          <select data-action="title-field" data-field="correspondingAuthorId">
-            <option value="">Select corresponding author</option>
-            ${titlePage.authors.map((author, index) => `<option value="${escapeAttr(author.id)}" ${titlePage.correspondingAuthorId === author.id ? "selected" : ""}>${escapeHtml(authorDisplayName(author) || `Author ${index + 1}`)}</option>`).join("")}
-          </select>
-        </label>
-      </div>
-      <div class="structured-card">
-        <h2>Funding</h2>
         <div class="form-grid">
           <label class="field-label">
-            <span>Is there funding for this review?</span>
+            <span>Corresponding author</span>
+            <select data-action="title-field" data-field="correspondingAuthorId">
+              <option value="">Select corresponding author</option>
+              ${titlePage.authors.map((author, index) => `<option value="${escapeAttr(author.id)}" ${titlePage.correspondingAuthorId === author.id ? "selected" : ""}>${escapeHtml(authorDisplayName(author) || `Author ${index + 1}`)}</option>`).join("")}
+            </select>
+          </label>
+          <label class="field-label">
+            <span>Guarantor of the review</span>
+            <select data-action="title-field" data-field="guarantorAuthorId">
+              <option value="">Select guarantor</option>
+              ${titlePage.authors.map((author, index) => `<option value="${escapeAttr(author.id)}" ${titlePage.guarantorAuthorId === author.id ? "selected" : ""}>${escapeHtml(authorDisplayName(author) || `Author ${index + 1}`)}</option>`).join("")}
+            </select>
+          </label>
+          <label class="field-label wide">
+            <span>Corresponding author's physical mailing address</span>
+            <textarea data-action="title-field" data-field="correspondingMailingAddress" placeholder="Department, institution, street address, city, country">${escapeHtml(titlePage.correspondingMailingAddress)}</textarea>
+          </label>
+          <label class="field-label wide">
+            <span>Overall contribution statement</span>
+            <textarea data-action="title-field" data-field="contributionSummary" placeholder="Summarize how the protocol authors contributed and how contributions will be updated.">${escapeHtml(titlePage.contributionSummary)}</textarea>
+          </label>
+        </div>
+      </div>
+      <div class="structured-card">
+        <h2>Amendments</h2>
+        <div class="form-grid">
+          <label class="field-label">
+            <span>Amendment status</span>
+            <select data-action="amendment-field" data-field="status">
+              ${amendmentOptions.map(([value, label]) => `<option value="${value}" ${titlePage.amendment.status === value ? "selected" : ""}>${label}</option>`).join("")}
+            </select>
+          </label>
+          ${titlePage.amendment.status === "amended" ? `
+            <label class="field-label">
+              <span>Amendment date</span>
+              <input type="date" data-action="amendment-field" data-field="amendmentDate" value="${escapeAttr(titlePage.amendment.amendmentDate)}" />
+            </label>
+            <label class="field-label wide">
+              <span>Changes made</span>
+              <textarea data-action="amendment-field" data-field="changes">${escapeHtml(titlePage.amendment.changes)}</textarea>
+            </label>
+            <label class="field-label wide">
+              <span>Rationale for amendment</span>
+              <textarea data-action="amendment-field" data-field="rationale">${escapeHtml(titlePage.amendment.rationale)}</textarea>
+            </label>
+          ` : `
+            <label class="field-label wide">
+              <span>Plan for documenting future amendments</span>
+              <textarea data-action="amendment-field" data-field="documentationPlan">${escapeHtml(titlePage.amendment.documentationPlan)}</textarea>
+            </label>
+          `}
+        </div>
+      </div>
+      <div class="structured-card">
+        <h2>Support and sponsorship</h2>
+        <div class="form-grid">
+          <label class="field-label">
+            <span>Any financial or other support?</span>
             <select data-action="funding-field" data-field="hasFunding">
               <option value="no" ${titlePage.funding.hasFunding === "no" ? "selected" : ""}>No</option>
               <option value="yes" ${titlePage.funding.hasFunding === "yes" ? "selected" : ""}>Yes</option>
             </select>
           </label>
           ${titlePage.funding.hasFunding === "yes" ? `
+            <label class="field-label wide">
+              <span>Sources of financial or other support</span>
+              <textarea data-action="funding-field" data-field="supportSources">${escapeHtml(titlePage.funding.supportSources)}</textarea>
+            </label>
             <label class="field-label">
               <span>Funder name</span>
               <input data-action="funding-field" data-field="funderName" value="${escapeAttr(titlePage.funding.funderName)}" />
+            </label>
+            <label class="field-label">
+              <span>Sponsor name</span>
+              <input data-action="funding-field" data-field="sponsorName" value="${escapeAttr(titlePage.funding.sponsorName)}" />
             </label>
             <label class="field-label">
               <span>Grant name</span>
@@ -528,7 +641,11 @@ function titlePageEditor(project, checklist, sectionItems) {
               <span>Grant number</span>
               <input data-action="funding-field" data-field="grantNumber" value="${escapeAttr(titlePage.funding.grantNumber)}" />
             </label>
-          ` : `<div class="hint wide">Funding details are hidden because no funding has been declared.</div>`}
+            <label class="field-label wide">
+              <span>Role of funder, sponsor, or institution</span>
+              <textarea data-action="funding-field" data-field="sponsorRole">${escapeHtml(titlePage.funding.sponsorRole)}</textarea>
+            </label>
+          ` : `<div class="hint wide">Support details are hidden because no financial or other support has been declared.</div>`}
         </div>
       </div>
       <div class="structured-card">
@@ -541,6 +658,7 @@ function titlePageEditor(project, checklist, sectionItems) {
     </section>
   `;
 }
+
 
 function authorCard(author, index, authorCount) {
   return `
@@ -565,6 +683,10 @@ function authorCard(author, index, authorCount) {
       </div>
       ${repeatableList("Institutional affiliations", "affiliation", author.id, author.affiliations, "Department, institution, city, country")}
       ${repeatableList("Email addresses", "email", author.id, author.emails, "author@example.org")}
+      <label class="field-label wide">
+        <span>Contribution or role</span>
+        <textarea data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="contribution" placeholder="Conceptualization, methods, screening, extraction, synthesis, supervision...">${escapeHtml(author.contribution || "")}</textarea>
+      </label>
     </article>
   `;
 }
@@ -916,7 +1038,7 @@ function bindEvents() {
       element.addEventListener("change", updateStatus);
       return;
     }
-    if (["title-field", "funding-field", "author-field", "author-list-field"].includes(action)) {
+    if (["title-field", "registration-field", "amendment-field", "funding-field", "author-field", "author-list-field"].includes(action)) {
       const eventName = element.tagName === "SELECT" ? "change" : "input";
       element.addEventListener(eventName, updateTitlePageField);
       if (element.tagName !== "SELECT") element.addEventListener("blur", render);
@@ -1275,13 +1397,35 @@ function createDefaultTitlePage(title, user) {
   return {
     protocolTitle: String(title || "").trim(),
     version: "1",
+    isUpdate: "no",
+    previousReview: "",
+    registration: {
+      status: "planned",
+      registryName: "",
+      registrationNumber: "",
+      plan: "Registration will be submitted before screening starts.",
+      notPlannedReason: ""
+    },
     authors: [author],
     correspondingAuthorId: author.id,
+    correspondingMailingAddress: "",
+    guarantorAuthorId: author.id,
+    contributionSummary: "",
+    amendment: {
+      status: "none",
+      amendmentDate: "",
+      changes: "",
+      rationale: "",
+      documentationPlan: "Important protocol amendments will be dated, described, justified, and documented in the final review and registration record."
+    },
     funding: {
       hasFunding: "no",
+      supportSources: "",
       funderName: "",
+      sponsorName: "",
       grantName: "",
-      grantNumber: ""
+      grantNumber: "",
+      sponsorRole: ""
     }
   };
 }
@@ -1295,6 +1439,7 @@ function defaultAuthorFromUser(user, fallbackName = "") {
     lastName: user?.lastName || fallbackParts.slice(1).join(" ") || "",
     affiliations: normalizeTitlePageList(user?.institution ? [user.institution] : [""]),
     emails: normalizeTitlePageList(user?.email ? [user.email] : [""]),
+    contribution: "",
     hasConflict: "no",
     conflictDetails: ""
   };
@@ -1305,11 +1450,32 @@ function ensureTitlePage(project) {
   const titlePage = project.titlePage;
   titlePage.protocolTitle = String(titlePage.protocolTitle || project.title || "").trim();
   titlePage.version = String(titlePage.version || "1");
+  titlePage.isUpdate = titlePage.isUpdate === "yes" ? "yes" : "no";
+  titlePage.previousReview = String(titlePage.previousReview || "");
+  titlePage.registration = {
+    status: ["registered", "planned", "not-planned"].includes(titlePage.registration?.status) ? titlePage.registration.status : "planned",
+    registryName: String(titlePage.registration?.registryName || ""),
+    registrationNumber: String(titlePage.registration?.registrationNumber || ""),
+    plan: String(titlePage.registration?.plan || "Registration will be submitted before screening starts."),
+    notPlannedReason: String(titlePage.registration?.notPlannedReason || "")
+  };
+  titlePage.correspondingMailingAddress = String(titlePage.correspondingMailingAddress || "");
+  titlePage.contributionSummary = String(titlePage.contributionSummary || "");
+  titlePage.amendment = {
+    status: titlePage.amendment?.status === "amended" ? "amended" : "none",
+    amendmentDate: String(titlePage.amendment?.amendmentDate || ""),
+    changes: String(titlePage.amendment?.changes || ""),
+    rationale: String(titlePage.amendment?.rationale || ""),
+    documentationPlan: String(titlePage.amendment?.documentationPlan || "Important protocol amendments will be dated, described, justified, and documented in the final review and registration record.")
+  };
   titlePage.funding = {
     hasFunding: titlePage.funding?.hasFunding === "yes" ? "yes" : "no",
+    supportSources: String(titlePage.funding?.supportSources || ""),
     funderName: String(titlePage.funding?.funderName || ""),
+    sponsorName: String(titlePage.funding?.sponsorName || ""),
     grantName: String(titlePage.funding?.grantName || ""),
-    grantNumber: String(titlePage.funding?.grantNumber || "")
+    grantNumber: String(titlePage.funding?.grantNumber || ""),
+    sponsorRole: String(titlePage.funding?.sponsorRole || titlePage.funding?.institutionRole || "")
   };
   if (!Array.isArray(titlePage.authors) || !titlePage.authors.length) {
     titlePage.authors = [defaultAuthorFromUser(currentUser(), project.lead || "")];
@@ -1317,6 +1483,9 @@ function ensureTitlePage(project) {
   titlePage.authors = titlePage.authors.map((author) => normalizeTitlePageAuthor(author));
   if (!titlePage.authors.some((author) => author.id === titlePage.correspondingAuthorId)) {
     titlePage.correspondingAuthorId = titlePage.authors[0]?.id || "";
+  }
+  if (!titlePage.authors.some((author) => author.id === titlePage.guarantorAuthorId)) {
+    titlePage.guarantorAuthorId = titlePage.correspondingAuthorId || titlePage.authors[0]?.id || "";
   }
   return titlePage;
 }
@@ -1329,6 +1498,7 @@ function normalizeTitlePageAuthor(author = {}) {
     lastName: String(author.lastName || ""),
     affiliations: normalizeTitlePageList(author.affiliations || author.institutionalAffiliations || [author.affiliation || ""]),
     emails: normalizeTitlePageList(author.emails || [author.email || ""]),
+    contribution: String(author.contribution || ""),
     hasConflict: author.hasConflict === "yes" ? "yes" : "no",
     conflictDetails: String(author.conflictDetails || "")
   };
@@ -1364,28 +1534,97 @@ function titlePageVersionDate(titlePage) {
   return `Version ${titlePage.version || "1"}, dated ${currentProtocolDate()}.`;
 }
 
+function reviewUpdateStatement(titlePage) {
+  if (titlePage.isUpdate !== "yes") return "This protocol is not for an update of a previous systematic review.";
+  const previous = cleanText(titlePage.previousReview);
+  return previous
+    ? `This protocol is for an update of the previous review: ${previous}.`
+    : "This protocol is for an update of a previous systematic review; the previous review citation still needs to be completed.";
+}
+
+function registrationStatement(titlePage) {
+  if (titlePage.registration.status === "registered") {
+    const registry = cleanText(titlePage.registration.registryName);
+    const number = cleanText(titlePage.registration.registrationNumber);
+    if (registry && number) return `This protocol is registered with ${registry}; registration number: ${number}.`;
+    return "The protocol is registered, but the registry name and registration number still need to be completed.";
+  }
+  if (titlePage.registration.status === "not-planned") {
+    const reason = cleanText(titlePage.registration.notPlannedReason);
+    return reason ? `Protocol registration is not planned because ${reason}.` : "Protocol registration is not planned; the reason still needs to be completed.";
+  }
+  return cleanText(titlePage.registration.plan) || "Registration will be submitted before screening starts.";
+}
+
+function amendmentStatement(titlePage) {
+  if (titlePage.amendment.status === "amended") {
+    const parts = [];
+    if (cleanText(titlePage.amendment.amendmentDate)) parts.push(`Date: ${titlePage.amendment.amendmentDate}`);
+    if (cleanText(titlePage.amendment.changes)) parts.push(`Changes: ${cleanText(titlePage.amendment.changes)}`);
+    if (cleanText(titlePage.amendment.rationale)) parts.push(`Rationale: ${cleanText(titlePage.amendment.rationale)}`);
+    return parts.length ? parts.join(". ") + "." : "This protocol represents an amendment, but the date, changes, and rationale still need to be completed.";
+  }
+  return cleanText(titlePage.amendment.documentationPlan) || "Important protocol amendments will be dated, described, justified, and documented in the final review and registration record.";
+}
+
 function titlePageAuthorsText(titlePage) {
   const authors = titlePage.authors.map((author, index) => {
     const name = authorDisplayName(author) || `Author ${index + 1}`;
     const affiliation = authorAffiliationText(author);
     const email = authorEmailText(author);
-    return [name, affiliation ? `Affiliation(s): ${affiliation}` : "", email ? `Email(s): ${email}` : ""].filter(Boolean).join("; ");
+    const contribution = cleanText(author.contribution);
+    return [name, affiliation ? `Affiliation(s): ${affiliation}` : "", email ? `Email(s): ${email}` : "", contribution ? `Contribution: ${contribution}` : ""].filter(Boolean).join("; ");
   });
   const corresponding = authorById(titlePage, titlePage.correspondingAuthorId);
-  const correspondingText = corresponding ? `Corresponding author: ${authorDisplayName(corresponding) || "Unnamed author"}${authorEmailText(corresponding) ? ` (${authorEmailText(corresponding)})` : ""}.` : "";
+  const correspondingText = corresponding ? `Corresponding author: ${authorDisplayName(corresponding) || "Unnamed author"}${authorEmailText(corresponding) ? ` (${authorEmailText(corresponding)})` : ""}${cleanText(titlePage.correspondingMailingAddress) ? `; mailing address: ${cleanText(titlePage.correspondingMailingAddress)}` : ""}.` : "";
   return [authors.join(" | "), correspondingText].filter(Boolean).join(" ");
 }
 
-function fundingStatement(titlePage) {
-  if (titlePage.funding.hasFunding !== "yes") return "No funding has been declared for this review.";
+function contributionsStatement(titlePage) {
+  const contributions = titlePage.authors
+    .map((author, index) => {
+      const contribution = cleanText(author.contribution);
+      if (!contribution) return "";
+      return `${authorDisplayName(author) || `Author ${index + 1}`}: ${contribution}`;
+    })
+    .filter(Boolean);
+  const guarantor = authorById(titlePage, titlePage.guarantorAuthorId);
+  const guarantorText = guarantor ? `The guarantor of the review is ${authorDisplayName(guarantor) || "the selected author"}.` : "The guarantor of the review has not yet been identified.";
+  return [cleanText(titlePage.contributionSummary), contributions.join(" "), guarantorText].filter(Boolean).join(" ");
+}
+
+function supportSourcesStatement(titlePage) {
+  if (titlePage.funding.hasFunding !== "yes") return "No financial or other support has been declared for this review.";
+  const sources = cleanText(titlePage.funding.supportSources);
+  return sources ? `Sources of financial or other support: ${sources}.` : "Financial or other support has been declared, but the support source still needs to be completed.";
+}
+
+function supportSponsorStatement(titlePage) {
+  if (titlePage.funding.hasFunding !== "yes") return "No funder or sponsor has been declared.";
   const funder = cleanText(titlePage.funding.funderName);
+  const sponsor = cleanText(titlePage.funding.sponsorName);
   const grantName = cleanText(titlePage.funding.grantName);
   const grantNumber = cleanText(titlePage.funding.grantNumber);
-  if (!funder && !grantName && !grantNumber) return "Funding has been declared, but the funder, grant name, and grant number still need to be completed.";
-  let statement = funder ? `This review is funded by ${funder}` : "This review has declared funding";
-  if (grantName) statement += ` under the grant ${grantName}`;
-  if (grantNumber) statement += ` (grant number ${grantNumber})`;
-  return `${statement}.`;
+  const statements = [];
+  if (funder || grantName || grantNumber) {
+    let funding = funder ? `The review is funded by ${funder}` : "The review has declared funding";
+    if (grantName) funding += ` under the grant ${grantName}`;
+    if (grantNumber) funding += ` (grant number ${grantNumber})`;
+    statements.push(`${funding}.`);
+  }
+  if (sponsor) statements.push(`Review sponsor: ${sponsor}.`);
+  return statements.length ? statements.join(" ") : "Financial or other support has been declared, but the funder or sponsor name still needs to be completed.";
+}
+
+function supportRoleStatement(titlePage) {
+  if (titlePage.funding.hasFunding !== "yes") return "No funder, sponsor, or institution role has been declared.";
+  const role = cleanText(titlePage.funding.sponsorRole);
+  return role ? `Role of funder, sponsor, or institution: ${role}.` : "The role of the funder, sponsor, or institution still needs to be completed.";
+}
+
+function fundingStatement(titlePage) {
+  if (titlePage.funding.hasFunding !== "yes") return "No financial or other support has been declared for this review.";
+  return [supportSourcesStatement(titlePage), supportSponsorStatement(titlePage), supportRoleStatement(titlePage)].join(" ");
 }
 
 function conflictStatement(titlePage) {
@@ -1399,10 +1638,18 @@ function conflictStatement(titlePage) {
 }
 
 function titlePageItemKind(item) {
-  const haystack = `${item.elementLabel || ""} ${item.requirement || ""} ${item.prompt || ""}`.toLowerCase();
-  if (haystack.includes("funding") || haystack.includes("competing") || haystack.includes("conflict") || haystack.includes("interest") || haystack.includes("sponsor")) return "declarations";
+  const haystack = `${item.itemNumber || ""} ${item.elementLabel || ""} ${item.requirement || ""} ${item.prompt || ""}`.toLowerCase();
+  const itemNumber = String(item.itemNumber || "").toLowerCase();
+  if (itemNumber === "1b" || haystack.includes("update of a previous systematic review")) return "update";
+  if (itemNumber === "2" || haystack.includes("registration") || haystack.includes("registry")) return "registration";
+  if (itemNumber === "3b" || haystack.includes("contributions") || haystack.includes("guarantor")) return "contributions";
+  if (itemNumber === "4" || haystack.includes("amendment")) return "amendments";
+  if (itemNumber === "5a" || haystack.includes("sources of financial") || haystack.includes("other support")) return "support";
+  if (itemNumber === "5b" || haystack.includes("sponsor")) return "support";
+  if (itemNumber === "5c" || haystack.includes("role of funder") || haystack.includes("role of sponsor")) return "support";
+  if (haystack.includes("funding") || haystack.includes("competing") || haystack.includes("conflict") || haystack.includes("interest")) return "declarations";
   if (haystack.includes("author") || haystack.includes("affiliation") || haystack.includes("contributor") || haystack.includes("correspond")) return "authors";
-  if (haystack.includes("version") || haystack.includes("date") || haystack.includes("registration") || haystack.includes("amendment")) return "version";
+  if (haystack.includes("version") || haystack.includes("date")) return "version";
   if (haystack.includes("title") || (haystack.includes("identify") && haystack.includes("protocol"))) return "title";
   return "";
 }
@@ -1410,8 +1657,19 @@ function titlePageItemKind(item) {
 function titlePageResponseForItem(item, titlePage, project) {
   const kind = titlePageItemKind(item);
   if (kind === "declarations") return `${fundingStatement(titlePage)} ${conflictStatement(titlePage)}`;
+  if (kind === "support") {
+    const itemNumber = String(item.itemNumber || "").toLowerCase();
+    if (itemNumber === "5a") return supportSourcesStatement(titlePage);
+    if (itemNumber === "5b") return supportSponsorStatement(titlePage);
+    if (itemNumber === "5c") return supportRoleStatement(titlePage);
+    return fundingStatement(titlePage);
+  }
   if (kind === "authors") return titlePageAuthorsText(titlePage);
-  if (kind === "version") return titlePageVersionDate(titlePage);
+  if (kind === "contributions") return contributionsStatement(titlePage);
+  if (kind === "registration") return registrationStatement(titlePage);
+  if (kind === "update") return reviewUpdateStatement(titlePage);
+  if (kind === "amendments") return amendmentStatement(titlePage);
+  if (kind === "version") return `${titlePageVersionDate(titlePage)} ${reviewUpdateStatement(titlePage)} ${registrationStatement(titlePage)} ${amendmentStatement(titlePage)}`;
   if (kind === "title") return titlePage.protocolTitle || project.title || "";
   return "";
 }
@@ -1420,14 +1678,38 @@ function titlePageStatusForItem(item, titlePage, project) {
   const kind = titlePageItemKind(item);
   if (kind === "title") return cleanText(titlePage.protocolTitle || project.title) ? "complete" : "incomplete";
   if (kind === "version") return "complete";
+  if (kind === "update") return titlePage.isUpdate !== "yes" || cleanText(titlePage.previousReview) ? "complete" : "incomplete";
+  if (kind === "registration") {
+    if (titlePage.registration.status === "registered") return cleanText(titlePage.registration.registryName) && cleanText(titlePage.registration.registrationNumber) ? "complete" : "incomplete";
+    if (titlePage.registration.status === "not-planned") return cleanText(titlePage.registration.notPlannedReason) ? "complete" : "incomplete";
+    return cleanText(titlePage.registration.plan) ? "complete" : "incomplete";
+  }
   if (kind === "authors") {
     const authorsComplete = titlePage.authors.length && titlePage.authors.every((author) => authorDisplayName(author) && authorAffiliationText(author) && authorEmailText(author));
-    return authorsComplete && titlePage.correspondingAuthorId ? "complete" : "incomplete";
+    return authorsComplete && titlePage.correspondingAuthorId && cleanText(titlePage.correspondingMailingAddress) ? "complete" : "incomplete";
+  }
+  if (kind === "contributions") {
+    const contributionsComplete = titlePage.authors.length && titlePage.authors.every((author) => cleanText(author.contribution));
+    return contributionsComplete && titlePage.guarantorAuthorId ? "complete" : "incomplete";
+  }
+  if (kind === "amendments") {
+    if (titlePage.amendment.status === "amended") {
+      return cleanText(titlePage.amendment.amendmentDate) && cleanText(titlePage.amendment.changes) && cleanText(titlePage.amendment.rationale) ? "complete" : "incomplete";
+    }
+    return cleanText(titlePage.amendment.documentationPlan) ? "complete" : "incomplete";
+  }
+  if (kind === "support") {
+    if (titlePage.funding.hasFunding !== "yes") return "complete";
+    const itemNumber = String(item.itemNumber || "").toLowerCase();
+    if (itemNumber === "5a") return cleanText(titlePage.funding.supportSources) ? "complete" : "incomplete";
+    if (itemNumber === "5b") return cleanText(titlePage.funding.funderName) || cleanText(titlePage.funding.sponsorName) ? "complete" : "incomplete";
+    if (itemNumber === "5c") return cleanText(titlePage.funding.sponsorRole) ? "complete" : "incomplete";
+    return cleanText(titlePage.funding.supportSources) && (cleanText(titlePage.funding.funderName) || cleanText(titlePage.funding.sponsorName)) && cleanText(titlePage.funding.sponsorRole) ? "complete" : "incomplete";
   }
   if (kind === "declarations") {
-    const fundingComplete = titlePage.funding.hasFunding !== "yes" || (cleanText(titlePage.funding.funderName) && cleanText(titlePage.funding.grantName) && cleanText(titlePage.funding.grantNumber));
+    const supportComplete = titlePageStatusForItem({ ...item, itemNumber: "5a" }, titlePage, project) === "complete";
     const conflictsComplete = titlePage.authors.every((author) => author.hasConflict !== "yes" || cleanText(author.conflictDetails));
-    return fundingComplete && conflictsComplete ? "complete" : "incomplete";
+    return supportComplete && conflictsComplete ? "complete" : "incomplete";
   }
   return titlePageResponseForItem(item, titlePage, project) ? "complete" : "incomplete";
 }
@@ -1456,14 +1738,31 @@ function titlePageDraftingGaps(project) {
   const titlePage = ensureTitlePage(project);
   const gaps = [];
   if (!cleanText(titlePage.protocolTitle)) gaps.push("Protocol title");
+  if (titlePage.isUpdate === "yes" && !cleanText(titlePage.previousReview)) gaps.push("Previous review title or citation");
+  if (titlePage.registration.status === "registered") {
+    if (!cleanText(titlePage.registration.registryName)) gaps.push("Registry name");
+    if (!cleanText(titlePage.registration.registrationNumber)) gaps.push("Registration number");
+  }
+  if (titlePage.registration.status === "planned" && !cleanText(titlePage.registration.plan)) gaps.push("Registration plan");
+  if (titlePage.registration.status === "not-planned" && !cleanText(titlePage.registration.notPlannedReason)) gaps.push("Reason registration is not planned");
   if (!titlePage.authors.every((author) => authorDisplayName(author))) gaps.push("Name for each author");
   if (!titlePage.authors.every((author) => authorAffiliationText(author))) gaps.push("Institutional affiliation for each author");
   if (!titlePage.authors.every((author) => authorEmailText(author))) gaps.push("Email address for each author");
   if (!titlePage.correspondingAuthorId) gaps.push("Corresponding author");
+  if (!cleanText(titlePage.correspondingMailingAddress)) gaps.push("Physical mailing address for the corresponding author");
+  if (!titlePage.authors.every((author) => cleanText(author.contribution))) gaps.push("Contribution or role for each author");
+  if (!titlePage.guarantorAuthorId) gaps.push("Review guarantor");
+  if (titlePage.amendment.status === "amended") {
+    if (!cleanText(titlePage.amendment.amendmentDate)) gaps.push("Amendment date");
+    if (!cleanText(titlePage.amendment.changes)) gaps.push("Amendment changes");
+    if (!cleanText(titlePage.amendment.rationale)) gaps.push("Amendment rationale");
+  } else if (!cleanText(titlePage.amendment.documentationPlan)) {
+    gaps.push("Plan for documenting future amendments");
+  }
   if (titlePage.funding.hasFunding === "yes") {
-    if (!cleanText(titlePage.funding.funderName)) gaps.push("Funder name");
-    if (!cleanText(titlePage.funding.grantName)) gaps.push("Grant name");
-    if (!cleanText(titlePage.funding.grantNumber)) gaps.push("Grant number");
+    if (!cleanText(titlePage.funding.supportSources)) gaps.push("Sources of financial or other support");
+    if (!cleanText(titlePage.funding.funderName) && !cleanText(titlePage.funding.sponsorName)) gaps.push("Funder or sponsor name");
+    if (!cleanText(titlePage.funding.sponsorRole)) gaps.push("Role of funder, sponsor, or institution");
   }
   titlePage.authors.forEach((author) => {
     if (author.hasConflict === "yes" && !cleanText(author.conflictDetails)) {
@@ -1484,6 +1783,12 @@ function updateTitlePageField(event) {
   if (action === "title-field") {
     titlePage[field] = target.value;
     if (field === "protocolTitle") project.title = cleanText(target.value) || "Untitled protocol";
+  }
+  if (action === "registration-field") {
+    titlePage.registration[field] = target.value;
+  }
+  if (action === "amendment-field") {
+    titlePage.amendment[field] = target.value;
   }
   if (action === "funding-field") {
     titlePage.funding[field] = target.value;
@@ -1744,11 +2049,13 @@ function draftTitlePage(details, project) {
   const titlePage = ensureTitlePage(project);
   const checklist = getChecklist(project.reviewType);
   const corresponding = authorById(titlePage, titlePage.correspondingAuthorId);
+  const guarantor = authorById(titlePage, titlePage.guarantorAuthorId);
   const authorItems = titlePage.authors.map((author, index) => {
     const name = authorDisplayName(author) || `Author ${index + 1}`;
     const affiliation = authorAffiliationText(author);
     const email = authorEmailText(author);
-    return `<li><strong>${escapeHtml(name)}</strong>${affiliation ? `<br />Affiliation(s): ${escapeHtml(affiliation)}` : ""}${email ? `<br />Email(s): ${escapeHtml(email)}` : ""}</li>`;
+    const contribution = cleanText(author.contribution);
+    return `<li><strong>${escapeHtml(name)}</strong>${affiliation ? `<br />Affiliation(s): ${escapeHtml(affiliation)}` : ""}${email ? `<br />Email(s): ${escapeHtml(email)}` : ""}${contribution ? `<br />Contribution: ${escapeHtml(contribution)}` : ""}</li>`;
   }).join("");
   const correspondingText = corresponding
     ? `${authorDisplayName(corresponding) || "Unnamed author"}${authorEmailText(corresponding) ? ` (${authorEmailText(corresponding)})` : ""}`
@@ -1758,9 +2065,15 @@ function draftTitlePage(details, project) {
     keyValue("Review type", checklist.label),
     keyValue("Version", `Version ${titlePage.version || "1"}`),
     keyValue("Date", currentProtocolDate()),
+    subSection("Update status", reviewUpdateStatement(titlePage)),
+    subSection("Registration", registrationStatement(titlePage)),
     authorItems ? `<h3>Authors and affiliations</h3><ol>${authorItems}</ol>` : `<p class="missing">No authors have been added.</p>`,
     keyValue("Corresponding author", correspondingText),
-    subSection("Funding", fundingStatement(titlePage)),
+    keyValue("Corresponding author physical mailing address", titlePage.correspondingMailingAddress),
+    keyValue("Guarantor", guarantor ? authorDisplayName(guarantor) : ""),
+    subSection("Author contributions", contributionsStatement(titlePage)),
+    subSection("Amendments", amendmentStatement(titlePage)),
+    subSection("Support and sponsorship", fundingStatement(titlePage)),
     subSection("Conflict of interest", conflictStatement(titlePage)),
     keyValue("Purpose", project.purpose)
   ].join("");
