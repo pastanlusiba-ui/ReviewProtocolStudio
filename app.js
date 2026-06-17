@@ -260,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=profile-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=title-page-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -407,6 +407,11 @@ function builderView(project) {
   const section = state.activeSection || checklist.sections[0];
   const sectionItems = checklist.items.filter((item) => item.section === section);
   const summary = projectSummary(project);
+  const editorBody = section === "Title page"
+    ? titlePageEditor(project, checklist, sectionItems)
+    : sectionItems.length
+      ? sectionItems.map((item) => promptCard(project, item)).join("")
+      : noSectionItems();
   return `
     <section class="builder">
       <aside class="sidebar">
@@ -427,7 +432,7 @@ function builderView(project) {
           ${statusPill(`${summary.completion}% complete`, summary.completion === 100 ? "complete" : "needs")}
         </div>
         <div class="prompt-stack">
-          ${sectionItems.length ? sectionItems.map((item) => promptCard(project, item)).join("") : noSectionItems()}
+          ${editorBody}
         </div>
       </section>
       ${inspector(project)}
@@ -444,6 +449,164 @@ function sectionTab(project, section, active) {
       <strong>${escapeHtml(section)}</strong>
       <span>${complete}/${sectionItems.length} addressed</span>
     </button>
+  `;
+}
+
+
+function titlePageEditor(project, checklist, sectionItems) {
+  const titlePage = ensureTitlePage(project);
+  return `
+    <section class="title-page-editor">
+      <div class="title-page-guidance">
+        <div>
+          <h2>Title page guidance</h2>
+          <p>These fields are structured from protocol reporting guidance so the exported protocol can draft a proper title page rather than list raw answers.</p>
+        </div>
+        <div class="guidance-bullets">
+          ${sectionItems.slice(0, 6).map((item) => `<p><strong>${escapeHtml(item.elementLabel || item.itemNumber)}:</strong> ${escapeHtml(item.helpText || item.requirement)}</p>`).join("")}
+        </div>
+        ${sourceList(checklist.sources || [], 3)}
+      </div>
+      <div class="structured-card">
+        <h2>Protocol identification</h2>
+        <div class="form-grid">
+          <label class="field-label wide">
+            <span>Protocol title</span>
+            <input required data-action="title-field" data-field="protocolTitle" value="${escapeAttr(titlePage.protocolTitle)}" />
+          </label>
+          <label class="field-label">
+            <span>Version</span>
+            <select data-action="title-field" data-field="version">
+              ${[1,2,3,4,5,6,7,8,9,10].map((version) => `<option value="${version}" ${String(titlePage.version) === String(version) ? "selected" : ""}>${version}</option>`).join("")}
+            </select>
+          </label>
+          <label class="field-label">
+            <span>Date</span>
+            <input readonly value="${escapeAttr(currentProtocolDate())}" />
+          </label>
+        </div>
+      </div>
+      <div class="structured-card">
+        <div class="structured-card-head">
+          <div>
+            <h2>Authors</h2>
+            <p>Add all authors, affiliations, and email addresses that should appear on the title page.</p>
+          </div>
+          <button class="btn" data-action="add-author" type="button">+ Author</button>
+        </div>
+        <div class="author-stack">
+          ${titlePage.authors.map((author, index) => authorCard(author, index, titlePage.authors.length)).join("")}
+        </div>
+        <label class="field-label wide corresponding-author-field">
+          <span>Corresponding author</span>
+          <select data-action="title-field" data-field="correspondingAuthorId">
+            <option value="">Select corresponding author</option>
+            ${titlePage.authors.map((author, index) => `<option value="${escapeAttr(author.id)}" ${titlePage.correspondingAuthorId === author.id ? "selected" : ""}>${escapeHtml(authorDisplayName(author) || `Author ${index + 1}`)}</option>`).join("")}
+          </select>
+        </label>
+      </div>
+      <div class="structured-card">
+        <h2>Funding</h2>
+        <div class="form-grid">
+          <label class="field-label">
+            <span>Is there funding for this review?</span>
+            <select data-action="funding-field" data-field="hasFunding">
+              <option value="no" ${titlePage.funding.hasFunding === "no" ? "selected" : ""}>No</option>
+              <option value="yes" ${titlePage.funding.hasFunding === "yes" ? "selected" : ""}>Yes</option>
+            </select>
+          </label>
+          ${titlePage.funding.hasFunding === "yes" ? `
+            <label class="field-label">
+              <span>Funder name</span>
+              <input data-action="funding-field" data-field="funderName" value="${escapeAttr(titlePage.funding.funderName)}" />
+            </label>
+            <label class="field-label">
+              <span>Grant name</span>
+              <input data-action="funding-field" data-field="grantName" value="${escapeAttr(titlePage.funding.grantName)}" />
+            </label>
+            <label class="field-label">
+              <span>Grant number</span>
+              <input data-action="funding-field" data-field="grantNumber" value="${escapeAttr(titlePage.funding.grantNumber)}" />
+            </label>
+          ` : `<div class="hint wide">Funding details are hidden because no funding has been declared.</div>`}
+        </div>
+      </div>
+      <div class="structured-card">
+        <h2>Conflict of interest</h2>
+        <p class="structured-note">Declare conflicts for each author. If every author is marked "No," the protocol output will state: "No conflict of interest."</p>
+        <div class="author-stack compact">
+          ${titlePage.authors.map((author) => conflictCard(author)).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function authorCard(author, index, authorCount) {
+  return `
+    <article class="author-card" data-author-id="${escapeAttr(author.id)}">
+      <div class="author-card-head">
+        <strong>Author ${index + 1}</strong>
+        ${authorCount > 1 ? `<button class="btn icon danger" data-action="remove-author" data-author-id="${escapeAttr(author.id)}" title="Remove author" type="button">×</button>` : ""}
+      </div>
+      <div class="form-grid">
+        <label class="field-label">
+          <span>First name</span>
+          <input data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="firstName" value="${escapeAttr(author.firstName)}" />
+        </label>
+        <label class="field-label">
+          <span>Other/middle names</span>
+          <input data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="middleName" value="${escapeAttr(author.middleName)}" />
+        </label>
+        <label class="field-label">
+          <span>Last name</span>
+          <input data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="lastName" value="${escapeAttr(author.lastName)}" />
+        </label>
+      </div>
+      ${repeatableList("Institutional affiliations", "affiliation", author.id, author.affiliations, "Department, institution, city, country")}
+      ${repeatableList("Email addresses", "email", author.id, author.emails, "author@example.org")}
+    </article>
+  `;
+}
+
+function conflictCard(author) {
+  return `
+    <article class="conflict-card">
+      <div class="conflict-grid">
+        <strong>${escapeHtml(authorDisplayName(author) || "Unnamed author")}</strong>
+        <label class="field-label">
+          <span>Conflict of interest?</span>
+          <select data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="hasConflict">
+            <option value="no" ${author.hasConflict === "no" ? "selected" : ""}>No</option>
+            <option value="yes" ${author.hasConflict === "yes" ? "selected" : ""}>Yes</option>
+          </select>
+        </label>
+      </div>
+      ${author.hasConflict === "yes" ? `
+        <label class="field-label wide">
+          <span>List the conflict of interest</span>
+          <textarea data-action="author-field" data-author-id="${escapeAttr(author.id)}" data-field="conflictDetails">${escapeHtml(author.conflictDetails || "")}</textarea>
+        </label>
+      ` : ""}
+    </article>
+  `;
+}
+
+function repeatableList(label, kind, authorId, values, placeholder) {
+  const list = values.length ? values : [""];
+  return `
+    <div class="repeatable-list">
+      <div class="repeatable-head">
+        <span>${escapeHtml(label)}</span>
+        <button class="btn" data-action="add-${kind}" data-author-id="${escapeAttr(authorId)}" type="button">+</button>
+      </div>
+      ${list.map((value, index) => `
+        <div class="repeatable-row ${list.length === 1 ? "single" : ""}">
+          <input data-action="author-list-field" data-kind="${kind}" data-author-id="${escapeAttr(authorId)}" data-index="${index}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" />
+          ${list.length > 1 ? `<button class="btn icon danger" data-action="remove-${kind}" data-author-id="${escapeAttr(authorId)}" data-index="${index}" title="Remove" type="button">×</button>` : ""}
+        </div>
+      `).join("")}
+    </div>
   `;
 }
 
@@ -753,6 +916,12 @@ function bindEvents() {
       element.addEventListener("change", updateStatus);
       return;
     }
+    if (["title-field", "funding-field", "author-field", "author-list-field"].includes(action)) {
+      const eventName = element.tagName === "SELECT" ? "change" : "input";
+      element.addEventListener(eventName, updateTitlePageField);
+      if (element.tagName !== "SELECT") element.addEventListener("blur", render);
+      return;
+    }
     if (action === "create-project") {
       element.addEventListener("submit", createProject);
       return;
@@ -804,6 +973,12 @@ function handleAction(event) {
   if (action === "export-doc") exportProtocol(id);
   if (action === "export-report") exportReport(id);
   if (action === "use-example") useExample(button.dataset.itemId);
+  if (action === "add-author") addAuthor();
+  if (action === "remove-author") removeAuthor(button.dataset.authorId);
+  if (action === "add-affiliation") addAuthorValue(button.dataset.authorId, "affiliation");
+  if (action === "remove-affiliation") removeAuthorValue(button.dataset.authorId, "affiliation", button.dataset.index);
+  if (action === "add-email") addAuthorValue(button.dataset.authorId, "email");
+  if (action === "remove-email") removeAuthorValue(button.dataset.authorId, "email", button.dataset.index);
   render();
 }
 
@@ -826,6 +1001,7 @@ async function createProject(event) {
     lead: data.lead.trim(),
     purpose: data.purpose.trim(),
     notes: data.notes.trim(),
+    titlePage: createDefaultTitlePage(data.title.trim(), user),
     createdAt: now,
     updatedAt: now,
     exportedAt: "",
@@ -834,6 +1010,7 @@ async function createProject(event) {
       checklist.items.map((item) => [item.id, { value: "", status: "incomplete" }])
     )
   };
+  syncTitlePageResponses(project);
   state.projects.unshift(project);
   await persistProject(project, "POST");
   state.modalOpen = false;
@@ -1092,6 +1269,298 @@ function validatePassword(password, confirmPassword, profile = {}) {
   return "";
 }
 
+
+function createDefaultTitlePage(title, user) {
+  const author = defaultAuthorFromUser(user);
+  return {
+    protocolTitle: String(title || "").trim(),
+    version: "1",
+    authors: [author],
+    correspondingAuthorId: author.id,
+    funding: {
+      hasFunding: "no",
+      funderName: "",
+      grantName: "",
+      grantNumber: ""
+    }
+  };
+}
+
+function defaultAuthorFromUser(user, fallbackName = "") {
+  const fallbackParts = cleanText(fallbackName).split(" ").filter(Boolean);
+  return {
+    id: crypto.randomUUID(),
+    firstName: user?.firstName || fallbackParts[0] || "",
+    middleName: "",
+    lastName: user?.lastName || fallbackParts.slice(1).join(" ") || "",
+    affiliations: normalizeTitlePageList(user?.institution ? [user.institution] : [""]),
+    emails: normalizeTitlePageList(user?.email ? [user.email] : [""]),
+    hasConflict: "no",
+    conflictDetails: ""
+  };
+}
+
+function ensureTitlePage(project) {
+  if (!project.titlePage) project.titlePage = createDefaultTitlePage(project.title || "", currentUser());
+  const titlePage = project.titlePage;
+  titlePage.protocolTitle = String(titlePage.protocolTitle || project.title || "").trim();
+  titlePage.version = String(titlePage.version || "1");
+  titlePage.funding = {
+    hasFunding: titlePage.funding?.hasFunding === "yes" ? "yes" : "no",
+    funderName: String(titlePage.funding?.funderName || ""),
+    grantName: String(titlePage.funding?.grantName || ""),
+    grantNumber: String(titlePage.funding?.grantNumber || "")
+  };
+  if (!Array.isArray(titlePage.authors) || !titlePage.authors.length) {
+    titlePage.authors = [defaultAuthorFromUser(currentUser(), project.lead || "")];
+  }
+  titlePage.authors = titlePage.authors.map((author) => normalizeTitlePageAuthor(author));
+  if (!titlePage.authors.some((author) => author.id === titlePage.correspondingAuthorId)) {
+    titlePage.correspondingAuthorId = titlePage.authors[0]?.id || "";
+  }
+  return titlePage;
+}
+
+function normalizeTitlePageAuthor(author = {}) {
+  return {
+    id: author.id || crypto.randomUUID(),
+    firstName: String(author.firstName || ""),
+    middleName: String(author.middleName || author.otherNames || ""),
+    lastName: String(author.lastName || ""),
+    affiliations: normalizeTitlePageList(author.affiliations || author.institutionalAffiliations || [author.affiliation || ""]),
+    emails: normalizeTitlePageList(author.emails || [author.email || ""]),
+    hasConflict: author.hasConflict === "yes" ? "yes" : "no",
+    conflictDetails: String(author.conflictDetails || "")
+  };
+}
+
+function normalizeTitlePageList(values) {
+  const list = Array.isArray(values) ? values : [values || ""];
+  const normalized = list.map((value) => String(value || ""));
+  return normalized.length ? normalized : [""];
+}
+
+function currentProtocolDate() {
+  return new Intl.DateTimeFormat(undefined, { year: "numeric", month: "long", day: "numeric" }).format(new Date());
+}
+
+function authorDisplayName(author) {
+  return [author.firstName, author.middleName, author.lastName].map(cleanText).filter(Boolean).join(" ");
+}
+
+function authorAffiliationText(author) {
+  return normalizeTitlePageList(author.affiliations).map(cleanText).filter(Boolean).join("; ");
+}
+
+function authorEmailText(author) {
+  return normalizeTitlePageList(author.emails).map(cleanText).filter(Boolean).join("; ");
+}
+
+function authorById(titlePage, id) {
+  return titlePage.authors.find((author) => author.id === id);
+}
+
+function titlePageVersionDate(titlePage) {
+  return `Version ${titlePage.version || "1"}, dated ${currentProtocolDate()}.`;
+}
+
+function titlePageAuthorsText(titlePage) {
+  const authors = titlePage.authors.map((author, index) => {
+    const name = authorDisplayName(author) || `Author ${index + 1}`;
+    const affiliation = authorAffiliationText(author);
+    const email = authorEmailText(author);
+    return [name, affiliation ? `Affiliation(s): ${affiliation}` : "", email ? `Email(s): ${email}` : ""].filter(Boolean).join("; ");
+  });
+  const corresponding = authorById(titlePage, titlePage.correspondingAuthorId);
+  const correspondingText = corresponding ? `Corresponding author: ${authorDisplayName(corresponding) || "Unnamed author"}${authorEmailText(corresponding) ? ` (${authorEmailText(corresponding)})` : ""}.` : "";
+  return [authors.join(" | "), correspondingText].filter(Boolean).join(" ");
+}
+
+function fundingStatement(titlePage) {
+  if (titlePage.funding.hasFunding !== "yes") return "No funding has been declared for this review.";
+  const funder = cleanText(titlePage.funding.funderName);
+  const grantName = cleanText(titlePage.funding.grantName);
+  const grantNumber = cleanText(titlePage.funding.grantNumber);
+  if (!funder && !grantName && !grantNumber) return "Funding has been declared, but the funder, grant name, and grant number still need to be completed.";
+  let statement = funder ? `This review is funded by ${funder}` : "This review has declared funding";
+  if (grantName) statement += ` under the grant ${grantName}`;
+  if (grantNumber) statement += ` (grant number ${grantNumber})`;
+  return `${statement}.`;
+}
+
+function conflictStatement(titlePage) {
+  const conflicted = titlePage.authors.filter((author) => author.hasConflict === "yes");
+  if (!conflicted.length) return "No conflict of interest.";
+  return conflicted.map((author, index) => {
+    const name = authorDisplayName(author) || `Author ${index + 1}`;
+    const details = cleanText(author.conflictDetails) || "Conflict details to be completed.";
+    return `${name}: ${details}`;
+  }).join(" ");
+}
+
+function titlePageItemKind(item) {
+  const haystack = `${item.elementLabel || ""} ${item.requirement || ""} ${item.prompt || ""}`.toLowerCase();
+  if (haystack.includes("funding") || haystack.includes("competing") || haystack.includes("conflict") || haystack.includes("interest") || haystack.includes("sponsor")) return "declarations";
+  if (haystack.includes("author") || haystack.includes("affiliation") || haystack.includes("contributor") || haystack.includes("correspond")) return "authors";
+  if (haystack.includes("version") || haystack.includes("date") || haystack.includes("registration") || haystack.includes("amendment")) return "version";
+  if (haystack.includes("title") || (haystack.includes("identify") && haystack.includes("protocol"))) return "title";
+  return "";
+}
+
+function titlePageResponseForItem(item, titlePage, project) {
+  const kind = titlePageItemKind(item);
+  if (kind === "declarations") return `${fundingStatement(titlePage)} ${conflictStatement(titlePage)}`;
+  if (kind === "authors") return titlePageAuthorsText(titlePage);
+  if (kind === "version") return titlePageVersionDate(titlePage);
+  if (kind === "title") return titlePage.protocolTitle || project.title || "";
+  return "";
+}
+
+function titlePageStatusForItem(item, titlePage, project) {
+  const kind = titlePageItemKind(item);
+  if (kind === "title") return cleanText(titlePage.protocolTitle || project.title) ? "complete" : "incomplete";
+  if (kind === "version") return "complete";
+  if (kind === "authors") {
+    const authorsComplete = titlePage.authors.length && titlePage.authors.every((author) => authorDisplayName(author) && authorAffiliationText(author) && authorEmailText(author));
+    return authorsComplete && titlePage.correspondingAuthorId ? "complete" : "incomplete";
+  }
+  if (kind === "declarations") {
+    const fundingComplete = titlePage.funding.hasFunding !== "yes" || (cleanText(titlePage.funding.funderName) && cleanText(titlePage.funding.grantName) && cleanText(titlePage.funding.grantNumber));
+    const conflictsComplete = titlePage.authors.every((author) => author.hasConflict !== "yes" || cleanText(author.conflictDetails));
+    return fundingComplete && conflictsComplete ? "complete" : "incomplete";
+  }
+  return titlePageResponseForItem(item, titlePage, project) ? "complete" : "incomplete";
+}
+
+function syncTitlePageResponses(project) {
+  if (!project) return;
+  if (!project.responses) project.responses = {};
+  const titlePage = ensureTitlePage(project);
+  const checklist = getChecklist(project.reviewType);
+  checklist.items
+    .filter((item) => item.section === "Title page")
+    .forEach((item) => {
+      const value = titlePageResponseForItem(item, titlePage, project);
+      if (!value) return;
+      const current = project.responses[item.id] || {};
+      project.responses[item.id] = {
+        ...current,
+        value,
+        status: titlePageStatusForItem(item, titlePage, project),
+        generatedFromTitlePage: true
+      };
+    });
+}
+
+function titlePageDraftingGaps(project) {
+  const titlePage = ensureTitlePage(project);
+  const gaps = [];
+  if (!cleanText(titlePage.protocolTitle)) gaps.push("Protocol title");
+  if (!titlePage.authors.every((author) => authorDisplayName(author))) gaps.push("Name for each author");
+  if (!titlePage.authors.every((author) => authorAffiliationText(author))) gaps.push("Institutional affiliation for each author");
+  if (!titlePage.authors.every((author) => authorEmailText(author))) gaps.push("Email address for each author");
+  if (!titlePage.correspondingAuthorId) gaps.push("Corresponding author");
+  if (titlePage.funding.hasFunding === "yes") {
+    if (!cleanText(titlePage.funding.funderName)) gaps.push("Funder name");
+    if (!cleanText(titlePage.funding.grantName)) gaps.push("Grant name");
+    if (!cleanText(titlePage.funding.grantNumber)) gaps.push("Grant number");
+  }
+  titlePage.authors.forEach((author) => {
+    if (author.hasConflict === "yes" && !cleanText(author.conflictDetails)) {
+      gaps.push(`Conflict of interest details for ${authorDisplayName(author) || "an author"}`);
+    }
+  });
+  if (!gaps.length) return "";
+  return `<div class="draft-gaps"><strong>Drafting gaps to resolve:</strong><ul>${gaps.map((gap) => `<li>${escapeHtml(gap)}</li>`).join("")}</ul></div>`;
+}
+
+function updateTitlePageField(event) {
+  const project = getActiveProject();
+  if (!project) return;
+  const target = event.currentTarget;
+  const titlePage = ensureTitlePage(project);
+  const action = target.dataset.action;
+  const field = target.dataset.field;
+  if (action === "title-field") {
+    titlePage[field] = target.value;
+    if (field === "protocolTitle") project.title = cleanText(target.value) || "Untitled protocol";
+  }
+  if (action === "funding-field") {
+    titlePage.funding[field] = target.value;
+  }
+  if (action === "author-field") {
+    const author = authorById(titlePage, target.dataset.authorId);
+    if (!author) return;
+    author[field] = target.value;
+    if (field === "hasConflict" && target.value === "no") author.conflictDetails = "";
+  }
+  if (action === "author-list-field") {
+    const author = authorById(titlePage, target.dataset.authorId);
+    if (!author) return;
+    const collection = target.dataset.kind === "email" ? "emails" : "affiliations";
+    const index = Number(target.dataset.index || 0);
+    author[collection] = normalizeTitlePageList(author[collection]);
+    author[collection][index] = target.value;
+  }
+  syncTitlePageResponses(project);
+  touchProject(project);
+  persistProject(project);
+  if (target.tagName === "SELECT") render();
+}
+
+function addAuthor() {
+  const project = getActiveProject();
+  if (!project) return;
+  const titlePage = ensureTitlePage(project);
+  titlePage.authors.push(defaultAuthorFromUser(null));
+  syncTitlePageResponses(project);
+  touchProject(project);
+  persistProject(project);
+}
+
+function removeAuthor(authorId) {
+  const project = getActiveProject();
+  if (!project) return;
+  const titlePage = ensureTitlePage(project);
+  if (titlePage.authors.length <= 1) return;
+  titlePage.authors = titlePage.authors.filter((author) => author.id !== authorId);
+  if (!titlePage.authors.some((author) => author.id === titlePage.correspondingAuthorId)) {
+    titlePage.correspondingAuthorId = titlePage.authors[0]?.id || "";
+  }
+  syncTitlePageResponses(project);
+  touchProject(project);
+  persistProject(project);
+}
+
+function addAuthorValue(authorId, kind) {
+  const project = getActiveProject();
+  if (!project) return;
+  const titlePage = ensureTitlePage(project);
+  const author = authorById(titlePage, authorId);
+  if (!author) return;
+  const collection = kind === "email" ? "emails" : "affiliations";
+  author[collection] = normalizeTitlePageList(author[collection]);
+  author[collection].push("");
+  syncTitlePageResponses(project);
+  touchProject(project);
+  persistProject(project);
+}
+
+function removeAuthorValue(authorId, kind, index) {
+  const project = getActiveProject();
+  if (!project) return;
+  const titlePage = ensureTitlePage(project);
+  const author = authorById(titlePage, authorId);
+  if (!author) return;
+  const collection = kind === "email" ? "emails" : "affiliations";
+  author[collection] = normalizeTitlePageList(author[collection]);
+  if (author[collection].length <= 1) return;
+  author[collection].splice(Number(index), 1);
+  syncTitlePageResponses(project);
+  touchProject(project);
+  persistProject(project);
+}
+
 function updateResponse(event) {
   const project = getActiveProject();
   if (!project) return;
@@ -1131,6 +1600,8 @@ function useExample(itemId) {
 function exportProtocol(id) {
   const project = id ? findProject(id) : getActiveProject();
   if (!project) return;
+  syncTitlePageResponses(project);
+  const titlePage = ensureTitlePage(project);
   const issues = consistencyIssues(project);
   const summary = projectSummary(project);
   const warning = summary.completion < 100 || issues.length
@@ -1141,7 +1612,7 @@ function exportProtocol(id) {
     <html>
       <head>
         <meta charset="utf-8" />
-        <title>${escapeHtml(project.title)}</title>
+        <title>${escapeHtml(titlePage.protocolTitle || project.title)}</title>
         <style>
           body { font-family: Cambria, Georgia, serif; line-height: 1.45; color: #111; }
           h1 { font-size: 24pt; }
@@ -1156,7 +1627,7 @@ function exportProtocol(id) {
       <body>${warning}${protocolHtml(project, true)}${complianceAppendix(project)}</body>
     </html>
   `;
-  download(`${slug(project.shortTitle || project.title)}-protocol.doc`, html, "application/msword");
+  download(`${slug(project.shortTitle || titlePage.protocolTitle || project.title)}-protocol.doc`, html, "application/msword");
   project.exportedAt = new Date().toISOString();
   touchProject(project);
   persistProject(project);
@@ -1166,6 +1637,7 @@ function exportProtocol(id) {
 function exportReport(id) {
   const project = id ? findProject(id) : getActiveProject();
   if (!project) return;
+  syncTitlePageResponses(project);
   const checklist = getChecklist(project.reviewType);
   const rows = [
     ["Element number", "Section", "Element", "Required", "Status", "Requirement", "Response"],
@@ -1188,6 +1660,8 @@ function exportReport(id) {
 }
 
 function protocolHtml(project, forExport) {
+  syncTitlePageResponses(project);
+  const titlePage = ensureTitlePage(project);
   const checklist = getChecklist(project.reviewType);
   const byOutput = new Map();
   checklist.items.forEach((item) => {
@@ -1205,7 +1679,7 @@ function protocolHtml(project, forExport) {
     })
     .join("");
   return `
-    <h1>${escapeHtml(project.title)}</h1>
+    <h1>${escapeHtml(titlePage.protocolTitle || project.title)}</h1>
     <p class="subtitle">${escapeHtml(checklist.label)} · ${escapeHtml(checklist.framework)}</p>
     <p><strong>Lead author or team:</strong> ${escapeHtml(project.lead || "Not specified")}</p>
     <p><strong>Purpose:</strong> ${escapeHtml(project.purpose || "Not specified")}</p>
@@ -1241,7 +1715,7 @@ function draftSectionHtml(project, section, items) {
     "Appendices": draftAppendices
   };
   const body = (renderers[section] || draftGenericSection)(details, project);
-  return body + draftingGaps(details);
+  return body + (section === "Title page" ? titlePageDraftingGaps(project) : draftingGaps(details));
 }
 
 function sectionDetails(project, items) {
@@ -1251,7 +1725,8 @@ function sectionDetails(project, items) {
       item,
       label: item.elementLabel || item.requirement.replace(/^Protocol element:\s*/i, "").replace(/\.$/, ""),
       value: cleanText(response.value),
-      status: getItemStatus(project, item)
+      status: getItemStatus(project, item),
+      generatedFromTitlePage: Boolean(response.generatedFromTitlePage)
     };
   });
   return {
@@ -1260,20 +1735,34 @@ function sectionDetails(project, items) {
       if (entry.value && entry.status !== "na") acc[entry.label] = entry.value;
       return acc;
     }, {}),
-    additional: entries.filter((entry) => !entry.item.itemKind && entry.value && entry.status !== "na"),
+    additional: entries.filter((entry) => !entry.generatedFromTitlePage && !entry.item.itemKind && entry.value && entry.status !== "na"),
     missing: entries.filter((entry) => entry.item.required && !entry.value && entry.status !== "na")
   };
 }
 
 function draftTitlePage(details, project) {
+  const titlePage = ensureTitlePage(project);
+  const checklist = getChecklist(project.reviewType);
+  const corresponding = authorById(titlePage, titlePage.correspondingAuthorId);
+  const authorItems = titlePage.authors.map((author, index) => {
+    const name = authorDisplayName(author) || `Author ${index + 1}`;
+    const affiliation = authorAffiliationText(author);
+    const email = authorEmailText(author);
+    return `<li><strong>${escapeHtml(name)}</strong>${affiliation ? `<br />Affiliation(s): ${escapeHtml(affiliation)}` : ""}${email ? `<br />Email(s): ${escapeHtml(email)}` : ""}</li>`;
+  }).join("");
+  const correspondingText = corresponding
+    ? `${authorDisplayName(corresponding) || "Unnamed author"}${authorEmailText(corresponding) ? ` (${authorEmailText(corresponding)})` : ""}`
+    : "";
   return [
-    keyValue("Protocol title", details.values["Protocol title"] || project.title),
-    keyValue("Review type", getChecklist(project.reviewType).label),
-    keyValue("Version and date", details.values["Protocol version and date"]),
-    keyValue("Authors and affiliations", details.values["Authors and affiliations"] || project.lead),
-    keyValue("Funding and competing interests", details.values["Funding and competing interests"]),
-    keyValue("Purpose", project.purpose),
-    details.additional.length ? draftAdditional(details) : ""
+    keyValue("Protocol title", titlePage.protocolTitle || project.title),
+    keyValue("Review type", checklist.label),
+    keyValue("Version", `Version ${titlePage.version || "1"}`),
+    keyValue("Date", currentProtocolDate()),
+    authorItems ? `<h3>Authors and affiliations</h3><ol>${authorItems}</ol>` : `<p class="missing">No authors have been added.</p>`,
+    keyValue("Corresponding author", correspondingText),
+    subSection("Funding", fundingStatement(titlePage)),
+    subSection("Conflict of interest", conflictStatement(titlePage)),
+    keyValue("Purpose", project.purpose)
   ].join("");
 }
 
@@ -1537,6 +2026,7 @@ function complianceAppendix(project) {
 }
 
 function complianceTable(project) {
+  syncTitlePageResponses(project);
   const checklist = getChecklist(project.reviewType);
   return `
     <table>
@@ -1557,6 +2047,7 @@ function complianceTable(project) {
 }
 
 function projectSummary(project) {
+  syncTitlePageResponses(project);
   const checklist = getChecklist(project.reviewType);
   const required = checklist.items.filter((item) => item.required);
   const completedItems = required.filter((item) => {
@@ -1633,6 +2124,7 @@ function consistencyIssues(project) {
 }
 
 function countStatuses(project) {
+  syncTitlePageResponses(project);
   const checklist = getChecklist(project.reviewType);
   const counts = { complete: 0, incomplete: 0, needs: 0, na: 0 };
   checklist.items.forEach((item) => {

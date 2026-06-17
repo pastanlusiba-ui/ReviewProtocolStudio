@@ -584,6 +584,127 @@ textarea:focus {
   flex: 1;
 }
 
+
+.title-page-editor {
+  display: grid;
+  gap: 14px;
+}
+
+.title-page-guidance,
+.structured-card,
+.author-card,
+.conflict-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.title-page-guidance {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  background: #f8fbfa;
+  border-color: #c9ddd8;
+}
+
+.title-page-guidance h2,
+.structured-card h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.title-page-guidance p,
+.structured-card-head p,
+.structured-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.guidance-bullets {
+  display: grid;
+  gap: 8px;
+}
+
+.guidance-bullets p {
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+}
+
+.structured-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.structured-card-head,
+.author-card-head,
+.repeatable-head,
+.conflict-grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.author-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.author-stack.compact {
+  gap: 10px;
+}
+
+.author-card,
+.conflict-card {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  background: #fbfcff;
+}
+
+.author-card-head strong,
+.repeatable-head span,
+.conflict-grid strong {
+  color: var(--ink);
+}
+
+.repeatable-list {
+  display: grid;
+  gap: 9px;
+}
+
+.repeatable-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  gap: 8px;
+  align-items: center;
+}
+
+.repeatable-row.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.corresponding-author-field {
+  margin-top: 2px;
+}
+
+.structured-note {
+  padding: 10px 12px;
+  border: 1px solid #dde3ee;
+  background: #f7f9fc;
+  border-radius: 7px;
+}
+
+.conflict-grid {
+  align-items: center;
+}
+
+.conflict-grid .field-label {
+  width: min(260px, 100%);
+}
+
 .inspector-section {
   padding: 14px;
   border-bottom: 1px solid var(--line);
@@ -928,8 +1049,15 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .prompt-actions {
+  .prompt-actions,
+  .structured-card-head,
+  .author-card-head,
+  .conflict-grid {
     display: grid;
+  }
+
+  .repeatable-row {
+    grid-template-columns: minmax(0, 1fr) 38px;
   }
 
   .top-actions {
