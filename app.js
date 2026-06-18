@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=background-1"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=home-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=background-1"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=home-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=background-1"
+    file: "./data/checklists/rapid-review-protocol.json?v=home-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=background-1"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=home-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=background-1"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=home-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=background-1"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=home-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=background-1"
+    file: "./data/checklists/umbrella-review-protocol.json?v=home-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=background-1"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=home-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=background-1"
+    file: "./data/checklists/realist-review-protocol.json?v=home-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=background-1"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=home-1"
   }
 ];
 
@@ -260,13 +260,14 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=background-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=home-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
         </span>
       </button>
       <nav class="top-actions" aria-label="Primary actions">
+        <button class="btn" data-action="home" title="Home page">Home</button>
         ${
           inProject
             ? `
@@ -1133,7 +1134,7 @@ function handleAction(event) {
   const button = event.currentTarget;
   const action = button.dataset.action;
   const id = button.dataset.id || state.activeProjectId;
-  if (action === "dashboard") {
+  if (action === "dashboard" || action === "home") {
     state.view = "dashboard";
     state.activeProjectId = null;
     state.activeSection = null;
