@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=background-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=background-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/rapid-review-protocol.json?v=background-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=background-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=background-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=background-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/umbrella-review-protocol.json?v=background-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=background-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/realist-review-protocol.json?v=background-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=prisma-admin-1"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=background-1"
   }
 ];
 
@@ -260,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=prisma-admin-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=background-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -409,9 +409,11 @@ function builderView(project) {
   const summary = projectSummary(project);
   const editorBody = section === "Title page"
     ? titlePageEditor(project, checklist, sectionItems)
-    : sectionItems.length
-      ? sectionItems.map((item) => promptCard(project, item)).join("")
-      : noSectionItems();
+    : section === "Background and rationale"
+      ? backgroundEditor(project, checklist, sectionItems)
+      : sectionItems.length
+        ? sectionItems.map((item) => promptCard(project, item)).join("")
+        : noSectionItems();
   return `
     <section class="builder">
       <aside class="sidebar">
@@ -729,6 +731,69 @@ function repeatableList(label, kind, authorId, values, placeholder) {
         </div>
       `).join("")}
     </div>
+  `;
+}
+
+
+function backgroundEditor(project, checklist, sectionItems) {
+  const sectionElements = sectionItems.filter((item) => item.itemKind === "section element");
+  const checklistLinked = sectionItems.filter((item) => item.itemKind !== "section element");
+  return `
+    <section class="structured-section-editor background-editor">
+      <div class="title-page-guidance">
+        <div>
+          <h2>Background and rationale guidance</h2>
+          <p>Use these fields to build the protocol rationale in a logical sequence: problem, existing evidence, gap, review choice, and intended use.</p>
+        </div>
+        <div class="guidance-bullets">
+          ${sectionItems.map((item) => `<p><strong>${escapeHtml(item.elementLabel || item.itemNumber)}:</strong> ${escapeHtml(item.helpText || item.requirement)}</p>`).join("")}
+        </div>
+        ${sourceList(checklist.sources || [], 3)}
+      </div>
+      <div class="structured-card">
+        <div class="structured-card-head">
+          <div>
+            <h2>Background elements</h2>
+            <p>Complete each element so the exported protocol can draft a coherent background section instead of listing isolated answers.</p>
+          </div>
+        </div>
+        <div class="structured-field-grid">
+          ${sectionElements.map((item) => structuredResponseField(project, item)).join("")}
+        </div>
+      </div>
+      ${checklistLinked.length ? `
+        <div class="structured-card">
+          <div class="structured-card-head">
+            <div>
+              <h2>Checklist-specific rationale</h2>
+              <p>These prompts come directly from the review-type checklist and should be addressed alongside the structured elements.</p>
+            </div>
+          </div>
+          <div class="structured-field-grid">
+            ${checklistLinked.map((item) => structuredResponseField(project, item)).join("")}
+          </div>
+        </div>
+      ` : ""}
+    </section>
+  `;
+}
+
+function structuredResponseField(project, item) {
+  const response = project.responses[item.id] || { value: "", status: "incomplete" };
+  return `
+    <article class="structured-element-field">
+      <div class="prompt-meta">
+        <span class="item-number">${escapeHtml(item.itemNumber)}</span>
+        ${item.elementLabel ? `<span class="element-kind">${escapeHtml(item.elementLabel)}</span>` : ""}
+        ${item.required ? statusPill("Required", "needs") : statusPill("Optional", "na")}
+        ${statusPill(statusLabel(getItemStatus(project, item)), statusClass(getItemStatus(project, item)))}
+      </div>
+      <label class="field-label wide">
+        <span>${escapeHtml(item.elementLabel || item.prompt)}</span>
+        <textarea data-action="response" data-item-id="${escapeAttr(item.id)}" placeholder="${escapeAttr(item.exampleResponse)}">${escapeHtml(response.value || "")}</textarea>
+      </label>
+      <p class="structured-help">${escapeHtml(item.helpText || item.requirement)}</p>
+    </article>
   `;
 }
 

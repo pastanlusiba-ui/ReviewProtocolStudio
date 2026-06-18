@@ -705,6 +705,36 @@ textarea:focus {
   width: min(260px, 100%);
 }
 
+
+.structured-section-editor {
+  display: grid;
+  gap: 14px;
+}
+
+.structured-field-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.structured-element-field {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #dde3ee;
+  background: #fbfcff;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.structured-element-field textarea {
+  min-height: 150px;
+}
+
+.structured-help {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .inspector-section {
   padding: 14px;
   border-bottom: 1px solid var(--line);
