@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=sections-1"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=support-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=sections-1"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=support-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=sections-1"
+    file: "./data/checklists/rapid-review-protocol.json?v=support-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=sections-1"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=support-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=sections-1"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=support-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=sections-1"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=support-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=sections-1"
+    file: "./data/checklists/umbrella-review-protocol.json?v=support-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=sections-1"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=support-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=sections-1"
+    file: "./data/checklists/realist-review-protocol.json?v=support-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=sections-1"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=support-1"
   }
 ];
 
@@ -260,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=sections-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=support-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -613,9 +613,10 @@ function titlePageEditor(project, checklist, sectionItems) {
       </div>
       <div class="structured-card">
         <h2>Support and sponsorship</h2>
+        <p class="structured-note">Declare whether support exists once, then complete only the details that apply. Use the support type field for the kind of support; name funders and sponsors in their own fields.</p>
         <div class="form-grid">
           <label class="field-label">
-            <span>Any financial or other support?</span>
+            <span>Any financial, institutional, or in-kind support?</span>
             <select data-action="funding-field" data-field="hasFunding">
               <option value="no" ${titlePage.funding.hasFunding === "no" ? "selected" : ""}>No</option>
               <option value="yes" ${titlePage.funding.hasFunding === "yes" ? "selected" : ""}>Yes</option>
@@ -623,15 +624,15 @@ function titlePageEditor(project, checklist, sectionItems) {
           </label>
           ${titlePage.funding.hasFunding === "yes" ? `
             <label class="field-label wide">
-              <span>Sources of financial or other support</span>
-              <textarea data-action="funding-field" data-field="supportSources">${escapeHtml(titlePage.funding.supportSources)}</textarea>
+              <span>Support type or source</span>
+              <textarea data-action="funding-field" data-field="supportSources" placeholder="Financial grant, institutional support, in-kind librarian support, software access...">${escapeHtml(titlePage.funding.supportSources)}</textarea>
             </label>
             <label class="field-label">
-              <span>Funder name</span>
+              <span>Funder(s)</span>
               <input data-action="funding-field" data-field="funderName" value="${escapeAttr(titlePage.funding.funderName)}" />
             </label>
             <label class="field-label">
-              <span>Sponsor name</span>
+              <span>Sponsor(s), if different</span>
               <input data-action="funding-field" data-field="sponsorName" value="${escapeAttr(titlePage.funding.sponsorName)}" />
             </label>
             <label class="field-label">
@@ -643,10 +644,10 @@ function titlePageEditor(project, checklist, sectionItems) {
               <input data-action="funding-field" data-field="grantNumber" value="${escapeAttr(titlePage.funding.grantNumber)}" />
             </label>
             <label class="field-label wide">
-              <span>Role of funder, sponsor, or institution</span>
-              <textarea data-action="funding-field" data-field="sponsorRole">${escapeHtml(titlePage.funding.sponsorRole)}</textarea>
+              <span>Role in protocol or review</span>
+              <textarea data-action="funding-field" data-field="sponsorRole" placeholder="State whether the funder, sponsor, or institution will influence protocol development, review conduct, analysis, interpretation, or publication decisions.">${escapeHtml(titlePage.funding.sponsorRole)}</textarea>
             </label>
-          ` : `<div class="hint wide">Support details are hidden because no financial or other support has been declared.</div>`}
+          ` : `<div class="hint wide">No additional support details are needed unless support is declared.</div>`}
         </div>
       </div>
       <div class="structured-card">
@@ -1695,7 +1696,7 @@ function contributionsStatement(titlePage) {
 function supportSourcesStatement(titlePage) {
   if (titlePage.funding.hasFunding !== "yes") return "No financial or other support has been declared for this review.";
   const sources = cleanText(titlePage.funding.supportSources);
-  return sources ? `Sources of financial or other support: ${sources}.` : "Financial or other support has been declared, but the support source still needs to be completed.";
+  return sources ? `Support type or source: ${sources}.` : "Financial or other support has been declared, but the support type or source still needs to be completed.";
 }
 
 function supportSponsorStatement(titlePage) {
@@ -1704,15 +1705,15 @@ function supportSponsorStatement(titlePage) {
   const sponsor = cleanText(titlePage.funding.sponsorName);
   const grantName = cleanText(titlePage.funding.grantName);
   const grantNumber = cleanText(titlePage.funding.grantNumber);
-  const statements = [];
-  if (funder || grantName || grantNumber) {
-    let funding = funder ? `The review is funded by ${funder}` : "The review has declared funding";
-    if (grantName) funding += ` under the grant ${grantName}`;
-    if (grantNumber) funding += ` (grant number ${grantNumber})`;
-    statements.push(`${funding}.`);
-  }
-  if (sponsor) statements.push(`Review sponsor: ${sponsor}.`);
-  return statements.length ? statements.join(" ") : "Financial or other support has been declared, but the funder or sponsor name still needs to be completed.";
+  const namedSupport = [];
+  if (funder) namedSupport.push(`funder: ${funder}`);
+  if (sponsor && !sameCleanText(sponsor, funder)) namedSupport.push(`sponsor: ${sponsor}`);
+  let statement = namedSupport.length ? `The review has declared ${namedSupport.join("; ")}` : "Financial or other support has been declared, but the funder or sponsor name still needs to be completed";
+  const grantDetails = [];
+  if (grantName) grantDetails.push(`grant name: ${grantName}`);
+  if (grantNumber) grantDetails.push(`grant number: ${grantNumber}`);
+  if (grantDetails.length) statement += ` (${grantDetails.join("; ")})`;
+  return `${statement}.`;
 }
 
 function supportRoleStatement(titlePage) {
@@ -1723,7 +1724,16 @@ function supportRoleStatement(titlePage) {
 
 function fundingStatement(titlePage) {
   if (titlePage.funding.hasFunding !== "yes") return "No financial or other support has been declared for this review.";
-  return [supportSourcesStatement(titlePage), supportSponsorStatement(titlePage), supportRoleStatement(titlePage)].join(" ");
+  const sources = cleanText(titlePage.funding.supportSources);
+  const funder = cleanText(titlePage.funding.funderName);
+  const sponsor = cleanText(titlePage.funding.sponsorName);
+  const statements = [];
+  if (sources && ![funder, sponsor].some((name) => sameCleanText(sources, name))) {
+    statements.push(supportSourcesStatement(titlePage));
+  }
+  statements.push(supportSponsorStatement(titlePage));
+  statements.push(supportRoleStatement(titlePage));
+  return statements.filter(Boolean).join(" ");
 }
 
 function conflictStatement(titlePage) {
@@ -2414,6 +2424,13 @@ function firstExisting(values, labels, renderer) {
 
 function cleanText(value) {
   return String(value || "").trim().replace(/\s+/g, " ");
+}
+
+function sameCleanText(first, second) {
+  const normalize = (value) => cleanText(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const firstText = normalize(first);
+  const secondText = normalize(second);
+  return Boolean(firstText && secondText && firstText === secondText);
 }
 
 function guidanceSourcesHtml(checklist) {
