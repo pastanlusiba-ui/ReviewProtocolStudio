@@ -2,52 +2,52 @@ const CHECKLIST_MANIFEST = [
   {
     type: "systematic",
     label: "Systematic review protocol",
-    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=home-1"
+    file: "./data/checklists/prisma-p-systematic-review-protocol.json?v=sections-1"
   },
   {
     type: "scoping",
     label: "Scoping review protocol",
-    file: "./data/checklists/jbi-scoping-review-protocol.json?v=home-1"
+    file: "./data/checklists/jbi-scoping-review-protocol.json?v=sections-1"
   },
   {
     type: "rapid",
     label: "Rapid review protocol",
-    file: "./data/checklists/rapid-review-protocol.json?v=home-1"
+    file: "./data/checklists/rapid-review-protocol.json?v=sections-1"
   },
   {
     type: "egm",
     label: "Evidence and gap map protocol",
-    file: "./data/checklists/evidence-gap-map-protocol.json?v=home-1"
+    file: "./data/checklists/evidence-gap-map-protocol.json?v=sections-1"
   },
   {
     type: "qualitative",
     label: "Qualitative evidence synthesis protocol",
-    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=home-1"
+    file: "./data/checklists/qualitative-evidence-synthesis-protocol.json?v=sections-1"
   },
   {
     type: "mixed-methods",
     label: "Mixed-methods review protocol",
-    file: "./data/checklists/mixed-methods-review-protocol.json?v=home-1"
+    file: "./data/checklists/mixed-methods-review-protocol.json?v=sections-1"
   },
   {
     type: "umbrella",
     label: "Umbrella review protocol",
-    file: "./data/checklists/umbrella-review-protocol.json?v=home-1"
+    file: "./data/checklists/umbrella-review-protocol.json?v=sections-1"
   },
   {
     type: "review-of-reviews",
     label: "Review of reviews protocol",
-    file: "./data/checklists/review-of-reviews-protocol.json?v=home-1"
+    file: "./data/checklists/review-of-reviews-protocol.json?v=sections-1"
   },
   {
     type: "realist",
     label: "Realist review protocol",
-    file: "./data/checklists/realist-review-protocol.json?v=home-1"
+    file: "./data/checklists/realist-review-protocol.json?v=sections-1"
   },
   {
     type: "living",
     label: "Living systematic review protocol",
-    file: "./data/checklists/living-systematic-review-protocol.json?v=home-1"
+    file: "./data/checklists/living-systematic-review-protocol.json?v=sections-1"
   }
 ];
 
@@ -260,7 +260,7 @@ function topbar(project) {
   return `
     <header class="topbar">
       <button class="brand" data-action="dashboard" title="Dashboard">
-        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=home-1" alt="Review Protocol Studio" />
+        <img class="brand-logo" src="./public/review-protocol-studio-logo.svg?v=sections-1" alt="Review Protocol Studio" />
         <span class="brand-title">
           <strong>Review Protocol Studio</strong>
           <span>Checklist-guided evidence synthesis protocols</span>
@@ -410,11 +410,9 @@ function builderView(project) {
   const summary = projectSummary(project);
   const editorBody = section === "Title page"
     ? titlePageEditor(project, checklist, sectionItems)
-    : section === "Background and rationale"
-      ? backgroundEditor(project, checklist, sectionItems)
-      : sectionItems.length
-        ? sectionItems.map((item) => promptCard(project, item)).join("")
-        : noSectionItems();
+    : sectionItems.length
+      ? structuredSectionEditor(project, checklist, section, sectionItems)
+      : noSectionItems();
   return `
     <section class="builder">
       <aside class="sidebar">
@@ -736,38 +734,41 @@ function repeatableList(label, kind, authorId, values, placeholder) {
 }
 
 
-function backgroundEditor(project, checklist, sectionItems) {
+
+function structuredSectionEditor(project, checklist, section, sectionItems) {
   const sectionElements = sectionItems.filter((item) => item.itemKind === "section element");
   const checklistLinked = sectionItems.filter((item) => item.itemKind !== "section element");
   return `
-    <section class="structured-section-editor background-editor">
-      <div class="title-page-guidance">
+    <section class="structured-section-editor">
+      <div class="title-page-guidance section-guidance">
         <div>
-          <h2>Background and rationale guidance</h2>
-          <p>Use these fields to build the protocol rationale in a logical sequence: problem, existing evidence, gap, review choice, and intended use.</p>
+          <h2>${escapeHtml(section)} guidance</h2>
+          <p>${escapeHtml(sectionDraftingCue(section))}</p>
         </div>
         <div class="guidance-bullets">
           ${sectionItems.map((item) => `<p><strong>${escapeHtml(item.elementLabel || item.itemNumber)}:</strong> ${escapeHtml(item.helpText || item.requirement)}</p>`).join("")}
         </div>
         ${sourceList(checklist.sources || [], 3)}
       </div>
-      <div class="structured-card">
-        <div class="structured-card-head">
-          <div>
-            <h2>Background elements</h2>
-            <p>Complete each element so the exported protocol can draft a coherent background section instead of listing isolated answers.</p>
+      ${sectionElements.length ? `
+        <div class="structured-card">
+          <div class="structured-card-head">
+            <div>
+              <h2>${escapeHtml(section)} elements</h2>
+              <p>Complete each element so the exported protocol can draft this section as a coherent protocol narrative.</p>
+            </div>
+          </div>
+          <div class="structured-field-grid">
+            ${sectionElements.map((item) => structuredResponseField(project, item)).join("")}
           </div>
         </div>
-        <div class="structured-field-grid">
-          ${sectionElements.map((item) => structuredResponseField(project, item)).join("")}
-        </div>
-      </div>
+      ` : ""}
       ${checklistLinked.length ? `
         <div class="structured-card">
           <div class="structured-card-head">
             <div>
-              <h2>Checklist-specific rationale</h2>
-              <p>These prompts come directly from the review-type checklist and should be addressed alongside the structured elements.</p>
+              <h2>Checklist-specific fields</h2>
+              <p>These fields come directly from the review-type checklist and should be addressed alongside the structured elements.</p>
             </div>
           </div>
           <div class="structured-field-grid">
@@ -779,6 +780,29 @@ function backgroundEditor(project, checklist, sectionItems) {
   `;
 }
 
+function sectionDraftingCue(section) {
+  const cues = {
+    "Background and rationale": "Use these fields to build the protocol rationale in a logical sequence: problem, existing evidence, gap, review choice, and intended use.",
+    "Review question": "Define the review question and framework clearly enough to guide eligibility criteria, data extraction, and synthesis.",
+    "Objectives": "Separate the primary objective from secondary objectives and explain how the findings will be used.",
+    "Eligibility criteria": "Specify exactly what evidence will be included or excluded before screening begins.",
+    "Information sources": "List where evidence will be sought, including bibliographic databases, specialist sources, grey literature, and supplementary routes.",
+    "Search strategy": "Document the search concepts, terms, limits, peer review, and update approach so the search is reproducible.",
+    "Study selection": "Describe how records move through screening, reviewer decisions, piloting, disagreements, and exclusion documentation.",
+    "Data extraction/charting": "Define what information will be collected, how forms will be piloted, and how data quality will be checked.",
+    "Critical appraisal/risk of bias": "Specify whether appraisal will be done, which tools will be used, and how judgments will influence synthesis.",
+    "Synthesis plan": "Plan how findings will be grouped, summarized, synthesized, and presented before seeing the final evidence set.",
+    "Certainty/confidence assessment": "Describe the certainty or confidence framework, findings assessed, and reporting approach.",
+    "Equity and contextual considerations": "Record equity, context, subgroup, applicability, and reporting considerations that should shape the review.",
+    "Stakeholder involvement": "Clarify who will be involved, when they will contribute, and how their input will be used.",
+    "Timeline": "Map milestones, dependencies, decision points, and amendment or update handling.",
+    "Roles and responsibilities": "Assign review tasks, governance, authorship, and quality assurance responsibilities.",
+    "Dissemination plan": "Identify outputs, audiences, sharing routes, and open materials or data plans.",
+    "References": "Plan citation management and identify key protocol source references.",
+    "Appendices": "Specify the supporting materials needed for transparency and reproducibility."
+  };
+  return cues[section] || "Complete each field so this protocol section has all expected elements before export.";
+}
 function structuredResponseField(project, item) {
   const response = project.responses[item.id] || { value: "", status: "incomplete" };
   return `
@@ -794,6 +818,15 @@ function structuredResponseField(project, item) {
         <textarea data-action="response" data-item-id="${escapeAttr(item.id)}" placeholder="${escapeAttr(item.exampleResponse)}">${escapeHtml(response.value || "")}</textarea>
       </label>
       <p class="structured-help">${escapeHtml(item.helpText || item.requirement)}</p>
+      <div class="prompt-actions structured-field-actions">
+        <label class="field-label">
+          <span>Element status</span>
+          <select data-action="status" data-item-id="${escapeAttr(item.id)}">
+            ${STATUS_OPTIONS.map(([value, label]) => `<option value="${value}" ${getItemStatus(project, item) === value ? "selected" : ""}>${label}</option>`).join("")}
+          </select>
+        </label>
+        <button class="btn" data-action="use-example" data-item-id="${escapeAttr(item.id)}">Use example</button>
+      </div>
     </article>
   `;
 }

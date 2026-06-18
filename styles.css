@@ -729,6 +729,12 @@ textarea:focus {
   min-height: 150px;
 }
 
+
+.structured-field-actions {
+  border-top: 1px solid #e5e9f1;
+  padding-top: 10px;
+}
+
 .structured-help {
   margin: 0;
   color: var(--muted);
